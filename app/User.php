@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'church_id'
     ];
 
     /**
@@ -36,4 +36,39 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * The roles that belong to the user.
+     */
+    public function roles()
+    {
+        return $this->belongsToMany('App\Role');
+    }
+
+    /**
+     * Get the church which the user belongs to.
+     */
+    public function church()
+    {
+        return $this->belongsTo('App\Church');
+    }
+
+
+    public function hasAnyRoles($roles)
+    {
+      if($this->roles()->whereIn('name', $roles)->first()){
+        return true;
+      }
+
+      return false;
+    }
+
+    public function hasRole($role)
+    {
+      if($this->roles()->where('name', $role)->first()){
+        return true;
+      }
+
+      return false;
+    }
 }
