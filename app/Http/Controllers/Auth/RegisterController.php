@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
-use App\Role;
-use App\Church;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -66,22 +64,10 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $church = Church::create([
-            'name' => 'Sua Igreja',
-            'email' => $data['email']
-        ]);
-
-        $user = User::create([
+        return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'church_id' => $church->id
         ]);
-
-        $role = Role::select('id')->where('name', 'Administrador')->first();
-        $user->roles()->attach($role);
-
-
-        return $user;
     }
 }

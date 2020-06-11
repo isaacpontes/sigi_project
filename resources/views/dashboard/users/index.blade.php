@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card">
                 <div class="card-header">Usuários</div>
 
@@ -29,11 +29,16 @@
                       <td>{{ implode(', ', $user->roles()->get()->pluck('name')->toArray()) }}</td>
                       <td>{{ $user->church->name }}</td>
                       <td>
-                        <a href="{{ route('dashboard.users.edit', $user->id) }}"><button type="button" class="btn btn-primary float-left">Editar</button></a>
+                        <a href="{{ route('dashboard.users.show', $user->id) }}">
+                            <button type="button" class="btn btn-sm btn-info float-left">Detalhes</button>
+                        </a>
+                        <a href="{{ route('dashboard.users.edit', $user->id) }}">
+                          <button type="button" class="btn btn-sm btn-warning float-left">Editar</button>
+                        </a>
                         <form action="{{ route('dashboard.users.destroy', $user) }}" method="post" class="float-left">
                           @csrf
                           {{ method_field('delete') }}
-                          <button type="submit" class="btn btn-warning">Excluir</button>
+                          <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
                         </form>
                       </td>
                     </tr>

@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header">Editar Usuário</div>
 
@@ -13,7 +13,7 @@
                     {{ method_field('put') }}
 
                     <div class="form-group row">
-                        <label for="email" class="col-md-2 col-form-label text-md-right">Email</label>
+                        <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>
 
                         <div class="col-md-6">
                             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email }}" required autocomplete="email" autofocus>
@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="name" class="col-md-2 col-form-label text-md-right">Nome</label>
+                        <label for="name" class="col-md-4 col-form-label text-md-right">Nome</label>
 
                         <div class="col-md-6">
                             <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $user->name }}" required autofocus>
@@ -41,7 +41,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="roles" class="col-md-2 col-form-label text-md-right">Permissões</label>
+                        <label for="roles" class="col-md-4 col-form-label text-md-right">Permissões</label>
 
                         <div class="col-md-6">
                             @foreach($roles as $role)
@@ -57,6 +57,9 @@
                     <button type="submit" class="btn btn-primary">
                         Atualizar
                     </button>
+                    <a href="{{ route('dashboard.users.index') }}">
+                        <button type="button" class="btn btn-light">Cancelar</button>
+                    </a>
 
                   </form>
                 </div>

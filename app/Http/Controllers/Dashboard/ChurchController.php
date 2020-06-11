@@ -11,7 +11,7 @@ class ChurchController extends Controller
 {
     //
     /**
-     * Display a listing of the resource.
+     * Exibe a lista de todas as igrejas.
      *
      * @return \Illuminate\Http\Response
      */
@@ -22,12 +22,52 @@ class ChurchController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Exibe o formulário para criação de uma nova igreja.
      *
-     * @param  \App\User  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function edit(Church $igreja)
+    public function create()
+    {
+        return view('dashboard.churches.create');
+    }
+
+    /**
+     * Guarda a nova igreja criada no armazenamento.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $church = new Church();
+        $church->name = $request->name;
+        $church->reg_name = $request->reg_name;
+        $church->email = $request->email;
+        $church->cnpj = $request->cnpj;
+        $church->phone = $request->phone;
+        $church->save();
+
+        return redirect()->route('dashboard.churches.index');
+    }
+
+    /**
+     * Exibe a igreja especificada.
+     *
+     * @param  \App\User  $church
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Church $church)
+    {
+        return view('dashboard.churches.show')->with('church', $church);
+    }
+
+    /**
+     * Exibe o formulário para editar a igreja especificada.
+     *
+     * @param  \App\User  $church
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Church $church)
     {
         // Authorization Gate
         // if(Gate::denies('')){
@@ -35,46 +75,45 @@ class ChurchController extends Controller
         // }
 
         return view('dashboard.churches.edit')->with([
-          'church' => $igreja
+          'church' => $church
         ]);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Atualiza a igreja especificada no armazenamento.
      *
-     * @param  \Illuminate\HttpIgreja 2\Request  $request
-     * @param  \App\User  $usuario
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\User  $church
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Church $igreja)
+    public function update(Request $request, Church $church)
     {
-        //
-        $igreja->name = $request->name;
-        $igreja->reg_name = $request->reg_name;
-        $igreja->email = $request->email;
-        $igreja->cnpj = $request->cnpj;
-        $igreja->phone = $request->phone;
+        $church->name = $request->name;
+        $church->reg_name = $request->reg_name;
+        $church->email = $request->email;
+        $church->cnpj = $request->cnpj;
+        $church->phone = $request->phone;
         
 
-        $igreja->save();
+        $church->save();
 
         return redirect()->route('dashboard.churches.index');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove a igreja especificada do armazenamento.
      *
-     * @param  \App\Church  $igreja
+     * @param  \App\Church  $church
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Church $igreja)
+    public function destroy(Church $church)
     {
         // Authorization Gate
         if(Gate::denies('manage-churches')){
           return redirect(route('home'));
         }
 
-        $igreja->delete();
+        $church->delete();
 
         return redirect()->route('dashboard.churches.index');
     }

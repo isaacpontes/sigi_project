@@ -45,21 +45,21 @@ class UsersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\User  $usuario
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $usuario)
+    public function show(User $user)
     {
-        //
+        return view('dashboard.users.show')->with('user', $user);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\User  $usuario
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $usuario)
+    public function edit(User $user)
     {
         // Authorization Gate
         if(Gate::denies('edit-users')){
@@ -69,7 +69,7 @@ class UsersController extends Controller
         $roles = Role::all();
 
         return view('dashboard.users.edit')->with([
-          'user' => $usuario,
+          'user' => $user,
           'roles' => $roles
         ]);
     }
@@ -78,17 +78,17 @@ class UsersController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $usuario
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $usuario)
+    public function update(Request $request, User $user)
     {
         //
-        $usuario->name = $request->name;
-        $usuario->email = $request->email;
-        $usuario->roles()->sync($request->roles);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->roles()->sync($request->roles);
 
-        $usuario->save();
+        $user->save();
 
         return redirect()->route('dashboard.users.index');
     }
@@ -96,18 +96,18 @@ class UsersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\User  $usuario
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $usuario)
+    public function destroy(User $user)
     {
         //
         if(Gate::denies('delete-users')){
           return redirect(route('dashboard.users.index'));
         }
 
-        $usuario->roles()->detach();
-        $usuario->delete();
+        $user->roles()->detach();
+        $user->delete();
 
         return redirect()->route('dashboard.users.index');
     }
