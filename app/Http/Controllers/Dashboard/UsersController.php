@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\User;
@@ -18,7 +18,7 @@ class UsersController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('admin.users.index')->with('users', $users);
+        return view('dashboard.users.index')->with('users', $users);
     }
 
     /**
@@ -63,12 +63,12 @@ class UsersController extends Controller
     {
         // Authorization Gate
         if(Gate::denies('edit-users')){
-          return redirect(route('admin.users.index'));
+          return redirect(route('dashboard.users.index'));
         }
 
         $roles = Role::all();
 
-        return view('admin.users.edit')->with([
+        return view('dashboard.users.edit')->with([
           'user' => $usuario,
           'roles' => $roles
         ]);
@@ -90,7 +90,7 @@ class UsersController extends Controller
 
         $usuario->save();
 
-        return redirect()->route('admin.users.index');
+        return redirect()->route('dashboard.users.index');
     }
 
     /**
@@ -103,12 +103,12 @@ class UsersController extends Controller
     {
         //
         if(Gate::denies('delete-users')){
-          return redirect(route('admin.users.index'));
+          return redirect(route('dashboard.users.index'));
         }
 
         $usuario->roles()->detach();
         $usuario->delete();
 
-        return redirect()->route('admin.users.index');
+        return redirect()->route('dashboard.users.index');
     }
 }

@@ -12,7 +12,7 @@
                   <table class="table">
                   <thead>
                     <tr>
-                      <th scope=file:///home/isaac/projects/sigi_project/resources/views/admin/users/index.blade.php"col">#</th>
+                      <th scope="col">#</th>
                       <th scope="col">Nome</th>
                       <th scope="col">E-Mail</th>
                       <th scope="col">Permissões</th>
@@ -29,8 +29,8 @@
                       <td>{{ implode(', ', $user->roles()->get()->pluck('name')->toArray()) }}</td>
                       <td>{{ $user->church->name }}</td>
                       <td>
-                        <a href="{{ route('admin.users.edit', $user->id) }}"><button type="button" class="btn btn-primary float-left">Editar</button></a>
-                        <form action="{{ route('admin.users.destroy', $user) }}" method="post" class="float-left">
+                        <a href="{{ route('dashboard.users.edit', $user->id) }}"><button type="button" class="btn btn-primary float-left">Editar</button></a>
+                        <form action="{{ route('dashboard.users.destroy', $user) }}" method="post" class="float-left">
                           @csrf
                           {{ method_field('delete') }}
                           <button type="submit" class="btn btn-warning">Excluir</button>

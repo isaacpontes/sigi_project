@@ -8,7 +8,7 @@
                 <div class="card-header">Editar Usuário</div>
 
                 <div class="card-body">
-                  <form action="{{ route('admin.users.update', $user) }}" method="post">
+                  <form action="{{ route('dashboard.users.update', $user) }}" method="post">
                     @csrf
                     {{ method_field('put') }}
 

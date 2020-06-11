@@ -21,7 +21,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
+Route::namespace('Dashboard')->prefix('dashboard')->name('dashboard.')->group(function(){
     Route::resource('/usuarios', 'UsersController')->names('users')->middleware('can:manage-users');
     Route::get('/igrejas', 'ChurchController@index')->name('churches.index')->middleware('can:manage-churches');
     Route::delete('/igrejas/{igreja}', 'ChurchController@destroy')->name('churches.destroy')->middleware('can:manage-churches');

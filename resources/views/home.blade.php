@@ -15,6 +15,18 @@
                     @endif
 
                     You are logged in!
+                    <hr>
+                    @can('manage-churches')
+                        <a class="dropdown-item" href="{{ route('dashboard.churches.index') }}">
+                            Gerenciar Igrejas
+                        </a>
+                    @endcan
+
+                    @can('manage-users')
+                        <a class="dropdown-item" href="{{ route('dashboard.users.index') }}">
+                            Gerenciar Usuários
+                        </a>
+                    @endcan
                 </div>
             </div>
         </div>

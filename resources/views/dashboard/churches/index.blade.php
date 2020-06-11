@@ -31,8 +31,8 @@
                       <td>{{ $church->cnpj }}</td>
                       <td>{{ $church->phone }}</td>
                       <td>
-                        <a href="{{ route('admin.churches.edit', $church->id) }}"><button type="button" class="btn btn-warning float-left">Editar</button></a>
-                        <form action="{{ route('admin.churches.destroy', $church) }}" method="post" class="float-left">
+                        <a href="{{ route('dashboard.churches.edit', $church->id) }}"><button type="button" class="btn btn-warning float-left">Editar</button></a>
+                        <form action="{{ route('dashboard.churches.destroy', $church) }}" method="post" class="float-left">
                           @csrf
                           {{ method_field('delete') }}
                           <button type="submit" class="btn btn-danger">Excluir</button>

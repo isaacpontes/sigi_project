@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Church;
@@ -18,7 +18,7 @@ class ChurchController extends Controller
     public function index()
     {
         $churches = Church::all();
-        return view('admin.churches.index')->with('churches', $churches);
+        return view('dashboard.churches.index')->with('churches', $churches);
     }
 
     /**
@@ -34,7 +34,7 @@ class ChurchController extends Controller
         //   return redirect(route('home'));
         // }
 
-        return view('admin.churches.edit')->with([
+        return view('dashboard.churches.edit')->with([
           'church' => $igreja
         ]);
     }
@@ -58,7 +58,7 @@ class ChurchController extends Controller
 
         $igreja->save();
 
-        return redirect()->route('admin.churches.index');
+        return redirect()->route('dashboard.churches.index');
     }
 
     /**
@@ -76,6 +76,6 @@ class ChurchController extends Controller
 
         $igreja->delete();
 
-        return redirect()->route('admin.churches.index');
+        return redirect()->route('dashboard.churches.index');
     }
 }

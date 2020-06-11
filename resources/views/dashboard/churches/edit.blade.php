@@ -8,7 +8,7 @@
                 <div class="card-header">Editar Informações da Igreja - {{ $church->name }}</div>
 
                 <div class="card-body">
-                  <form action="{{ route('admin.churches.update', $church) }}" method="post">
+                  <form action="{{ route('dashboard.churches.update', $church) }}" method="post">
                     @csrf
                     {{ method_field('put') }}
 
