@@ -16,6 +16,10 @@
 
                     You are logged in!
                     <hr>
+                    <a class="dropdown-item" href="{{ route('dashboard.congregations.index') }}">
+                        Gerenciar Congregações
+                    </a>
+                    <hr>
                     @can('manage-churches')
                         <a class="dropdown-item" href="{{ route('dashboard.churches.index') }}">
                             Gerenciar Igrejas

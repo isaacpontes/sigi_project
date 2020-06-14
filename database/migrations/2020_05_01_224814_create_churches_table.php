@@ -21,6 +21,7 @@ class CreateChurchesTable extends Migration
             $table->string('cnpj')->default('');
             $table->string('phone')->default('');
             $table->integer('plan')->default('1');
+            $table->text('add_info')->default('');
             $table->timestamps();
         });
     }

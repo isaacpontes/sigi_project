@@ -24,4 +24,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::namespace('Dashboard')->prefix('dashboard')->name('dashboard.')->group(function(){
     Route::resource('/usuarios', 'UsersController')->parameters([ 'usuarios' => 'user' ])->names('users')->middleware('can:manage-users');
     Route::resource('/igrejas', 'ChurchController')->parameters([ 'igrejas' => 'church' ])->names('churches')->middleware('can:manage-churches');
+    Route::resource('/congregacoes', 'CongregationController')->parameters([ 'congregacoes' => 'congregation'])->names('congregations');
 });
