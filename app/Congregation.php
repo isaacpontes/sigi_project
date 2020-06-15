@@ -12,4 +12,9 @@ class Congregation extends Model
     {
     	return $this->belongsTo('App\Church');
     }
+
+    public function members()
+    {
+        return $this->hasMany('App\Member');
+    }
 }

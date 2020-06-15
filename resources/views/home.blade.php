@@ -19,6 +19,9 @@
                     <a class="dropdown-item" href="{{ route('dashboard.congregations.index') }}">
                         Gerenciar Congregações
                     </a>
+                    <a class="dropdown-item" href="{{ route('dashboard.members.index') }}">
+                        Gerenciar Membros
+                    </a>
                     <hr>
                     @can('manage-churches')
                         <a class="dropdown-item" href="{{ route('dashboard.churches.index') }}">

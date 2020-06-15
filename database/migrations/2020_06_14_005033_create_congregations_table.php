@@ -15,12 +15,13 @@ class CreateCongregationsTable extends Migration
     {
         Schema::create('congregations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('church_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->string('phone');
             $table->string('address');
             $table->text('add_info');
             $table->timestamps();
+
+            $table->foreignId('church_id')->constrained()->onDelete('cascade');
         });
     }
 
