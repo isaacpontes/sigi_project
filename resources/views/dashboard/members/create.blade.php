@@ -19,7 +19,7 @@
                                 <option value="{{ $key }}">{{ $value }}</option>
                             @endforeach
                         </select>
-                        
+
                     </div>
 
                     <div class="form-group row">
@@ -34,11 +34,11 @@
                         <label for="gender" class="col-md-4 col-form-label text-md-right">Gênero</label>
 
                         <div class="col-md-2 offset-md-1 form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="gender" id="gender1" value="0">
+                            <input class="form-check-input" type="radio" name="gender" id="gender0" value="0">
                             <label class="form-check-label" for="inlineRadio1">Feminino</label>
                         </div>
                         <div class="col-md-2 form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="gender" id="gender2" value="1">
+                            <input class="form-check-input" type="radio" name="gender" id="gender1" value="1">
                             <label class="form-check-label" for="inlineRadio2">Masculino</label>
                         </div>
                     </div>
@@ -122,7 +122,7 @@
                             <option value="3">Reconciliação</option>
                             <option value="4">Transferência</option>
                         </select>
-                        
+
                     </div>
 
                     <div class="form-group row">

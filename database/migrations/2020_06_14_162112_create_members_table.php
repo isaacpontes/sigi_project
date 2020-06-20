@@ -28,7 +28,7 @@ class CreateMembersTable extends Migration
             $table->date('admission_date');
             $table->integer('demission')->nullable();
             $table->date('demission_date')->nullable();
-            $table->date('baptism_date');
+            $table->date('baptism_date')->nullable();
             $table->timestamps();
 
             $table->foreignId('congregation_id')->constrained();

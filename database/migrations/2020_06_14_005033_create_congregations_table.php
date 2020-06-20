@@ -18,7 +18,7 @@ class CreateCongregationsTable extends Migration
             $table->string('name');
             $table->string('phone');
             $table->string('address');
-            $table->text('add_info');
+            $table->text('add_info')->nullable();
             $table->timestamps();
 
             $table->foreignId('church_id')->constrained()->onDelete('cascade');
