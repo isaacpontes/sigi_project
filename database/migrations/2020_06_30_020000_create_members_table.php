@@ -29,8 +29,11 @@ class CreateMembersTable extends Migration
             $table->integer('demission')->nullable();
             $table->date('demission_date')->nullable();
             $table->date('baptism_date')->nullable();
+            $table->string('baptism_place')->nullable();
+            $table->text('add_info')->nullable();
             $table->timestamps();
 
+            $table->foreignId('classroom_id')->nullable()->constrained();
             $table->foreignId('congregation_id')->constrained();
         });
     }

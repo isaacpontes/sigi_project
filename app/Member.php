@@ -12,4 +12,9 @@ class Member extends Model
     {
         return $this->belongsTo('App\Congregation');
     }
+
+    public function classroom()
+    {
+        return $this->belongsTo('App\Classroom');
+    }
 }

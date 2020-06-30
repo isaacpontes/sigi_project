@@ -95,7 +95,7 @@ class ChurchController extends Controller
         $church->email = $request->email;
         $church->cnpj = $request->cnpj;
         $church->phone = $request->phone;
-        $church->add_info = $request->add_info;        
+        $church->add_info = $request->add_info;
 
         $church->save();
 

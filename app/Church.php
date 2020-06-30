@@ -17,8 +17,13 @@ class Church extends Model
       return $this->hasMany('App\User');
     }
 
-    public function congregation()
+    public function congregations()
     {
     	return $this->hasMany('App\Congregation');
+    }
+
+    public function classrooms()
+    {
+      return $this->hasMany('App\Classroom');
     }
 }
