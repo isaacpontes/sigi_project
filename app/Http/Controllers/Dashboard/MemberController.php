@@ -58,6 +58,7 @@ class MemberController extends Controller
         $member->admission_date = $request->admission_date;
         $member->baptism_date = $request->baptism_date;
         $member->congregation_id = $request->congregation;
+        $member->church_id = auth()->user()->church_id;
 
         $member->save();
 

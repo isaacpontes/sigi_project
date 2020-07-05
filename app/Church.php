@@ -14,7 +14,7 @@ class Church extends Model
      */
     public function users()
     {
-      return $this->hasMany('App\User');
+        return $this->hasMany('App\User');
     }
 
     public function congregations()
@@ -24,6 +24,11 @@ class Church extends Model
 
     public function classrooms()
     {
-      return $this->hasMany('App\Classroom');
+        return $this->hasMany('App\Classroom');
+    }
+
+    public function members()
+    {
+        return $this->hasMany('App\Member');
     }
 }

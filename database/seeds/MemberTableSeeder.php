@@ -30,7 +30,8 @@ class MemberTableSeeder extends Seeder
             'status' => '0',
             'admission' => '2',
             'admission_date' => '2015-01-01',
-            'congregation_id' => $congregation1->id
+            'congregation_id' => $congregation1->id,
+            'church_id' => $congregation1->church_id
         ]);
 
         Member::create([
@@ -45,7 +46,8 @@ class MemberTableSeeder extends Seeder
             'status' => '0',
             'admission' => '2',
             'admission_date' => '2015-01-01',
-            'congregation_id' => $congregation1->id
+            'congregation_id' => $congregation1->id,
+            'church_id' => $congregation1->church_id
         ]);
 
         Member::create([
@@ -60,7 +62,8 @@ class MemberTableSeeder extends Seeder
             'status' => '0',
             'admission' => '2',
             'admission_date' => '2015-01-01',
-            'congregation_id' => $congregation2->id
+            'congregation_id' => $congregation2->id,
+            'church_id' => $congregation2->church_id
         ]);
 
         Member::create([
@@ -75,7 +78,8 @@ class MemberTableSeeder extends Seeder
             'status' => '0',
             'admission' => '2',
             'admission_date' => '2015-01-01',
-            'congregation_id' => $congregation2->id
+            'congregation_id' => $congregation2->id,
+            'church_id' => $congregation2->church_id
         ]);
     }
 }

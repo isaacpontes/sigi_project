@@ -35,6 +35,7 @@ class CreateMembersTable extends Migration
 
             $table->foreignId('classroom_id')->nullable()->constrained();
             $table->foreignId('congregation_id')->constrained();
+            $table->foreignId('church_id')->constrained();
         });
     }
 

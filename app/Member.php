@@ -8,6 +8,11 @@ class Member extends Model
 {
     //
 
+    public function church()
+    {
+        return $this->belongsTo('App\Church');
+    }
+
     public function congregation()
     {
         return $this->belongsTo('App\Congregation');
