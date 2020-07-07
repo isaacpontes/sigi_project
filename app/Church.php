@@ -31,4 +31,9 @@ class Church extends Model
     {
         return $this->hasMany('App\Member');
     }
+
+    public function events()
+    {
+        return $this->hasMany('App\Event');
+    }
 }
