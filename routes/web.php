@@ -37,4 +37,7 @@ Route::namespace('Dashboard')->prefix('dashboard')->name('dashboard.')->group( f
     Route::resource('/membros', 'MemberController')
         ->parameters([ 'membros' => 'member' ])
         ->names('members');
+    Route::resource('/eventos', 'EventController')
+        ->parameters([ 'eventos' => 'event' ])
+        ->names('events');
 });
