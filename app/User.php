@@ -71,4 +71,9 @@ class User extends Authenticatable
 
       return false;
     }
+
+    public function schedules()
+    {
+        return $this->hasMany('App\Schedule');
+    }
 }
