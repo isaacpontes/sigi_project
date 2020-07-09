@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    Você está logado!
                     <hr>
                     <a class="dropdown-item" href="{{ route('dashboard.congregations.index') }}">
                         Gerenciar Congregações
@@ -27,6 +27,10 @@
                     </a>
                     <a class="dropdown-item" href="{{ route('dashboard.events.index') }}">
                         Gerenciar Eventos
+                    </a>
+                    <hr>
+                    <a class="dropdown-item" href="{{ route('dashboard.schedules.index') }}">
+                        Gerenciar Compromissos
                     </a>
                     <hr>
                     @can('manage-churches')

@@ -40,4 +40,7 @@ Route::namespace('Dashboard')->prefix('dashboard')->name('dashboard.')->group( f
     Route::resource('/eventos', 'EventController')
         ->parameters([ 'eventos' => 'event' ])
         ->names('events');
+    Route::resource('/compromissos', 'ScheduleController')
+        ->parameters([ 'compromissos' => 'schedule' ])
+        ->names('schedules');
 });
