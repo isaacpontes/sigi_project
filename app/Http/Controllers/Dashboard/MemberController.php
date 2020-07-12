@@ -18,7 +18,7 @@ class MemberController extends Controller
     public function index()
     {
         //
-        $members = Member::all();
+        $members = Member::where('church_id', auth()->user()->church_id)->get();
         return view('dashboard.members.index')->with('members', $members);
 
     }

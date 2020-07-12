@@ -16,7 +16,7 @@ class CongregationController extends Controller
     public function index()
     {
         //
-        $congregations = Congregation::all();
+        $congregations = Congregation::where('church_id', auth()->user()->church_id)->get();
         return view('dashboard.congregations.index')->with('congregations', $congregations);
     }
 
@@ -92,7 +92,7 @@ class CongregationController extends Controller
         $congregation->phone = $request->phone;
         $congregation->address = $request->address;
         $congregation->add_info = $request->add_info;
-        
+
         $congregation->save();
 
         return redirect()->route('dashboard.congregations.index');

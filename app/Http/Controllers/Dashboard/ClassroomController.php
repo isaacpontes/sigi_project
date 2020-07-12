@@ -16,7 +16,7 @@ class ClassroomController extends Controller
     public function index()
     {
         //
-        $classrooms = Classroom::all();
+        $classrooms = Classroom::where('church_id', auth()->user()->church_id)->get();
         return view('dashboard.classrooms.index')->with([
             'classrooms' => $classrooms
         ]);
