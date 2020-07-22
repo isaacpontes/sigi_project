@@ -15,8 +15,8 @@ class MemberTableSeeder extends Seeder
     {
         //
 
-        $congregation1 = Congregation::where('name', 'Congregação da Igreja 1')->first();
-        $congregation2 = Congregation::where('name', 'Congregação da Igreja 2')->first();
+        $congregation1 = Congregation::where('name', 'Congregação 1 da Igreja 1')->first();
+        $congregation2 = Congregation::where('name', 'Congregação 2 da Igreja 1')->first();
 
         Member::create([
             'name' => 'Membro 1',

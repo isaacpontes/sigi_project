@@ -36,4 +36,29 @@ class Church extends Model
     {
         return $this->hasMany('App\Event');
     }
+
+    public function accounts()
+    {
+        return $this->hasMany('App\Account');
+    }
+
+    public function incomeCategories()
+    {
+        return $this->hasMany('App\IncomeCategory');
+    }
+
+    public function expenseCategories()
+    {
+        return $this->hasMany('App\ExpenseCategory');
+    }
+
+    public function incomes()
+    {
+        return $this->hasMany('App\Income');
+    }
+
+    public function expense()
+    {
+        return $this->hasMany('App\Expense');
+    }
 }

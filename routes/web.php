@@ -43,4 +43,19 @@ Route::namespace('Dashboard')->prefix('dashboard')->name('dashboard.')->group( f
     Route::resource('/compromissos', 'ScheduleController')
         ->parameters([ 'compromissos' => 'schedule' ])
         ->names('schedules');
+    Route::resource('/contas', 'AccountController')
+        ->parameters([ 'contas' => 'account' ])
+        ->names('accounts');
+    Route::resource('/categorias-receita', 'IncomeCategoryController')
+        ->parameters([ 'categorias-receita' => 'income_category' ])
+        ->names('income_categories');
+    Route::resource('/categorias-despesa', 'ExpenseCategoryController')
+        ->parameters([ 'categorias-despesa' => 'expense_category' ])
+        ->names('expense_categories');
+    Route::resource('/receitas', 'IncomeController')
+        ->parameters([ 'receitas' => 'income' ])
+        ->names('incomes');
+    Route::resource('/despesas', 'ExpenseController')
+        ->parameters([ 'despesas' => 'expense' ])
+        ->names('expenses');
 });
