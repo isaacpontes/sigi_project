@@ -57,7 +57,7 @@
                     <button type="submit" class="btn btn-primary">
                         Atualizar
                     </button>
-                    <a href="{{ route('dashboard.users.index') }}">
+                    <a href="{{ route('home') }}">
                         <button type="button" class="btn btn-light">Cancelar</button>
                     </a>
 

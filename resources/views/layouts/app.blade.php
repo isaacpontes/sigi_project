@@ -56,17 +56,21 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 
-                                    @can('manage-churches')
-                                        <a class="dropdown-item" href="{{ route('dashboard.churches.index') }}">
-                                            Gerenciar Igrejas
-                                        </a>
-                                    @endcan
+                                <a class="dropdown-item" href="{{ route('dashboard.users.show', Auth::user()) }}">
+                                    Ver Meu Perfil
+                                </a>
 
-                                    @can('manage-users')
-                                        <a class="dropdown-item" href="{{ route('dashboard.users.index') }}">
-                                            Gerenciar Usuários
-                                        </a>
-                                    @endcan
+                                <a class="dropdown-item" href="{{ route('dashboard.users.edit', Auth::user()) }}">
+                                    Editar Meu Perfil
+                                </a>
+
+                                <a class="dropdown-item" href="{{ route('dashboard.churches.show', Auth::user()->church) }}">
+                                    Ver Perfil da Igreja
+                                </a>
+
+                                <a class="dropdown-item" href="{{ route('dashboard.churches.edit', Auth::user()->church) }}">
+                                    Editar Perfil da Igreja
+                                </a>
 
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();

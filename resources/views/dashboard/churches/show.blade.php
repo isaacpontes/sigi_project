@@ -13,7 +13,7 @@
                     <label>{{ $church->cnpj }}</label><br>
                     <label>{{ $church->phone }}</label><br>
                     <hr>
-                    <a href="{{ route('dashboard.churches.index') }}">
+                    <a href="{{ route('home') }}">
                         <button type="button" class="btn btn-light float-right">Voltar</button>
                     </a>
                 </div>

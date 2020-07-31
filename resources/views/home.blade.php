@@ -72,15 +72,21 @@
                         Gerenciar Compromissos
                     </a>
                     <hr>
-                    @can('manage-churches')
+                    @can('manageChurches')
                         <a class="dropdown-item" href="{{ route('dashboard.churches.index') }}">
                             Gerenciar Igrejas
                         </a>
                     @endcan
 
-                    @can('manage-users')
+                    @can('manageUsers')
                         <a class="dropdown-item" href="{{ route('dashboard.users.index') }}">
                             Gerenciar Usuários
+                        </a>
+                    @endcan
+
+                    @can('manageUsers')
+                        <a class="dropdown-item" href="{{ route('dashboard.roles.index') }}">
+                            Gerenciar Perfis de Permissão
                         </a>
                     @endcan
                 </div>

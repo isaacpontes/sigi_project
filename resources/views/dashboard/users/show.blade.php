@@ -13,7 +13,7 @@
                     <label>{{ implode(', ', $user->roles()->get()->pluck('name')->toArray()) }}</label><br>
                     <label>{{ $user->church->name }}</label><br>
                     <hr>
-                    <a href="{{ route('dashboard.users.index') }}">
+                    <a href="{{ route('home') }}">
                         <button type="button" class="btn btn-light float-right">Voltar</button>
                     </a>
                 </div>

@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Role;
-use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class UsersController extends Controller
 {
@@ -17,30 +17,34 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('dashboard.users.index')->with('users', $users);
+        if (Gate::denies('manageUsers')) {
+            return redirect(route('home'));
+        } else {
+            $users = User::all();
+            return view('dashboard.users.index')->with('users', $users);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    // /**
+    //  * Show the form for creating a new resource.
+    //  *
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function create()
+    // {
+    //     //
+    // }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    // /**
+    //  * Store a newly created resource in storage.
+    //  *
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function store(Request $request)
+    // {
+    //     //
+    // }
 
     /**
      * Display the specified resource.
@@ -50,7 +54,12 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
-        return view('dashboard.users.show')->with('user', $user);
+        // Authorization Gate
+        if (Gate::denies('selfUser', $user)) {
+            return redirect(route('home'));
+        } else {
+            return view('dashboard.users.show')->with('user', $user);
+        }
     }
 
     /**
@@ -62,16 +71,16 @@ class UsersController extends Controller
     public function edit(User $user)
     {
         // Authorization Gate
-        if(Gate::denies('edit-users')){
-          return redirect(route('dashboard.users.index'));
+        if (Gate::denies('selfUser', $user)) {
+            return redirect(route('home'));
+        } else {
+            $roles = Role::all();
+
+            return view('dashboard.users.edit')->with([
+                'user' => $user,
+                'roles' => $roles
+            ]);
         }
-
-        $roles = Role::all();
-
-        return view('dashboard.users.edit')->with([
-          'user' => $user,
-          'roles' => $roles
-        ]);
     }
 
     /**
@@ -90,7 +99,7 @@ class UsersController extends Controller
 
         $user->save();
 
-        return redirect()->route('dashboard.users.index');
+        return redirect()->route('home');
     }
 
     /**
@@ -102,13 +111,13 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
         //
-        if(Gate::denies('delete-users')){
-          return redirect(route('dashboard.users.index'));
+        if (Gate::denies('manageUsers')) {
+            return redirect(route('home'));
+        } else {
+            $user->roles()->detach();
+            $user->delete();
+
+            return redirect()->route('dashboard.users.index');
         }
-
-        $user->roles()->detach();
-        $user->delete();
-
-        return redirect()->route('dashboard.users.index');
     }
 }

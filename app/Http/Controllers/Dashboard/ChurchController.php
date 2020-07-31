@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Church;
-use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ChurchController extends Controller
 {
@@ -17,8 +17,12 @@ class ChurchController extends Controller
      */
     public function index()
     {
-        $churches = Church::all();
-        return view('dashboard.churches.index')->with('churches', $churches);
+        if (Gate::denies('manageChurches')) {
+            return redirect(route('home'));
+        } else {
+            $churches = Church::all();
+            return view('dashboard.churches.index')->with('churches', $churches);
+        }
     }
 
     /**
@@ -28,7 +32,11 @@ class ChurchController extends Controller
      */
     public function create()
     {
-        return view('dashboard.churches.create');
+        if (Gate::denies('manageChurches')) {
+            return redirect(route('home'));
+        } else {
+            return view('dashboard.churches.create');
+        }
     }
 
     /**
@@ -46,46 +54,49 @@ class ChurchController extends Controller
         $church->cnpj = $request->cnpj;
         $church->phone = $request->phone;
         $church->add_info = $request->add_info;
-        
+
         $church->save();
 
-        return redirect()->route('dashboard.churches.index');
+        return redirect(route('dashboard.churches.index'));
     }
 
     /**
      * Exibe a igreja especificada.
      *
-     * @param  \App\User  $church
+     * @param  \App\Church  $church
      * @return \Illuminate\Http\Response
      */
     public function show(Church $church)
     {
-        return view('dashboard.churches.show')->with('church', $church);
+        // Authorization Gate
+        if (Gate::denies('selfChurch', $church)) {
+            return redirect(route('home'));
+        } else {
+            return view('dashboard.churches.show')->with('church', $church);
+        }
     }
 
     /**
      * Exibe o formulário para editar a igreja especificada.
      *
-     * @param  \App\User  $church
+     * @param  \App\Church  $church
      * @return \Illuminate\Http\Response
      */
     public function edit(Church $church)
     {
         // Authorization Gate
-        // if(Gate::denies('')){
-        //   return redirect(route('home'));
-        // }
-
-        return view('dashboard.churches.edit')->with([
-          'church' => $church
-        ]);
+        if (Gate::denies('selfChurch', $church)) {
+            return redirect(route('home'));
+        } else {
+            return view('dashboard.churches.edit')->with('church', $church);
+        }
     }
 
     /**
      * Atualiza a igreja especificada no armazenamento.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $church
+     * @param  \App\Church  $church
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Church $church)
@@ -111,12 +122,12 @@ class ChurchController extends Controller
     public function destroy(Church $church)
     {
         // Authorization Gate
-        if(Gate::denies('manage-churches')){
+        if(Gate::denies('manageChurches')){
           return redirect(route('home'));
+        } else {
+            $church->delete();
+
+            return redirect()->route('dashboard.churches.index')->with('status', 'Igreja excluida com sucesso.');
         }
-
-        $church->delete();
-
-        return redirect()->route('dashboard.churches.index');
     }
 }
