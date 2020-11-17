@@ -16,12 +16,11 @@ class CreateChurchesTable extends Migration
         Schema::create('churches', function (Blueprint $table) {
             $table->id();
             $table->string('name')->default('Sua Igreja');
-            $table->string('reg_name')->default('');
             $table->string('email');
             $table->string('cnpj')->default('');
             $table->string('phone')->default('');
             $table->integer('plan')->default('1');
-            $table->text('add_info')->default('');
+            $table->text('add_info')->nullable();
             $table->timestamps();
         });
     }

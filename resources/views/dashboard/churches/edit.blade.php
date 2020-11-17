@@ -27,20 +27,6 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="reg_name" class="col-md-4 col-form-label text-md-right">Razão Social</label>
-
-                        <div class="col-md-6">
-                            <input id="reg_name" type="reg_name" class="form-control @error('reg_name') is-invalid @enderror" name="reg_name" value="{{ $church->reg_name }}">
-
-                            @error('reg_name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
                         <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>
 
                         <div class="col-md-6">

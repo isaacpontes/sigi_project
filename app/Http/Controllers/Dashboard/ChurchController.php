@@ -49,7 +49,6 @@ class ChurchController extends Controller
     {
         $church = new Church();
         $church->name = $request->name;
-        $church->reg_name = $request->reg_name;
         $church->email = $request->email;
         $church->cnpj = $request->cnpj;
         $church->phone = $request->phone;
@@ -102,7 +101,6 @@ class ChurchController extends Controller
     public function update(Request $request, Church $church)
     {
         $church->name = $request->name;
-        $church->reg_name = $request->reg_name;
         $church->email = $request->email;
         $church->cnpj = $request->cnpj;
         $church->phone = $request->phone;

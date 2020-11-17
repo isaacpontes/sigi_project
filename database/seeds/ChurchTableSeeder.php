@@ -17,7 +17,6 @@ class ChurchTableSeeder extends Seeder
 
         Church::create([
             'name' => 'Igreja 1',
-            'reg_name' => 'Igreja 1',
             'email' => 'igreja1@email.com',
             'cnpj' => 'cnpj1',
             'phone' => 'phone1',
@@ -26,7 +25,6 @@ class ChurchTableSeeder extends Seeder
 
         Church::create([
             'name' => 'Igreja 2',
-            'reg_name' => 'Igreja 2',
             'email' => 'igreja2@email.com',
             'cnpj' => 'cnpj2',
             'phone' => 'phone2',
@@ -35,7 +33,6 @@ class ChurchTableSeeder extends Seeder
 
         Church::create([
             'name' => 'Igreja 3',
-            'reg_name' => 'Igreja 3',
             'email' => 'igreja3@email.com',
             'cnpj' => 'cnpj3',
             'phone' => 'phone3',

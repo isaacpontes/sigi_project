@@ -19,17 +19,13 @@ class CreateMembersTable extends Migration
             $table->integer('gender');
             $table->date('birth');
             $table->string('email');
-            $table->string('phone');
-            $table->string('address');
-            $table->string('cpf');
-            $table->string('ocupation');
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
             $table->integer('status');
             $table->integer('admission');
             $table->date('admission_date');
             $table->integer('demission')->nullable();
             $table->date('demission_date')->nullable();
-            $table->date('baptism_date')->nullable();
-            $table->string('baptism_place')->nullable();
             $table->text('add_info')->nullable();
             $table->timestamps();
 

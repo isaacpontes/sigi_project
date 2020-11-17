@@ -14,14 +14,11 @@
                     <label>Email: {{ $member->email }}</label><br>
                     <label>Telefone: {{ $member->phone }}</label><br>
                     <label>Endereço: {{ $member->address }}</label><br>
-                    <label>Ocupação: {{ $member->ocupation }}</label><br>
                     <label>Situação: {{ $member->status }}</label><br>
                     <label>Admissão por: {{ $member->admission }}</label><br>
                     <label>Data de Admissão: {{ $member->admission_date }}</label><br>
                     <label>Saída por: {{ $member->demission }}</label><br>
                     <label>Data de Saída: {{ $member->demission_date }}</label><br>
-                    <label>Local de Batismo: {{ $member->baptism_place }}</label><br>
-                    <label>Data de Batismo: {{ $member->baptism_date }}</label><br>
                     <label>Informações Adicionais: {{ $member->add_info }}</label><br>
                     <label>Classe: {{ $member->classroom->name }}</label><br>
                     <label>Congregação: {{ $member->congregation->name }}</label><br>

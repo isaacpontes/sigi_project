@@ -88,22 +88,6 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="cpf" class="col-md-4 col-form-label text-md-right">CPF</label>
-
-                        <div class="col-md-6">
-                            <input id="cpf" type="text" class="form-control" name="cpf" value="{{ $member->cpf }}" required autofocus>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="ocupation" class="col-md-4 col-form-label text-md-right">Ocupação</label>
-
-                        <div class="col-md-6">
-                            <input id="ocupation" type="text" class="form-control" name="ocupation" value="{{ $member->ocupation }}" required autofocus>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
                         <label for="status" class="col-md-4 col-form-label text-md-right">Situação</label>
 
                         <div class="offset-md-1 form-check form-check-inline">
@@ -162,22 +146,6 @@
 
                         <div class="col-md-4">
                             <input id="demission_date" type="date" class="form-control" name="demission_date" value="{{ $member->demission_date }}" required autofocus>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="baptism_place" class="col-md-4 col-form-label text-md-right">Local de Batismo</label>
-
-                        <div class="col-md-6">
-                            <input id="baptism_place" type="text" class="form-control" name="baptism_place" value="{{ $member->baptism_place }}" required autofocus>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="baptism_date" class="col-md-4 col-form-label text-md-right">Data de Batismo</label>
-
-                        <div class="col-md-4">
-                            <input id="baptism_date" type="date" class="form-control" name="baptism_date" value="{{ $member->baptism_date }}" required autofocus>
                         </div>
                     </div>
 

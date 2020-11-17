@@ -8,7 +8,6 @@
                 <div class="card-header">{{ $church->name }}</div>
 
                 <div class="card-body">
-                    <label>{{ $church->reg_name }}</label><br>
                     <label>{{ $church->email }}</label><br>
                     <label>{{ $church->cnpj }}</label><br>
                     <label>{{ $church->phone }}</label><br>
