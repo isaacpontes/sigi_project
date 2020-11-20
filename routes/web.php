@@ -23,6 +23,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::namespace('Dashboard')->prefix('dashboard')->name('dashboard.')->group( function () {
 
+    Route::get('/principal', 'MainController@index')->name('main');
+
     Route::resource('/usuarios', 'UsersController')
         ->parameters([ 'usuarios' => 'user' ])->names('users')
         ->only([ 'index', 'show', 'edit', 'update', 'destroy' ]);
