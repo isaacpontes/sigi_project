@@ -20,7 +20,9 @@
                     <label>Saída por: {{ $member->demission }}</label><br>
                     <label>Data de Saída: {{ $member->demission_date }}</label><br>
                     <label>Informações Adicionais: {{ $member->add_info }}</label><br>
-                    <label>Classe: {{ $member->classroom->name }}</label><br>
+                    @isset($member->classroom)
+                        <label>Classe: {{ $member->classroom->name }}</label><br>
+                    @endisset
                     <label>Congregação: {{ $member->congregation->name }}</label><br>
                     <label>Igreja: {{ $member->church->name }}</label><br>
                     <hr>

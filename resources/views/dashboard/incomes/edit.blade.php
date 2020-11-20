@@ -41,7 +41,7 @@
                         <label for="value" class="col-md-4 col-form-label text-md-right">Valor</label>
 
                         <div class="col-md-6">
-                        <input id="value" type="number" step="0.01" class="form-control @error('value') is-invalid @enderror" name="value" value="{{ number_format($income->value/100, 2, ',', '.') }}" required autofocus>
+                        <input id="value" type="number" step="0.01" class="form-control @error('value') is-invalid @enderror" name="value" value="{{ $income->value/100 }}" required autofocus>
 
                             @error('value')
                                 <span class="invalid-feedback" role="alert">
@@ -68,7 +68,8 @@
                     <div class="form-group row">
                         <label for="member" class="col-md-4 col-form-label text-md-right">Membro</label>
 
-                        <select id="member" class="col-md-4 offset-md-1 form-control" name="member_id" required autofocus>
+                        <select id="member" class="col-md-4 offset-md-1 form-control" name="member_id" autofocus>
+                            <option value="">Selecione um membro...</option>
                             @foreach ($members as $key => $value)
                                 <option value="{{ $key }}">{{ $value }}</option>
                             @endforeach

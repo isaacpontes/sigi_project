@@ -26,7 +26,8 @@
                     <div class="form-group row">
                         <label for="classroom" class="col-md-4 col-form-label text-md-right">Classe</label>
 
-                        <select id="classroom" class="col-md-4 offset-md-1 form-control" name="classroom_id" required autofocus>
+                        <select id="classroom" class="col-md-4 offset-md-1 form-control" name="classroom_id" autofocus>
+                            <option value="">Selecione uma classe...</option>
                             @foreach ($classrooms as $key => $value)
                                 <option value="{{ $key }}">{{ $value }}</option>
                             @endforeach

@@ -67,7 +67,8 @@
                     <div class="form-group row">
                         <label for="member" class="col-md-4 col-form-label text-md-right">Membro</label>
 
-                        <select id="member" class="col-md-4 offset-md-1 form-control" name="member_id" required autofocus>
+                        <select id="member" class="col-md-4 offset-md-1 form-control" name="member_id" autofocus>
+                            <option value="">Selecione um membro...</option>
                             @foreach ($members as $key => $value)
                                 <option value="{{ $key }}">{{ $value }}</option>
                             @endforeach

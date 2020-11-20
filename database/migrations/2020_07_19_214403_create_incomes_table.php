@@ -21,7 +21,7 @@ class CreateIncomesTable extends Migration
             $table->text('add_info')->nullable();
             $table->timestamps();
 
-            $table->foreignId('member_id')->constrained()->onDelete('cascade')->nullable();
+            $table->foreignId('member_id')->nullable()->constrained();
             $table->foreignId('income_category_id')->constrained()->onDelete('cascade');
             $table->foreignId('account_id')->constrained()->onDelete('cascade');
             $table->foreignId('church_id')->constrained()->onDelete('cascade');
