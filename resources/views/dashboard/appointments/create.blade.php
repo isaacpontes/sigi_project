@@ -7,7 +7,7 @@
         </div>
 
         <div class="card-body">
-            <form action="{{ route('dashboard.schedules.store') }}" method="post">
+            <form action="{{ route('dashboard.appointments.store') }}" method="post">
             @csrf
 
             <div class="form-group row">
@@ -37,7 +37,7 @@
             <button type="submit" class="btn btn-primary">
                 Cadastrar
             </button>
-            <a href="{{ route('dashboard.schedules.index') }}">
+            <a href="{{ route('dashboard.appointments.index') }}">
                 <button type="button" class="btn btn-light">Cancelar</button>
             </a>
 

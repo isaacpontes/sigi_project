@@ -6,7 +6,7 @@
             <h1 class="h2">Compromissos</h1>
         </div>
 
-        <a href="{{ route('dashboard.schedules.create') }}"><button type="button" class="btn btn-primary mb-3">Adicionar Compromisso</button></a>
+        <a href="{{ route('dashboard.appointments.create') }}"><button type="button" class="btn btn-primary mb-3">Adicionar Compromisso</button></a>
 
         <div class="table-responsive">
 
@@ -21,20 +21,20 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($schedules as $schedule)
+            @foreach($appointments as $appointment)
             <tr>
-                <th scope="row">{{ $schedule->id }}</th>
-                <td>{{ $schedule->name }}</td>
-                <td>{{ $schedule->happens_at }}</td>
-                <td>{{ $schedule->completed }}</td>
+                <th scope="row">{{ $appointment->id }}</th>
+                <td>{{ $appointment->name }}</td>
+                <td>{{ $appointment->happens_at }}</td>
+                <td>{{ $appointment->completed }}</td>
                 <td>
-                <a href="{{ route('dashboard.schedules.show', $schedule->id) }}">
+                <a href="{{ route('dashboard.appointments.show', $appointment->id) }}">
                     <button type="button" class="btn btn-sm btn-secondary mr-2 float-left">Detalhes</button>
                 </a>
-                <a href="{{ route('dashboard.schedules.edit', $schedule->id) }}">
+                <a href="{{ route('dashboard.appointments.edit', $appointment->id) }}">
                     <button type="button" class="btn btn-sm btn-light mr-2 float-left">Editar</button>
                 </a>
-                <form action="{{ route('dashboard.schedules.destroy', $schedule) }}" method="post">
+                <form action="{{ route('dashboard.appointments.destroy', $appointment) }}" method="post">
                     @csrf
                     {{ method_field('delete') }}
                     <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
