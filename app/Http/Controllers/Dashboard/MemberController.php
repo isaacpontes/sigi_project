@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Member;
 use App\Congregation;
 use App\Classroom;
+use PDF;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -144,5 +145,12 @@ class MemberController extends Controller
         $member->delete();
 
         return \redirect()->route('dashboard.members.index');
+    }
+
+    public function pdf()
+    {
+        $members = Member::where('church_id', auth()->user()->church_id)->get();
+        $pdf = PDF::loadView('dashboard.members.pdf', compact('members'));
+        return $pdf->download('membros.pdf');
     }
 }

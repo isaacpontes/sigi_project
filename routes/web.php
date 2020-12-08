@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\MemberController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,6 +48,7 @@ Route::namespace('Dashboard')->prefix('dashboard')->name('dashboard.')->group( f
 
     Route::resource('/membros', 'MemberController')
         ->parameters([ 'membros' => 'member' ])->names('members');
+    Route::get('/members/pdf', [MemberController::class, 'pdf'])->name('members');
 
     Route::resource('/eventos', 'EventController')
         ->parameters([ 'eventos' => 'event' ])->names('events');
