@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\User;
-use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -18,7 +17,7 @@ class UsersController extends Controller
     public function index()
     {
         if (Gate::denies('manageUsers')) {
-            return redirect(route('home'));
+            return redirect(route('dashboard'));
         } else {
             $users = User::all();
             return view('dashboard.users.index')->with('users', $users);
@@ -56,7 +55,7 @@ class UsersController extends Controller
     {
         // Authorization Gate
         if (Gate::denies('selfUser', $user)) {
-            return redirect(route('home'));
+            return redirect(route('dashboard'));
         } else {
             return view('dashboard.users.show')->with('user', $user);
         }
@@ -72,14 +71,10 @@ class UsersController extends Controller
     {
         // Authorization Gate
         if (Gate::denies('selfUser', $user)) {
-            return redirect(route('home'));
+            return redirect(route('dashboard'));
         } else {
-            $roles = Role::all();
 
-            return view('dashboard.users.edit')->with([
-                'user' => $user,
-                'roles' => $roles
-            ]);
+            return view('dashboard.users.edit')->with('user', $user);
         }
     }
 
@@ -95,11 +90,9 @@ class UsersController extends Controller
         //
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->roles()->sync($request->roles);
-
         $user->save();
 
-        return redirect()->route('home');
+        return redirect()->route('dashboard');
     }
 
     /**
@@ -112,11 +105,9 @@ class UsersController extends Controller
     {
         //
         if (Gate::denies('manageUsers')) {
-            return redirect(route('home'));
+            return redirect(route('dashboard'));
         } else {
-            $user->roles()->detach();
             $user->delete();
-
             return redirect()->route('dashboard.users.index');
         }
     }

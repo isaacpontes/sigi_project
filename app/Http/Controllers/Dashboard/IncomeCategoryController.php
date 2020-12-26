@@ -39,7 +39,6 @@ class IncomeCategoryController extends Controller
     {
         $income_category = new IncomeCategory();
         $income_category->name = $request->name;
-        $income_category->add_info = $request->add_info;
         $income_category->church_id = auth()->user()->church_id;
 
         $income_category->save();
@@ -79,7 +78,6 @@ class IncomeCategoryController extends Controller
     public function update(Request $request, IncomeCategory $income_category)
     {
         $income_category->name = $request->name;
-        $income_category->add_info = $request->add_info;
 
         $income_category->save();
 

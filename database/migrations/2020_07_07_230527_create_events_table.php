@@ -20,7 +20,6 @@ class CreateEventsTable extends Migration
             $table->dateTime('happens_at', 0);
             $table->timestamps();
 
-            $table->foreignId('member_id')->constrained()->onDelete('cascade');
             $table->foreignId('church_id')->constrained()->onDelete('cascade');
         });
     }

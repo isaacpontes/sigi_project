@@ -20,7 +20,13 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->boolean('system_admin');
+            $table->boolean('church_admin');
+            $table->boolean('finances_admin');
+            $table->boolean('members_admin');
             $table->timestamps();
+
+            $table->foreignId('church_id')->constrained();
         });
     }
 

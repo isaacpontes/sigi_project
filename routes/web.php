@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Dashboard\MemberController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,15 +17,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
-Route::get('/home', 'HomeController@index')->name('home');
+require __DIR__.'/auth.php';
 
 Route::namespace('Dashboard')->prefix('dashboard')->name('dashboard.')->group( function () {
 
-    Route::get('/principal', 'MainController@index')->name('main');
-
-    Route::resource('/usuarios', 'UsersController')
+    Route::resource('/usuarios', UsersController::class)
         ->parameters([ 'usuarios' => 'user' ])->names('users')
         ->only([ 'index', 'show', 'edit', 'update', 'destroy' ]);
     // Route::get('usuarios', 'UsersController@index')->name('users.index');
@@ -35,39 +34,37 @@ Route::namespace('Dashboard')->prefix('dashboard')->name('dashboard.')->group( f
     // Route::put('usuarios/{user}', 'UsersController@update')->name('users.update');
     // Route::delete('usuarios/{user}', 'UsersController@destroy')->name('users.destroy');
 
-    Route::resource('roles', 'RoleController')->except([ 'show' ]);
-
-    Route::resource('/igrejas', 'ChurchController')
+    Route::resource('/igrejas', ChurchController::class)
         ->parameters([ 'igrejas' => 'church' ])->names('churches');
 
-    Route::resource('/congregacoes', 'CongregationController')
+    Route::resource('/congregacoes', CongregationController::class)
         ->parameters([ 'congregacoes' => 'congregation' ])->names('congregations');
 
-    Route::resource('/classes', 'ClassroomController')
+    Route::resource('/classes', ClassroomController::class)
         ->parameters([ 'classes' => 'classroom' ])->names('classrooms');
 
-    Route::resource('/membros', 'MemberController')
+    Route::resource('/membros', MemberController::class)
         ->parameters([ 'membros' => 'member' ])->names('members');
-    Route::get('/members/pdf', [MemberController::class, 'pdf'])->name('members');
+    Route::get('/members/pdf', [\App\Http\Controllers\Dashboard\MemberController::class, 'pdf'])->name('members');
 
-    Route::resource('/eventos', 'EventController')
+    Route::resource('/eventos', EventController::class)
         ->parameters([ 'eventos' => 'event' ])->names('events');
 
-    Route::resource('/compromissos', 'AppointmentController')
+    Route::resource('/compromissos', AppointmentController::class)
         ->parameters([ 'compromissos' => 'appointment' ])->names('appointments');
 
-    Route::resource('/contas', 'AccountController')
+    Route::resource('/contas', AccountController::class)
         ->parameters([ 'contas' => 'account' ])->names('accounts');
 
-    Route::resource('/categorias-receita', 'IncomeCategoryController')
+    Route::resource('/categorias-receita', IncomeCategoryController::class)
         ->parameters([ 'categorias-receita' => 'income_category' ])->names('income_categories');
 
-    Route::resource('/categorias-despesa', 'ExpenseCategoryController')
+    Route::resource('/categorias-despesa', ExpenseCategoryController::class)
         ->parameters([ 'categorias-despesa' => 'expense_category' ])->names('expense_categories');
 
-    Route::resource('/receitas', 'IncomeController')
+    Route::resource('/receitas', IncomeController::class)
         ->parameters([ 'receitas' => 'income' ])->names('incomes');
 
-    Route::resource('/despesas', 'ExpenseController')
+    Route::resource('/despesas', ExpenseController::class)
         ->parameters([ 'despesas' => 'expense' ])->names('expenses');
 });

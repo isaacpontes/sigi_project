@@ -1,37 +1,34 @@
-@extends('layouts.app')
+<x-app-layout>
+    <x-slot name="header">
+        {{ __('New Role') }}
+    </x-slot>
 
-@section('content')
-    <main role="main" class="col-md-9 ml-sm-auto bg-white col-lg-10 pt-3 px-4">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-            <h1 class="h2">Cadastrar Novo Perfil</h1>
-        </div>
+    <div class="card-body">
+        <form action="{{ route('dashboard.roles.store') }}" method="post">
+        @csrf
 
-        <div class="card-body">
-            <form action="{{ route('dashboard.roles.store') }}" method="post">
-            @csrf
+        <div class="form-group row">
+            <label for="name" class="col-md-2 col-form-label text-md-right">Nome</label>
 
-            <div class="form-group row">
-                <label for="name" class="col-md-2 col-form-label text-md-right">Nome</label>
+            <div class="col-md-6">
+                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" required autofocus>
 
-                <div class="col-md-6">
-                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" required autofocus>
-
-                    @error('name')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
+                @error('name')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
-
-            <button type="submit" class="btn btn-primary">
-                Cadastrar
-            </button>
-            <a href="{{ route('dashboard.roles.index') }}">
-                <button type="button" class="btn btn-light">Cancelar</button>
-            </a>
-
-            </form>
         </div>
-    </main>
-@endsection
+
+        <button type="submit" class="btn btn-primary">
+            Cadastrar
+        </button>
+        <a href="{{ route('dashboard.roles.index') }}">
+            <button type="button" class="btn btn-light">Cancelar</button>
+        </a>
+
+        </form>
+    </div>
+
+</x-app-layout>

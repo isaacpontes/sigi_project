@@ -26,7 +26,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('manageUsers', function ($user) {
-            return $user->hasRole('sys_admin');
+            return $user->system_admin;
         });
 
         Gate::define('selfUser', function ($user, $current_user) {
@@ -34,15 +34,20 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('manageChurches', function ($user) {
-            return $user->hasRole('sys_admin');
+            return $user->system_admin;
         });
 
         Gate::define('selfChurch', function ($user, $church) {
             return $user->church_id === $church->id;
         });
 
+        Gate::define('manageFinances', function($user){
+            return $user->finances_admin;
+        });
+
+
         Gate::define('manageMembership', function($user){
-            return $user->hasRole('Secretaria');
+            return $user->members_admin;
         });
 
         //

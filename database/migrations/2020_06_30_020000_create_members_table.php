@@ -21,12 +21,8 @@ class CreateMembersTable extends Migration
             $table->string('email');
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
-            $table->integer('status');
-            $table->integer('admission');
-            $table->date('admission_date');
-            $table->integer('demission')->nullable();
-            $table->date('demission_date')->nullable();
-            $table->text('add_info')->nullable();
+            $table->date('admission');
+            $table->date('demission')->nullable();
             $table->timestamps();
 
             $table->foreignId('classroom_id')->nullable()->constrained();

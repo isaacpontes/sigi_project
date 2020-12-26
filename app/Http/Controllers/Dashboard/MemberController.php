@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Member;
 use App\Congregation;
 use App\Classroom;
-use PDF;
+use DomPDF;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -21,7 +21,6 @@ class MemberController extends Controller
         //
         $members = Member::where('church_id', auth()->user()->church_id)->get();
         return view('dashboard.members.index')->with('members', $members);
-
     }
 
     /**
@@ -57,10 +56,7 @@ class MemberController extends Controller
         $member->email = $request->email;
         $member->phone = $request->phone;
         $member->address = $request->address;
-        $member->status = $request->status;
         $member->admission = $request->admission;
-        $member->admission_date = $request->admission_date;
-        $member->add_info = $request->add_info;
         $member->classroom_id = $request->classroom_id;
         $member->congregation_id = $request->congregation_id;
         $member->church_id = auth()->user()->church_id;
@@ -119,18 +115,14 @@ class MemberController extends Controller
         $member->email = $request->email;
         $member->phone = $request->phone;
         $member->address = $request->address;
-        $member->status = $request->status;
         $member->admission = $request->admission;
-        $member->admission_date = $request->admission_date;
         $member->demission = $request->demission;
-        $member->demission_date = $request->demission_date;
-        $member->add_info = $request->add_info;
         $member->classroom_id = $request->classroom_id;
         $member->congregation_id = $request->congregation_id;
 
         $member->save();
 
-        return \redirect()->route('dashboard.members.index');
+        return redirect()->route('dashboard.members.index');
     }
 
     /**
@@ -144,13 +136,13 @@ class MemberController extends Controller
         //
         $member->delete();
 
-        return \redirect()->route('dashboard.members.index');
+        return redirect()->route('dashboard.members.index');
     }
 
     public function pdf()
     {
         $members = Member::where('church_id', auth()->user()->church_id)->get();
-        $pdf = PDF::loadView('dashboard.members.pdf', compact('members'));
+        $pdf = DomPDF::loadView('dashboard.members.pdf', compact('members'));
         return $pdf->download('membros.pdf');
     }
 }

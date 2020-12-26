@@ -39,7 +39,6 @@ class ExpenseCategoryController extends Controller
     {
         $expense_category = new ExpenseCategory();
         $expense_category->name = $request->name;
-        $expense_category->add_info = $request->add_info;
         $expense_category->church_id = auth()->user()->church_id;
 
         $expense_category->save();
@@ -79,7 +78,6 @@ class ExpenseCategoryController extends Controller
     public function update(Request $request, ExpenseCategory $expense_category)
     {
         $expense_category->name = $request->name;
-        $expense_category->add_info = $request->add_info;
 
         $expense_category->save();
 

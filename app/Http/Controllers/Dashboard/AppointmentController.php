@@ -86,6 +86,7 @@ class AppointmentController extends Controller
     public function update(Request $request, Appointment $appointment)
     {
         //
+        // $request->completed ? dd($request) : dd('false');
         $appointment->name = $request->name;
         $appointment->happens_at = $request->happens_at;
         $appointment->completed = $request->completed;

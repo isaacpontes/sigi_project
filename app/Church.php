@@ -2,12 +2,15 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Church extends Model
 {
+    use HasFactory;
+
     // Permit creating new Church on RegisterController and filling the email
-    protected $fillable = ['name', 'email'];
+    protected $fillable = ['name', 'email', 'plan', 'expiration'];
 
     /**
      * The users that belong to the church.

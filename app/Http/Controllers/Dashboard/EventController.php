@@ -28,9 +28,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        //
-        $members = Member::where('church_id', \auth()->user()->church_id)->pluck('name', 'id');
-        return view('dashboard.events.create')->with('members', $members);
+        return view('dashboard.events.create');
     }
 
     /**
@@ -46,7 +44,6 @@ class EventController extends Controller
         $event->name = $request->name;
         $event->description = $request->description;
         $event->happens_at = $request->happens_at;
-        $event->member_id = $request->member_id;
         $event->church_id = \auth()->user()->church_id;
 
         $event->save();
@@ -75,10 +72,8 @@ class EventController extends Controller
     public function edit(Event $event)
     {
         //
-        $members = Member::where('church_id', \auth()->user()->church_id)->pluck('name', 'id');
         return view('dashboard.events.edit')->with([
             'event' => $event,
-            'members' => $members
         ]);
     }
 
@@ -95,11 +90,10 @@ class EventController extends Controller
         $event->name = $request->name;
         $event->description = $request->description;
         $event->happens_at = $request->happens_at;
-        $event->member_id = $request->member_id;
 
         $event->save();
 
-        return \redirect()->route('dashboard.events.index');
+        return redirect()->route('dashboard.events.index');
     }
 
     /**
@@ -113,6 +107,6 @@ class EventController extends Controller
         //
         $event->delete();
 
-        return \redirect()->route('dashboard.events.index');
+        return redirect()->route('dashboard.events.index');
     }
 }

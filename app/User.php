@@ -3,12 +3,14 @@
 namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +18,14 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'church_id'
+        'name',
+        'email',
+        'password',
+        'system_admin',
+        'church_admin',
+        'finances_admin',
+        'members_admin',
+        'church_id',
     ];
 
     /**
@@ -37,13 +46,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * The roles that belong to the user.
-     */
-    public function roles()
-    {
-        return $this->belongsToMany('App\Role');
-    }
+    // /**
+    //  * The roles that belong to the user.
+    //  */
+    // public function roles()
+    // {
+    //     return $this->belongsToMany('App\Role');
+    // }
 
     /**
      * Get the church which the user belongs to.
@@ -54,26 +63,26 @@ class User extends Authenticatable
     }
 
 
-    public function hasAnyRoles($roles)
+    // public function hasAnyRoles($roles)
+    // {
+    //   if($this->roles()->whereIn('name', $roles)->first()){
+    //     return true;
+    //   }
+
+    //   return false;
+    // }
+
+    // public function hasRole($role)
+    // {
+    //   if($this->roles()->where('name', $role)->first()){
+    //     return true;
+    //   }
+
+    //   return false;
+    // }
+
+    public function appointments()
     {
-      if($this->roles()->whereIn('name', $roles)->first()){
-        return true;
-      }
-
-      return false;
-    }
-
-    public function hasRole($role)
-    {
-      if($this->roles()->where('name', $role)->first()){
-        return true;
-      }
-
-      return false;
-    }
-
-    public function schedules()
-    {
-        return $this->hasMany('App\Schedule');
+        return $this->hasMany('App\Appointment');
     }
 }
