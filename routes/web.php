@@ -23,7 +23,7 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::namespace('Dashboard')->prefix('dashboard')->name('dashboard.')->group( function () {
+Route::namespace('Dashboard')->prefix('dashboard')->middleware(['auth'])->name('dashboard.')->group( function () {
 
     Route::resource('/usuarios', UsersController::class)
         ->parameters([ 'usuarios' => 'user' ])->names('users')

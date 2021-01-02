@@ -8,6 +8,7 @@ use App\Congregation;
 use App\Classroom;
 use DomPDF;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MemberController extends Controller
 {
@@ -18,9 +19,11 @@ class MemberController extends Controller
      */
     public function index()
     {
-        //
-        $members = Member::where('church_id', auth()->user()->church_id)->get();
-        return view('dashboard.members.index')->with('members', $members);
+        // $members = Member::where('church_id', auth()->user()->church_id)->paginate(10);
+        $members = Member::where('church_id', auth()->user()->church_id)
+                        ->orderBy('name', 'asc')
+                        ->paginate(10);
+        return view('dashboard.members.index', ['members' => $members]);
     }
 
     /**
@@ -141,8 +144,10 @@ class MemberController extends Controller
 
     public function pdf()
     {
-        $members = Member::where('church_id', auth()->user()->church_id)->get();
-        $pdf = DomPDF::loadView('dashboard.members.report', compact('members'));
-        return $pdf->download('relatorio-de-membros.pdf');
+        $members = Member::where('church_id', auth()->user()->church_id)
+                        ->orderBy('name', 'asc')
+                        ->get();
+        $pdf = DomPDF::loadView('dashboard.members.simple-report', compact('members'));
+        return $pdf->download('tabela-de-membros.pdf');
     }
 }
