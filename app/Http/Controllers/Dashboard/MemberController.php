@@ -142,7 +142,7 @@ class MemberController extends Controller
     public function pdf()
     {
         $members = Member::where('church_id', auth()->user()->church_id)->get();
-        $pdf = DomPDF::loadView('dashboard.members.pdf', compact('members'));
-        return $pdf->download('membros.pdf');
+        $pdf = DomPDF::loadView('dashboard.members.report', compact('members'));
+        return $pdf->download('relatorio-de-membros.pdf');
     }
 }

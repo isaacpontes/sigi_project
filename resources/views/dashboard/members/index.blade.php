@@ -10,12 +10,12 @@
     @endif
 
     <a href="{{ route('dashboard.members.create') }}"><button type="button" class="btn btn-primary mb-3">Cadastrar Membro</button></a>
+    <a href="{{ route('dashboard.members.pdf') }}"><button type="button" class="btn btn-primary mb-3">Exportar PDF</button></a>
 
     <div class="table-responsive">
         <table class="table table-striped table-md">
             <thead>
             <tr>
-                <th scope="col">#</th>
                 <th scope="col">Nome</th>
                 <th scope="col">Telefone</th>
                 <th scope="col">Email</th>
@@ -26,7 +26,6 @@
             <tbody>
             @foreach($members as $member)
             <tr>
-                <th scope="row">{{ $member->id }}</th>
                 <td>{{ $member->name }}</td>
                 <td>{{ $member->phone }}</td>
                 <td>{{ $member->email }}</td>

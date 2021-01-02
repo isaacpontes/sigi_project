@@ -45,7 +45,7 @@ Route::namespace('Dashboard')->prefix('dashboard')->name('dashboard.')->group( f
 
     Route::resource('/membros', MemberController::class)
         ->parameters([ 'membros' => 'member' ])->names('members');
-    Route::get('/members/pdf', [\App\Http\Controllers\Dashboard\MemberController::class, 'pdf'])->name('members');
+    Route::get('/members/relatorio-pdf', [\App\Http\Controllers\Dashboard\MemberController::class, 'pdf'])->name('members.pdf');
 
     Route::resource('/eventos', EventController::class)
         ->parameters([ 'eventos' => 'event' ])->names('events');
