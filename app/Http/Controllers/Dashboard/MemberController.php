@@ -142,7 +142,7 @@ class MemberController extends Controller
         return redirect()->route('dashboard.members.index');
     }
 
-    public function pdf()
+    public function simpleReport()
     {
         $members = Member::where('church_id', auth()->user()->church_id)
                         ->orderBy('name', 'asc')

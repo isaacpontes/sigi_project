@@ -45,7 +45,7 @@ Route::namespace('Dashboard')->prefix('dashboard')->middleware(['auth'])->name('
 
     Route::resource('/membros', MemberController::class)
         ->parameters([ 'membros' => 'member' ])->names('members');
-    Route::get('/members/relatorio-pdf', [\App\Http\Controllers\Dashboard\MemberController::class, 'pdf'])->name('members.pdf');
+    Route::get('/members/relatorio-simples', [\App\Http\Controllers\Dashboard\MemberController::class, 'simpleReport'])->name('members.simple-report');
 
     Route::resource('/eventos', EventController::class)
         ->parameters([ 'eventos' => 'event' ])->names('events');

@@ -16,7 +16,7 @@
         <a href="{{ route('dashboard.members.create') }}" class="btn btn-sm btn-primary">Cadastrar Membro</a>
 
         <div class="btn-group me-3">
-          <a href="{{ route('dashboard.members.pdf') }}" class="btn btn-sm btn-outline-secondary">Exportar em PDF</a>
+          <a href="{{ route('dashboard.members.simple-report') }}" class="btn btn-sm btn-outline-secondary">Exportar em PDF</a>
           <a href="#" class="btn btn-sm btn-outline-secondary">Resumo Anual</a>
         </div>
       </div>
