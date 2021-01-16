@@ -9,6 +9,10 @@ class Member extends Model
 {
     use HasFactory;
 
+    public function isActive()
+    {
+        return $this->demission === null ? true : false;
+    }
     public function church()
     {
         return $this->belongsTo('App\Church');

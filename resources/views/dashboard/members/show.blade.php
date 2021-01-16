@@ -3,65 +3,75 @@
         {{ __('Member') . " - " . $member->name }}
     </x-slot>
 
-    <div class="col-md-6">
-        <label>
-            <strong>Nome: </strong>
-            {{ $member->name }}
-        </label>
-        <br>
-        <label>
-            <strong>Gênero: </strong>
-            {{ $member->gender }}
-        </label>
-        <br>
-        <label>
-            <strong>Data de Nascimento: </strong>
-            {{ $member->birth }}
-        </label>
-        <br>
-        <label>
-            <strong>Email: </strong>
-            {{ $member->email }}
-        </label>
-        <br>
-        <label>
-            <strong>Telefone: </strong>
-            {{ $member->phone }}
-        </label>
-        <br>
-        <label>
-            <strong>Endereço: </strong>
-            {{ $member->address }}
-        </label>
-        <br>
-        <label>
-            <strong>Data de Admissão: </strong>
-            {{ $member->admission }}
-        </label>
-        <br>
-        @isset($member->demission)
-            <label>
-                <strong>Data de Desligamento: </strong>
-                {{ $member->demission }}
-            </label>
-            <br>
-        @endisset
-        @isset($member->classroom)
-            <label>
-                <strong>Classe: </strong>
-                {{ $member->classroom->name }}
-            </label>
-            <br>
-        @endisset
-        <label>
-            <strong>Congregação: </strong>
-            {{ $member->congregation->name }}
-        </label>
-        <br>
+    <div class="col-md-10 ml-3">
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <h5> {{ __('Name') }}: </h5>
+            <label>{{ $member->name }}</label>
+          </div>
+          <div class="col-md-2">
+            <h5> {{ __('Gender') }}: </h5>
+            <label>{{ $member->gender == 0 ? __('Male') : __('Female') }}</label>
+          </div>
+          <div class="col-md-3">
+            <h5> {{ __('Date of Birth') }}: </h5>
+            <label>{{ date('d / m / Y', strtotime($member->birth)) }}</label>
+          </div>
+          <div class="col-md-3">
+            <h5> {{ __('Phone') }}: </h5>
+            <label>{{ $member->phone }}</label>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <h5> {{ __('Email') }}: </h5>
+            <label>{{ $member->email }}</label>
+          </div>
+          <div class="col-md-8">
+            <h5> {{ __('Address') }}: </h5>
+            <label>{{ $member->address }}</label>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <h5> {{ __('Member Situation') }}: </h5>
+            <label>{{ $member->isActive() ? __('Active') : __('Inactive') }}</label>
+          </div>
+          <div class="col-md-4">
+            <h5> {{ __('Admission Date') }}: </h5>
+            <label>{{ date('d / m / Y', strtotime($member->admission)) }}</label>
+          </div>
+          <div class="col-md-4">
+            @isset($member->demission)
+              <h5> {{ __('Demission Date') }}: </h5>
+              <label>{{ date('d / m / Y', strtotime($member->demission)) }}</label>
+            @endisset
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <h5> {{ __('Congregation') }}: </h5>
+            <label>{{ $member->congregation->name }}</label>
+          </div>
+          <div class="col-md-4">
+            @isset($member->classroom)
+              <h5> {{ __('Classroom') }}: </h5>
+              <label>{{ $member->classroom->name }}</label>
+            @endisset
+          </div>
+        </div>
         <hr>
-        <a href="{{ route('dashboard.members.index') }}">
-            <button type="button" class="btn btn-light float-right">Voltar</button>
-        </a>
+        <div class="mb-3 d-flex justify-content-between align-items-center">
+          <a href="{{ route('dashboard.members.index') }}">
+            <button type="button" class="btn btn-sm btn-secondary">Voltar</button>
+          </a>
+
+          <div class="btn-group me-3">
+            <a href="{{ route('dashboard.members.individual-report', $member) }}" class="btn btn-sm btn-outline-secondary">
+              Exportar em PDF
+            </a>
+          </div>
+        </div>
 
     </div>
 
