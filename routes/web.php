@@ -28,11 +28,6 @@ Route::namespace('Dashboard')->prefix('dashboard')->middleware(['auth'])->name('
     Route::resource('/usuarios', UsersController::class)
         ->parameters([ 'usuarios' => 'user' ])->names('users')
         ->only([ 'index', 'show', 'edit', 'update', 'destroy' ]);
-    // Route::get('usuarios', 'UsersController@index')->name('users.index');
-    // Route::get('usuarios/{user}', 'UsersController@show')->name('users.show');
-    // Route::get('usuarios/{user}/edit', 'UsersController@edit')->name('users.edit');
-    // Route::put('usuarios/{user}', 'UsersController@update')->name('users.update');
-    // Route::delete('usuarios/{user}', 'UsersController@destroy')->name('users.destroy');
 
     Route::resource('/igrejas', ChurchController::class)
         ->parameters([ 'igrejas' => 'church' ])->names('churches');
@@ -45,7 +40,36 @@ Route::namespace('Dashboard')->prefix('dashboard')->middleware(['auth'])->name('
 
     Route::resource('/membros', MemberController::class)
         ->parameters([ 'membros' => 'member' ])->names('members');
-    Route::get('/members/relatorio-simples', [\App\Http\Controllers\Dashboard\MemberController::class, 'simpleReport'])->name('members.simple-report');
+
+    // Relatório simplificado de toda a membresia
+    Route::get('/membresia/relatorio-simples', [
+        \App\Http\Controllers\Dashboard\MemberController::class,
+        'simpleReport'
+    ])->name('members.simple-report');
+
+    // Relatório simplificado de membros inativos
+    Route::get('/membresia/relatorio-inativos', [
+        \App\Http\Controllers\Dashboard\MemberController::class,
+        'inactivesReport'
+    ])->name('members.inactives-report');
+
+    // Relatório anual do balanço membros
+    Route::get('/membresia/relatorio-anual', [
+        \App\Http\Controllers\Dashboard\MemberController::class,
+        'anualReport'
+    ])->name('members.anual-report');
+
+    // Relatório personalizado de membresia
+    Route::get('/membresia/relatorio-personalizado', [
+        \App\Http\Controllers\Dashboard\MemberController::class,
+        'customReport'
+    ])->name('members.custom-report');
+
+    // Relatório individual de membro
+    Route::get('/membros/{member}/pdf', [
+        \App\Http\Controllers\Dashboard\MemberController::class,
+        'individualReport'
+    ])->name('members.individual-report');
 
     Route::resource('/eventos', EventController::class)
         ->parameters([ 'eventos' => 'event' ])->names('events');

@@ -20,10 +20,19 @@ class MemberController extends Controller
     public function index()
     {
         // $members = Member::where('church_id', auth()->user()->church_id)->paginate(10);
-        $members = Member::where('church_id', auth()->user()->church_id)
-                        ->orderBy('name', 'asc')
-                        ->paginate(10);
-        return view('dashboard.members.index', ['members' => $members]);
+        $active_members = Member::where('church_id', auth()->user()->church_id)
+                                ->whereNull('demission')
+                                ->orderBy('name', 'asc')
+                                ->paginate(10);
+        $inactive_members = Member::where('church_id', auth()->user()->church_id)
+                                ->whereNotNull('demission')
+                                ->orderBy('name', 'asc')
+                                ->paginate(10);
+
+        return view('dashboard.members.index', [
+            'active_members' => $active_members,
+            'inactive_members' => $inactive_members
+        ]);
     }
 
     /**
@@ -144,10 +153,102 @@ class MemberController extends Controller
 
     public function simpleReport()
     {
+        $active_members = Member::where('church_id', auth()->user()->church_id)
+                            ->whereNull('demission')
+                            ->orderBy('name', 'asc')
+                            ->get();
+        $pdf = DomPDF::loadView('dashboard.members.simple-report', compact('active_members'));
+        return $pdf->download('lista-de-membros.pdf');
+    }
+
+    public function inactivesReport()
+    {
+        $inactive_members = Member::where('church_id', auth()->user()->church_id)
+                            ->whereNotNull('demission')
+                            ->orderBy('name', 'asc')
+                            ->get();
+        $pdf = DomPDF::loadView('dashboard.members.inactives-report', compact('inactive_members'));
+        return $pdf->download('lista-de-membros-inativos.pdf');
+    }
+
+    public function anualReport()
+    {
         $members = Member::where('church_id', auth()->user()->church_id)
-                        ->orderBy('name', 'asc')
-                        ->get();
-        $pdf = DomPDF::loadView('dashboard.members.simple-report', compact('members'));
-        return $pdf->download('tabela-de-membros.pdf');
+                                ->orderBy('name', 'asc')
+                                ->get();
+        $current_year = date('Y');
+
+        $active_members = $members->whereNull('demission');
+
+        $new_members = $active_members->filter( function ($member) use ($current_year) {
+            $admission_year = date('Y', strtotime($member->admission));
+            return $admission_year === $current_year;
+        });
+
+        $inactive_members = $members->whereNotNull('demission');
+
+        $new_inactive_members = $inactive_members->filter( function ($member) use ($current_year) {
+            $demission_year = date('Y', strtotime($member->demission));
+            return $demission_year === $current_year;
+        });
+
+        $pdf = DomPDF::loadView('dashboard.members.anual-report', compact([
+            'current_year',
+            'active_members',
+            'new_members',
+            'inactive_members',
+            'new_inactive_members'
+        ]));
+
+        return $pdf->download('resumo-anual-de-membros.pdf');
+    }
+
+    public function customReport(Request $request)
+    {
+        $members = Member::where('church_id', auth()->user()->church_id)
+                                ->orderBy('name', 'asc')
+                                ->get();
+        $initial_date = $request->initial_date;
+        $final_date = $request->final_date;
+
+        $active_members = $members->filter( function ($member) use ($final_date) {
+            $admission = date('Y-m-d', strtotime($member->admission));
+            return $admission <= $final_date && ($member->demission === null || $member->demission > $final_date);
+        });
+
+        $new_members = $active_members->filter( function ($member) use ($initial_date) {
+            $admission = date('Y-m-d', strtotime($member->admission));
+            return $admission >= $initial_date;
+        });
+
+        $inactive_members = $members->filter( function ($member) use ($final_date) {
+            $member->demission ? $demission = date('Y-m-d', strtotime($member->demission)) : $demission = null;
+            return $demission <= $final_date && $demission !== null;
+        });
+
+        $new_inactive_members = $inactive_members->filter( function ($member) use ($initial_date) {
+            $demission = date('Y-m-d', strtotime($member->demission));
+            return $demission >= $initial_date;
+        });
+
+        $pdf = DomPDF::loadView('dashboard.members.custom-report', compact([
+            'initial_date',
+            'final_date',
+            'active_members',
+            'new_members',
+            'inactive_members',
+            'new_inactive_members'
+        ]));
+
+        return $pdf->download('relatorio-de-membros-' . $initial_date . '-' . $final_date . '.pdf');
+    }
+
+    public function individualReport(Member $member)
+    {
+        $pdf = DomPDF::loadView('dashboard.members.individual-report', compact([
+            'member',
+        ]));
+
+        return $pdf->download('relatorio-de-membro-' . $member->name . '.pdf');
     }
 }

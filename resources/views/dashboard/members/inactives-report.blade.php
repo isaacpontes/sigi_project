@@ -60,8 +60,8 @@
       Gerado com SiGI - Copyright &copy; <?php echo date("Y");?>
   </footer>
   <div>
-    <h4 class="text-center">Lista de Membros</h4>
-    <p class="ml-lg">Total de membros: {{ $active_members->count() }}</p>
+    <h4 class="text-center">Lista de Membros Inativos</h4>
+    <p class="ml-lg">Total de membros inativos: {{ $inactive_members->count() }}</p>
     <table class="ml-lg">
       <thead class="text-center">
         <tr>
@@ -72,7 +72,7 @@
         </tr>
       </thead>
       <tbody>
-        @foreach($active_members as $member)
+        @foreach($inactive_members as $member)
           <tr>
             <td>{{ $member->name }}</td>
             <td>{{ $member->phone }}</td>
