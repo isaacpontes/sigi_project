@@ -25,7 +25,7 @@
         </a>
         <div class="btn-group me-3">
           <a href="#" class="btn btn-sm btn-outline-secondary">
-            Exportar em PDF
+            Imprimir Resumo
           </a>
         </div>
       </div>
@@ -35,15 +35,69 @@
       <div class="row">
         <div class="col-sm-6">
           <h5>Entradas</h5>
-          @foreach ($incomes as $income)
-            <li>{{ $income->name }}</li>
-          @endforeach
+          <div class="table-responsive">
+            <table class="table table-striped table-sm">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Data</th>
+                  <th>Valor</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach ($incomes as $income)
+                  <tr>
+                    <td>{{ $income->name }}</td>
+                    <td>{{ date("d/m/Y", strtotime($income->ref_date)) }}</td>
+                    <td>{{ number_format($income->value/100, 2, ',', '.') }}</td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
         </div>
         <div class="col-sm-6">
           <h5>Saídas</h5>
-          @foreach ($expenses as $expense)
-            <li>{{ $expense->name }}</li>
-          @endforeach
+          <div class="table-responsive">
+            <table class="table table-striped table-sm">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Data</th>
+                  <th>Valor</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach ($expenses as $expense)
+                  <tr>
+                    <td>{{ $expense->name }}</td>
+                    <td>{{ date("d/m/Y", strtotime($expense->ref_date)) }}</td>
+                    <td>{{ number_format($expense->value/100, 2, ',', '.') }}</td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="pb-3 d-flex justify-content-between align-items-center">
+            <a href="{{ route('dashboard.incomes.index') }}" class="btn btn-sm btn-primary">{{ __('More Incomes') }}</a>
+
+            <div class="btn-group">
+              <a href="#" class="btn btn-sm btn-outline-secondary">Exportar em PDF</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="pb-3 d-flex justify-content-between align-items-center">
+            <a href="{{ route('dashboard.expenses.index') }}" class="btn btn-sm btn-primary">{{ __('More Expenses') }}</a>
+
+            <div class="btn-group">
+              <a href="#" class="btn btn-sm btn-outline-secondary">Exportar em PDF</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -32,25 +32,25 @@
                 <td> R$ {{ number_format($account->balance/100, 2, ',', '.') }} </td>
                 <td class="d-flex">
                   <a href="{{ route('dashboard.accounts.show', $account->id) }}">
-                    <button type="button" class="btn btn-sm btn-secondary mr-2">
+                    <button type="button" class="btn btn-sm btn-secondary mr-2 py-0">
                       <span>
-                        <i class="far fa-file-alt"></i>
+                        Details
                       </span>
                     </button>
                   </a>
                   <a href="{{ route('dashboard.accounts.edit', $account->id) }}">
-                    <button type="button" class="btn btn-sm btn-light mr-2">
+                    <button type="button" class="btn btn-sm btn-light mr-2 py-0">
                       <span>
-                        <i class="fa fa-edit"></i>
+                        Edit
                       </span>
                     </button>
                   </a>
                   <form action="{{ route('dashboard.accounts.destroy', $account->id) }}" method="post">
                     @csrf
                     {{ method_field('delete') }}
-                    <button type="submit" class="btn btn-sm btn-danger">
+                    <button type="submit" class="btn btn-sm btn-danger py-0">
                       <span>
-                        <i class="fa fa-trash-alt"></i>
+                        Delete
                       </span>
                     </button>
                   </form>

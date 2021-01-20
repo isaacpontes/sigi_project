@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Income;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AccountController extends Controller
 {
@@ -103,8 +104,19 @@ class AccountController extends Controller
      */
     public function show(Account $account)
     {
-        $incomes = $account->incomes;
-        $expenses = $account->expenses;
+        $incomes = DB::table('incomes')
+                        ->where('church_id', Auth()->user()->church_id)
+                        ->where('account_id', $account->id)
+                        ->orderBy('ref_date', 'desc')
+                        ->limit(8)
+                        ->get();
+        $expenses = DB::table('expenses')
+                        ->where('church_id', Auth()->user()->church_id)
+                        ->where('account_id', $account->id)
+                        ->orderBy('ref_date', 'desc')
+                        ->limit(8)
+                        ->get();
+
         return view('dashboard.accounts.show')->with([
             'account' => $account,
             'incomes' => $incomes,
