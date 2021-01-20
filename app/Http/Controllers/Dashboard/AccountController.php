@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Account;
+use App\Expense;
 use App\Http\Controllers\Controller;
+use App\Income;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
@@ -15,8 +18,52 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $accounts = Account::where('church_id', auth()->user()->church_id)->get();
-        return view('dashboard.accounts.index')->with('accounts', $accounts);
+        $accounts = Account::where('church_id', Auth()->user()->church_id)->get();
+        $incomes = Income::where('church_id', Auth()->user()->church_id)->get();
+        $expenses = Expense::where('church_id', Auth()->user()->church_id)->get();
+
+        $month_incomes = $incomes->filter(function ($income) {
+            $today = date("Y-m");
+            $ref_month = date("Y-m", strtotime($income->ref_date));
+            return $ref_month === $today;
+        });
+        $total_month_incomes = $month_incomes->sum('value');
+        $total_month_incomes /= 100;
+
+        $year_incomes = $incomes->filter(function ($income) {
+            $today = date("Y");
+            $ref_year = date("Y", strtotime($income->ref_date));
+            return $ref_year === $today;
+        });
+        $total_year_incomes = $year_incomes->sum('value');
+        $total_year_incomes /= 100;
+
+        $month_expenses = $expenses->filter(function ($expense) {
+            $today = date("Y-m");
+            $ref_month = date("Y-m", strtotime($expense->ref_date));
+            return $ref_month === $today;
+        });
+        $total_month_expenses = $month_expenses->sum('value');
+        $total_month_expenses /= 100;
+
+        $year_expenses = $expenses->filter(function ($expense) {
+            $today = date("Y");
+            $ref_year = date("Y", strtotime($expense->ref_date));
+            return $ref_year === $today;
+        });
+        $total_year_expenses = $year_expenses->sum('value');
+        $total_year_expenses /= 100;
+
+        $total_balance = $accounts->sum('balance');
+        $total_balance /= 100;
+        return view('dashboard.accounts.index')->with([
+            'accounts' => $accounts,
+            'total_balance' => $total_balance,
+            'total_month_incomes' => $total_month_incomes,
+            'total_year_incomes' => $total_year_incomes,
+            'total_month_expenses' => $total_month_expenses,
+            'total_year_expenses' => $total_year_expenses
+        ]);
     }
 
     /**
@@ -56,7 +103,13 @@ class AccountController extends Controller
      */
     public function show(Account $account)
     {
-        return view('dashboard.accounts.show')->with('account', $account);
+        $incomes = $account->incomes;
+        $expenses = $account->expenses;
+        return view('dashboard.accounts.show')->with([
+            'account' => $account,
+            'incomes' => $incomes,
+            'expenses' => $expenses
+        ]);
     }
 
     /**
