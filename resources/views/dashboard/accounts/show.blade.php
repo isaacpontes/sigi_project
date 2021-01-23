@@ -24,7 +24,7 @@
           <button type="button" class="btn btn-sm btn-secondary">Voltar</button>
         </a>
         <div class="btn-group me-3">
-          <a href="#" class="btn btn-sm btn-outline-secondary">
+          <a href="{{ route('dashboard.accounts.individual-resume', $account) }}" class="btn btn-sm btn-outline-secondary">
             Imprimir Resumo
           </a>
         </div>
@@ -47,7 +47,7 @@
               <tbody>
                 @foreach ($incomes as $income)
                   <tr>
-                    <td>{{ $income->name }}</td>
+                    <td><a href="{{ route('dashboard.incomes.show', $income->id) }}">{{ $income->name }}</a></td>
                     <td>{{ date("d/m/Y", strtotime($income->ref_date)) }}</td>
                     <td>{{ number_format($income->value/100, 2, ',', '.') }}</td>
                   </tr>
@@ -70,7 +70,7 @@
               <tbody>
                 @foreach ($expenses as $expense)
                   <tr>
-                    <td>{{ $expense->name }}</td>
+                    <td><a href="{{ route('dashboard.expenses.show', $expense->id) }}">{{ $expense->name }}</a></td>
                     <td>{{ date("d/m/Y", strtotime($expense->ref_date)) }}</td>
                     <td>{{ number_format($expense->value/100, 2, ',', '.') }}</td>
                   </tr>
@@ -82,21 +82,13 @@
       </div>
       <div class="row">
         <div class="col-sm-6">
-          <div class="pb-3 d-flex justify-content-between align-items-center">
-            <a href="{{ route('dashboard.incomes.index') }}" class="btn btn-sm btn-primary">{{ __('More Incomes') }}</a>
-
-            <div class="btn-group">
-              <a href="#" class="btn btn-sm btn-outline-secondary">Exportar em PDF</a>
-            </div>
+          <div class="pb-3 d-flex justify-content-end align-items-center">
+            <a href="{{ route('dashboard.incomes.index') }}" class="btn btn-sm btn-outline-primary">{{ __('More Incomes') }}</a>
           </div>
         </div>
         <div class="col-sm-6">
-          <div class="pb-3 d-flex justify-content-between align-items-center">
-            <a href="{{ route('dashboard.expenses.index') }}" class="btn btn-sm btn-primary">{{ __('More Expenses') }}</a>
-
-            <div class="btn-group">
-              <a href="#" class="btn btn-sm btn-outline-secondary">Exportar em PDF</a>
-            </div>
+          <div class="pb-3 d-flex justify-content-end align-items-center">
+            <a href="{{ route('dashboard.expenses.index') }}" class="btn btn-sm btn-outline-primary">{{ __('More Expenses') }}</a>
           </div>
         </div>
       </div>

@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Account;
-use App\Expense;
+use App\Helpers\FinanceHelper;
 use App\Http\Controllers\Controller;
-use App\Income;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AccountController extends Controller
@@ -19,51 +17,78 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $accounts = Account::where('church_id', Auth()->user()->church_id)->get();
-        $incomes = Income::where('church_id', Auth()->user()->church_id)->get();
-        $expenses = Expense::where('church_id', Auth()->user()->church_id)->get();
+        $accounts = DB::table('accounts')
+            ->where('church_id', Auth()->user()->church_id)
+            ->get(['id', 'name', 'balance', 'add_info']);
 
-        $month_incomes = $incomes->filter(function ($income) {
-            $today = date("Y-m");
-            $ref_month = date("Y-m", strtotime($income->ref_date));
-            return $ref_month === $today;
-        });
-        $total_month_incomes = $month_incomes->sum('value');
-        $total_month_incomes /= 100;
+        $incomes = DB::table('incomes')
+            ->where('church_id', Auth()->user()->church_id)
+            ->get(['value', 'ref_date']);
 
-        $year_incomes = $incomes->filter(function ($income) {
-            $today = date("Y");
-            $ref_year = date("Y", strtotime($income->ref_date));
-            return $ref_year === $today;
-        });
-        $total_year_incomes = $year_incomes->sum('value');
-        $total_year_incomes /= 100;
+        $expenses = DB::table('expenses')
+            ->where('church_id', Auth()->user()->church_id)
+            ->get(['value', 'ref_date']);
 
-        $month_expenses = $expenses->filter(function ($expense) {
-            $today = date("Y-m");
-            $ref_month = date("Y-m", strtotime($expense->ref_date));
-            return $ref_month === $today;
-        });
-        $total_month_expenses = $month_expenses->sum('value');
-        $total_month_expenses /= 100;
+        $current_month = date("Y-m");
+        $current_year = date("Y");
+        $last_month = date("Y-m", strtotime("-1 month"));
+        $last_year = date("Y", strtotime("-1 year"));
 
-        $year_expenses = $expenses->filter(function ($expense) {
-            $today = date("Y");
-            $ref_year = date("Y", strtotime($expense->ref_date));
-            return $ref_year === $today;
-        });
-        $total_year_expenses = $year_expenses->sum('value');
-        $total_year_expenses /= 100;
+        $month_incomes = FinanceHelper::filterTransactionsByMonth($incomes, $current_month);
+        $current_month_incomes = $month_incomes->sum('value');
+        $current_month_incomes /= 100;
+
+        $year_incomes = FinanceHelper::filterTransactionsByYear($incomes, $current_year);
+        $current_year_incomes = $year_incomes->sum('value');
+        $current_year_incomes /= 100;
+
+        $month_expenses = FinanceHelper::filterTransactionsByMonth($expenses, $current_month);
+        $current_month_expenses = $month_expenses->sum('value');
+        $current_month_expenses /= 100;
+
+        $year_expenses = FinanceHelper::filterTransactionsByYear($expenses, $current_year);
+        $current_year_expenses = $year_expenses->sum('value');
+        $current_year_expenses /= 100;
+
+        $month_incomes = FinanceHelper::filterTransactionsByMonth($incomes, $last_month);
+        $last_month_incomes = $month_incomes->sum('value');
+        $last_month_incomes /= 100;
+
+        $year_incomes = FinanceHelper::filterTransactionsByYear($incomes, $last_year);
+        $last_year_incomes = $year_incomes->sum('value');
+        $last_year_incomes /= 100;
+
+        $month_expenses = FinanceHelper::filterTransactionsByMonth($expenses, $last_month);
+        $last_month_expenses = $month_expenses->sum('value');
+        $last_month_expenses /= 100;
+
+        $year_expenses = FinanceHelper::filterTransactionsByYear($expenses, $last_year);
+        $last_year_expenses = $year_expenses->sum('value');
+        $last_year_expenses /= 100;
+
+        $current_month_balance = $current_month_incomes - $current_month_expenses;
+        $current_year_balance = $current_year_incomes - $current_year_expenses;
+        $last_month_balance = $last_month_incomes - $last_month_expenses;
+        $last_year_balance = $last_year_incomes - $last_year_expenses;
 
         $total_balance = $accounts->sum('balance');
         $total_balance /= 100;
+
         return view('dashboard.accounts.index')->with([
             'accounts' => $accounts,
             'total_balance' => $total_balance,
-            'total_month_incomes' => $total_month_incomes,
-            'total_year_incomes' => $total_year_incomes,
-            'total_month_expenses' => $total_month_expenses,
-            'total_year_expenses' => $total_year_expenses
+            'current_month_incomes' => $current_month_incomes,
+            'current_month_expenses' => $current_month_expenses,
+            'current_month_balance' => $current_month_balance,
+            'current_year_incomes' => $current_year_incomes,
+            'current_year_expenses' => $current_year_expenses,
+            'current_year_balance' => $current_year_balance,
+            'last_month_incomes' => $last_month_incomes,
+            'last_month_expenses' => $last_month_expenses,
+            'last_month_balance' => $last_month_balance,
+            'last_year_incomes' => $last_year_incomes,
+            'last_year_expenses' => $last_year_expenses,
+            'last_year_balance' => $last_year_balance,
         ]);
     }
 
@@ -163,5 +188,12 @@ class AccountController extends Controller
         $account->delete();
 
         return redirect()->route('dashboard.accounts.index');
+    }
+
+    public function individualResume(Account $account)
+    {
+        $pdf = FinanceHelper::createIndividualPdfResume($account);
+
+        return $pdf->download('resumo-conta-' . $account->name . '.pdf');
     }
 }
