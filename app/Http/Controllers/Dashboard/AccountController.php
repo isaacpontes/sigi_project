@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Account;
 use App\Helpers\FinanceHelper;
 use App\Http\Controllers\Controller;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -195,5 +196,29 @@ class AccountController extends Controller
         $pdf = FinanceHelper::createIndividualPdfResume($account);
 
         return $pdf->download('resumo-conta-' . $account->name . '.pdf');
+    }
+
+    public function generalResume()
+    {
+        $pdf = FinanceHelper::createGeneralPdfResume();
+
+        return $pdf->download('relatorio-financeiro-geral.pdf');
+    }
+
+    public function customReport(Request $request)
+    {
+        $initial_date = DateTime::createFromFormat('Y-m-d', $request->query('initial_date'));
+        $final_date = DateTime::createFromFormat('Y-m-d', $request->query('final_date'));
+        if ($request->query('account_id')) {
+            $account_id = $request->query('account_id');
+            $pdf = FinanceHelper::createIndividualCustomPdfReport($initial_date, $final_date, $account_id);
+            $file_name = 'relatorio-financeiro-individual-' . $initial_date->format("d-m-Y") . '-' . $final_date->format("d-m-Y") . '.pdf';
+        } else {
+            $pdf = FinanceHelper::createCustomPdfReport($initial_date, $final_date);
+            $file_name = 'relatorio-financeiro-' . $initial_date->format("d-m-Y") . '-' . $final_date->format("d-m-Y") . '.pdf';
+        }
+
+
+        return $pdf->download($file_name);
     }
 }
