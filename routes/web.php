@@ -80,6 +80,25 @@ Route::namespace('Dashboard')->prefix('dashboard')->middleware(['auth'])->name('
     Route::resource('/contas', AccountController::class)
         ->parameters([ 'contas' => 'account' ])->names('accounts');
 
+    // Relatório financeiro personalizado
+    Route::get('/financeiro/relatorio-personalizado', [
+        \App\Http\Controllers\Dashboard\AccountController::class,
+        'customReport'
+    ])->name('accounts.custom-report');
+
+    // Relatório geral de todas as contas
+    Route::get('/financeiro/resumo-geral', [
+        \App\Http\Controllers\Dashboard\AccountController::class,
+        'generalResume'
+    ])->name('accounts.general-resume');
+
+    // Relatório simplificado individual de conta
+    Route::get('/financeiro/{account}/resumo-individual', [
+        \App\Http\Controllers\Dashboard\AccountController::class,
+        'individualResume'
+    ])->name('accounts.individual-resume');
+
+
     Route::resource('/categorias-receita', IncomeCategoryController::class)
         ->parameters([ 'categorias-receita' => 'income_category' ])->names('income_categories');
 

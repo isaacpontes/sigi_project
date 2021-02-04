@@ -9,7 +9,7 @@
         {{ method_field('put') }}
 
         <div class="form-group row">
-            <label for="name" class="col-md-4 col-form-label text-md-right">Nome</label>
+            <label for="name" class="col-md-2 col-form-label text-md-right">Nome</label>
 
             <div class="col-md-6">
                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $account->name }}" required autofocus>
@@ -23,7 +23,7 @@
         </div>
 
         <div class="form-group row">
-            <label for="add_info" class="col-md-4 col-form-label text-md-right">Informações Adicionais</label>
+            <label for="add_info" class="col-md-2 col-form-label text-md-right">Informações Adicionais</label>
 
             <div class="col-md-6">
                 <textarea id="add_info" type="add_info" class="form-control @error('add_info') is-invalid @enderror" name="add_info">{{ $account->add_info }}</textarea>

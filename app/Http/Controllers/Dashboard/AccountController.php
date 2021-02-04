@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Account;
+use App\Helpers\FinanceHelper;
 use App\Http\Controllers\Controller;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AccountController extends Controller
 {
@@ -15,8 +18,79 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $accounts = Account::where('church_id', auth()->user()->church_id)->get();
-        return view('dashboard.accounts.index')->with('accounts', $accounts);
+        $accounts = DB::table('accounts')
+            ->where('church_id', Auth()->user()->church_id)
+            ->get(['id', 'name', 'balance', 'add_info']);
+
+        $incomes = DB::table('incomes')
+            ->where('church_id', Auth()->user()->church_id)
+            ->get(['value', 'ref_date']);
+
+        $expenses = DB::table('expenses')
+            ->where('church_id', Auth()->user()->church_id)
+            ->get(['value', 'ref_date']);
+
+        $current_month = date("Y-m");
+        $current_year = date("Y");
+        $last_month = date("Y-m", strtotime("-1 month"));
+        $last_year = date("Y", strtotime("-1 year"));
+
+        $month_incomes = FinanceHelper::filterTransactionsByMonth($incomes, $current_month);
+        $current_month_incomes = $month_incomes->sum('value');
+        $current_month_incomes /= 100;
+
+        $year_incomes = FinanceHelper::filterTransactionsByYear($incomes, $current_year);
+        $current_year_incomes = $year_incomes->sum('value');
+        $current_year_incomes /= 100;
+
+        $month_expenses = FinanceHelper::filterTransactionsByMonth($expenses, $current_month);
+        $current_month_expenses = $month_expenses->sum('value');
+        $current_month_expenses /= 100;
+
+        $year_expenses = FinanceHelper::filterTransactionsByYear($expenses, $current_year);
+        $current_year_expenses = $year_expenses->sum('value');
+        $current_year_expenses /= 100;
+
+        $month_incomes = FinanceHelper::filterTransactionsByMonth($incomes, $last_month);
+        $last_month_incomes = $month_incomes->sum('value');
+        $last_month_incomes /= 100;
+
+        $year_incomes = FinanceHelper::filterTransactionsByYear($incomes, $last_year);
+        $last_year_incomes = $year_incomes->sum('value');
+        $last_year_incomes /= 100;
+
+        $month_expenses = FinanceHelper::filterTransactionsByMonth($expenses, $last_month);
+        $last_month_expenses = $month_expenses->sum('value');
+        $last_month_expenses /= 100;
+
+        $year_expenses = FinanceHelper::filterTransactionsByYear($expenses, $last_year);
+        $last_year_expenses = $year_expenses->sum('value');
+        $last_year_expenses /= 100;
+
+        $current_month_balance = $current_month_incomes - $current_month_expenses;
+        $current_year_balance = $current_year_incomes - $current_year_expenses;
+        $last_month_balance = $last_month_incomes - $last_month_expenses;
+        $last_year_balance = $last_year_incomes - $last_year_expenses;
+
+        $total_balance = $accounts->sum('balance');
+        $total_balance /= 100;
+
+        return view('dashboard.accounts.index')->with([
+            'accounts' => $accounts,
+            'total_balance' => $total_balance,
+            'current_month_incomes' => $current_month_incomes,
+            'current_month_expenses' => $current_month_expenses,
+            'current_month_balance' => $current_month_balance,
+            'current_year_incomes' => $current_year_incomes,
+            'current_year_expenses' => $current_year_expenses,
+            'current_year_balance' => $current_year_balance,
+            'last_month_incomes' => $last_month_incomes,
+            'last_month_expenses' => $last_month_expenses,
+            'last_month_balance' => $last_month_balance,
+            'last_year_incomes' => $last_year_incomes,
+            'last_year_expenses' => $last_year_expenses,
+            'last_year_balance' => $last_year_balance,
+        ]);
     }
 
     /**
@@ -56,7 +130,24 @@ class AccountController extends Controller
      */
     public function show(Account $account)
     {
-        return view('dashboard.accounts.show')->with('account', $account);
+        $incomes = DB::table('incomes')
+                        ->where('church_id', Auth()->user()->church_id)
+                        ->where('account_id', $account->id)
+                        ->orderBy('ref_date', 'desc')
+                        ->limit(8)
+                        ->get();
+        $expenses = DB::table('expenses')
+                        ->where('church_id', Auth()->user()->church_id)
+                        ->where('account_id', $account->id)
+                        ->orderBy('ref_date', 'desc')
+                        ->limit(8)
+                        ->get();
+
+        return view('dashboard.accounts.show')->with([
+            'account' => $account,
+            'incomes' => $incomes,
+            'expenses' => $expenses
+        ]);
     }
 
     /**
@@ -98,5 +189,36 @@ class AccountController extends Controller
         $account->delete();
 
         return redirect()->route('dashboard.accounts.index');
+    }
+
+    public function individualResume(Account $account)
+    {
+        $pdf = FinanceHelper::createIndividualPdfResume($account);
+
+        return $pdf->download('resumo-conta-' . $account->name . '.pdf');
+    }
+
+    public function generalResume()
+    {
+        $pdf = FinanceHelper::createGeneralPdfResume();
+
+        return $pdf->download('relatorio-financeiro-geral.pdf');
+    }
+
+    public function customReport(Request $request)
+    {
+        $initial_date = DateTime::createFromFormat('Y-m-d', $request->query('initial_date'));
+        $final_date = DateTime::createFromFormat('Y-m-d', $request->query('final_date'));
+        if ($request->query('account_id')) {
+            $account_id = $request->query('account_id');
+            $pdf = FinanceHelper::createIndividualCustomPdfReport($initial_date, $final_date, $account_id);
+            $file_name = 'relatorio-financeiro-individual-' . $initial_date->format("d-m-Y") . '-' . $final_date->format("d-m-Y") . '.pdf';
+        } else {
+            $pdf = FinanceHelper::createCustomPdfReport($initial_date, $final_date);
+            $file_name = 'relatorio-financeiro-' . $initial_date->format("d-m-Y") . '-' . $final_date->format("d-m-Y") . '.pdf';
+        }
+
+
+        return $pdf->download($file_name);
     }
 }
