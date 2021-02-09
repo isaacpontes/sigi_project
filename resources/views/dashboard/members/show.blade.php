@@ -62,12 +62,17 @@
         </div>
         <hr>
         <div class="mb-3 d-flex justify-content-between align-items-center">
-          <a href="{{ route('dashboard.members.index') }}">
-            <button type="button" class="btn btn-sm btn-secondary">Voltar</button>
-          </a>
+          <div class="btn-group">
+            <a href="{{ route('dashboard.members.index') }}">
+              <button type="button" class="btn btn-primary">Voltar</button>
+            </a>
+            <a href="{{ route('dashboard.members.edit', $member) }}">
+              <button type="button" class="btn btn-outline-secondary ml-1">Editar</button>
+            </a>
+          </div>
 
           <div class="btn-group me-3">
-            <a href="{{ route('dashboard.members.individual-report', $member) }}" class="btn btn-sm btn-outline-secondary">
+            <a href="{{ route('dashboard.members.individual-report', $member) }}" class="btn btn-outline-secondary">
               Exportar em PDF
             </a>
           </div>

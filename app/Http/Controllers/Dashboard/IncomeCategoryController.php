@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\IncomeCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class IncomeCategoryController extends Controller
 {
@@ -17,16 +19,6 @@ class IncomeCategoryController extends Controller
     {
         $income_categories = IncomeCategory::where('church_id', auth()->user()->church_id)->get();
         return view('dashboard.income-categories.index')->with('income_categories', $income_categories);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('dashboard.income-categories.create');
     }
 
     /**
@@ -43,7 +35,7 @@ class IncomeCategoryController extends Controller
 
         $income_category->save();
 
-        return redirect()->route('dashboard.income_categories.index');
+        return redirect()->back();
     }
 
     /**
@@ -54,7 +46,15 @@ class IncomeCategoryController extends Controller
      */
     public function show(IncomeCategory $income_category)
     {
-        return view('dashboard.income-categories.show')->with('income_category', $income_category);
+        $incomes = DB::table('incomes')
+            ->where('church_id', Auth::user()->id)
+            ->where('income_category_id', $income_category->id)
+            ->orderByDesc('ref_date')
+            ->paginate(8);
+        return view('dashboard.income-categories.show')->with([
+            'income_category' => $income_category,
+            'incomes' => $incomes
+        ]);
     }
 
     /**
@@ -81,7 +81,7 @@ class IncomeCategoryController extends Controller
 
         $income_category->save();
 
-        return redirect()->route('dashboard.income_categories.index');
+        return redirect()->route('dashboard.finance-categories');
     }
 
     /**
@@ -94,6 +94,6 @@ class IncomeCategoryController extends Controller
     {
         $income_category->delete();
 
-        return redirect()->route('dashboard.income_categories.index');
+        return redirect()->back();
     }
 }

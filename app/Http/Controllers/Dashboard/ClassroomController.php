@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Classroom;
+use Barryvdh\DomPDF\Facade as DomPdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ClassroomController extends Controller
 {
@@ -15,8 +17,10 @@ class ClassroomController extends Controller
      */
     public function index()
     {
-        //
-        $classrooms = Classroom::where('church_id', auth()->user()->church_id)->get();
+        $classrooms = DB::table('classrooms')
+            ->where('church_id', auth()->user()->church_id)
+            ->select(['id', 'name'])
+            ->paginate(10);
         return view('dashboard.classrooms.index')->with([
             'classrooms' => $classrooms
         ]);
@@ -61,8 +65,15 @@ class ClassroomController extends Controller
     public function show(Classroom $classroom)
     {
         //
+        $active_members = DB::table('members')
+            ->where('church_id', auth()->user()->church_id)
+            ->where('classroom_id', $classroom->id)
+            ->whereNull('demission')
+            ->orderBy('name', 'asc')
+            ->paginate(8);
         return view('dashboard.classrooms.show')->with([
-            'classroom' => $classroom
+            'classroom' => $classroom,
+            'active_members' => $active_members
         ]);
     }
 
@@ -110,5 +121,15 @@ class ClassroomController extends Controller
         $classroom->delete();
 
         return redirect()->route('dashboard.classrooms.index');
+    }
+
+    public function exportPdfList()
+    {
+        $classrooms = DB::table('classrooms')
+            ->where('church_id', auth()->user()->church_id)
+            ->orderBy('created_at')
+            ->get(['name', 'add_info']);
+        $pdf = DomPdf::loadView('dashboard.classrooms.pdf-list', compact('classrooms'));
+        return $pdf->download('lista-de-classes.pdf');
     }
 }

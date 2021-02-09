@@ -5,7 +5,7 @@
   </x-slot>
 
   <div class="row">
-    <div class="col-md-3 ml-3">
+    <div class="col-sm-4">
       <div class="mb-3">
         <h5> {{ __('Name') }}: </h5>
         <label>{{ $account->name }}</label>
@@ -21,35 +21,44 @@
       <hr>
       <div class="mb-3 d-flex justify-content-between align-items-center">
         <a href="{{ route('dashboard.accounts.index') }}">
-          <button type="button" class="btn btn-sm btn-secondary">Voltar</button>
+          <button type="button" class="btn btn-primary">Voltar</button>
         </a>
         <div class="btn-group me-3">
-          <a href="{{ route('dashboard.accounts.individual-resume', $account) }}" class="btn btn-sm btn-outline-secondary">
+          <a href="{{ route('dashboard.accounts.individual-resume', $account) }}" class="btn btn-outline-secondary">
             Imprimir Resumo
           </a>
         </div>
       </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-sm-8">
       <h3 class="mb-3">Últimos Lancamentos</h3>
       <div class="row">
         <div class="col-sm-6">
           <h5>Entradas</h5>
           <div class="table-responsive">
-            <table class="table table-striped table-sm">
+            <table class="table table-striped">
               <thead>
                 <tr>
                   <th>Nome</th>
-                  <th>Data</th>
                   <th>Valor</th>
+                  <th>Ações</th>
                 </tr>
               </thead>
               <tbody>
                 @foreach ($incomes as $income)
                   <tr>
-                    <td><a href="{{ route('dashboard.incomes.show', $income->id) }}">{{ $income->name }}</a></td>
-                    <td>{{ date("d/m/Y", strtotime($income->ref_date)) }}</td>
-                    <td>{{ number_format($income->value/100, 2, ',', '.') }}</td>
+                    <td>{{ $income->name }}</td>
+                    <td>R$ {{ number_format($income->value/100, 2, ',', '.') }}</td>
+                    <td>
+                        <a
+                            href="{{ route('dashboard.accounts.show', $income->id) }}"
+                            class="btn btn-outline-primary mr-2 py-0"
+                        >
+                            <span>
+                                {{ __('Details') }}
+                            </span>
+                        </a>
+                    </td>
                   </tr>
                 @endforeach
               </tbody>
@@ -59,20 +68,29 @@
         <div class="col-sm-6">
           <h5>Saídas</h5>
           <div class="table-responsive">
-            <table class="table table-striped table-sm">
+            <table class="table table-striped">
               <thead>
                 <tr>
                   <th>Nome</th>
-                  <th>Data</th>
                   <th>Valor</th>
+                  <th>Ações</th>
                 </tr>
               </thead>
               <tbody>
                 @foreach ($expenses as $expense)
                   <tr>
-                    <td><a href="{{ route('dashboard.expenses.show', $expense->id) }}">{{ $expense->name }}</a></td>
-                    <td>{{ date("d/m/Y", strtotime($expense->ref_date)) }}</td>
-                    <td>{{ number_format($expense->value/100, 2, ',', '.') }}</td>
+                    <td>{{ $expense->name }}</td>
+                    <td>R$ {{ number_format($expense->value/100, 2, ',', '.') }}</td>
+                    <td>
+                        <a
+                            href="{{ route('dashboard.accounts.show', $expense->id) }}"
+                            class="btn btn-outline-primary mr-2 py-0"
+                        >
+                            <span>
+                                {{ __('Details') }}
+                            </span>
+                        </a>
+                    </td>
                   </tr>
                 @endforeach
               </tbody>

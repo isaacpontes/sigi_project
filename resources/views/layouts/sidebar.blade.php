@@ -4,19 +4,7 @@
             <li class="nav-item">
                 <a class="nav-link text-dark" href="{{ route('dashboard') }}">
                     <i class="fa fa-home fa-fw mx-1" ></i>
-                    Dashboard
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" href="{{ route('dashboard.appointments.index') }}">
-                    <i class="fa fa-calendar-check fa-fw mx-1" ></i>
-                    Compromissos
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" href="{{ route('dashboard.members.index') }}">
-                    <i class="fa fa-users fa-fw mx-1" ></i>
-                    Membros
+                    Início
                 </a>
             </li>
             <li class="nav-item">
@@ -32,11 +20,17 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link text-dark" href="{{ route('dashboard.members.index') }}">
+                    <i class="fa fa-users fa-fw mx-1" ></i>
+                    Membros
+                </a>
+            </li>
+            {{-- <li class="nav-item">
                 <a class="nav-link text-dark" href="{{ route('dashboard.events.index') }}">
                     <i class="fa fa-calendar-alt fa-fw mx-1" ></i>
                     Eventos
                 </a>
-            </li>
+            </li> --}}
             <li class="nav-item">
                 <a class="nav-link text-dark" href="{{ route('dashboard.accounts.index') }}">
                     <i class="fa fa-wallet fa-fw mx-1" ></i>
@@ -44,27 +38,21 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark ml-4" href="{{ route('dashboard.incomes.index') }}">
+                <a class="nav-link text-dark" href="{{ route('dashboard.finance-categories') }}">
+                    <i class="fa fa-dollar fa-fw mx-1" ></i>
+                    Lançamentos
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark ml-4" href="{{ route('dashboard.income_categories.index') }}">
                     <i class="fa fa-angle-right fa-fw mx-1"></i>
                     Receitas
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark ml-4" href="{{ route('dashboard.expenses.index') }}">
+                <a class="nav-link text-dark ml-4" href="{{ route('dashboard.expense_categories.index') }}">
                     <i class="fa fa-angle-right fa-fw mx-1"></i>
                     Despesas
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" href="{{ route('dashboard.income_categories.index') }}">
-                    <i class="fa fa-angle-right fa-fw mx-1"></i>
-                    Categorias de Receitas
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" href="{{ route('dashboard.expense_categories.index') }}">
-                    <i class="fa fa-angle-right fa-fw mx-1"></i>
-                    Categorias de Despesas
                 </a>
             </li>
         </ul>

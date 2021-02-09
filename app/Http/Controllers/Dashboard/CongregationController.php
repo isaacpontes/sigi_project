@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Congregation;
+use Barryvdh\DomPDF\Facade as DomPdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CongregationController extends Controller
 {
@@ -16,7 +18,10 @@ class CongregationController extends Controller
     public function index()
     {
         //
-        $congregations = Congregation::where('church_id', auth()->user()->church_id)->get();
+        $congregations = DB::table('congregations')
+            ->where('church_id', auth()->user()->church_id)
+            ->select(['id', 'name', 'phone'])
+            ->paginate(10);
         return view('dashboard.congregations.index')->with('congregations', $congregations);
     }
 
@@ -60,8 +65,16 @@ class CongregationController extends Controller
      */
     public function show(Congregation $congregation)
     {
-        //
-        return view('dashboard.congregations.show')->with('congregation', $congregation);
+        $active_members = DB::table('members')
+            ->where('church_id', auth()->user()->church_id)
+            ->where('congregation_id', $congregation->id)
+            ->whereNull('demission')
+            ->orderBy('name', 'asc')
+            ->paginate(8);
+        return view('dashboard.congregations.show')->with([
+            'congregation' => $congregation,
+            'active_members' => $active_members
+        ]);
     }
 
     /**
@@ -106,9 +119,18 @@ class CongregationController extends Controller
      */
     public function destroy(Congregation $congregation)
     {
-        //
         $congregation->delete();
 
         return redirect()->route('dashboard.congregations.index');
+    }
+
+    public function exportPdfList()
+    {
+        $congregations = DB::table('congregations')
+            ->where('church_id', auth()->user()->church_id)
+            ->orderBy('created_at')
+            ->get(['name', 'phone', 'address']);
+        $pdf = DomPdf::loadView('dashboard.congregations.pdf-list', compact('congregations'));
+        return $pdf->download('lista-de-congregacoes.pdf');
     }
 }

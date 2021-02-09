@@ -55,22 +55,13 @@ class AccountController extends Controller
         $last_month_incomes = $month_incomes->sum('value');
         $last_month_incomes /= 100;
 
-        $year_incomes = FinanceHelper::filterTransactionsByYear($incomes, $last_year);
-        $last_year_incomes = $year_incomes->sum('value');
-        $last_year_incomes /= 100;
-
         $month_expenses = FinanceHelper::filterTransactionsByMonth($expenses, $last_month);
         $last_month_expenses = $month_expenses->sum('value');
         $last_month_expenses /= 100;
 
-        $year_expenses = FinanceHelper::filterTransactionsByYear($expenses, $last_year);
-        $last_year_expenses = $year_expenses->sum('value');
-        $last_year_expenses /= 100;
-
         $current_month_balance = $current_month_incomes - $current_month_expenses;
         $current_year_balance = $current_year_incomes - $current_year_expenses;
         $last_month_balance = $last_month_incomes - $last_month_expenses;
-        $last_year_balance = $last_year_incomes - $last_year_expenses;
 
         $total_balance = $accounts->sum('balance');
         $total_balance /= 100;
@@ -87,9 +78,6 @@ class AccountController extends Controller
             'last_month_incomes' => $last_month_incomes,
             'last_month_expenses' => $last_month_expenses,
             'last_month_balance' => $last_month_balance,
-            'last_year_incomes' => $last_year_incomes,
-            'last_year_expenses' => $last_year_expenses,
-            'last_year_balance' => $last_year_balance,
         ]);
     }
 

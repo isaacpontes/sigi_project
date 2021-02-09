@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Dashboard;
 use App\ExpenseCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ExpenseCategoryController extends Controller
 {
@@ -17,16 +19,6 @@ class ExpenseCategoryController extends Controller
     {
         $expense_categories = ExpenseCategory::where('church_id', auth()->user()->church_id)->get();
         return view('dashboard.expense-categories.index')->with('expense_categories', $expense_categories);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('dashboard.expense-categories.create');
     }
 
     /**
@@ -43,7 +35,7 @@ class ExpenseCategoryController extends Controller
 
         $expense_category->save();
 
-        return redirect()->route('dashboard.expense_categories.index');
+        return redirect()->back();
     }
 
     /**
@@ -54,7 +46,15 @@ class ExpenseCategoryController extends Controller
      */
     public function show(ExpenseCategory $expense_category)
     {
-        return view('dashboard.expense-categories.show')->with('expense_category', $expense_category);
+        $expenses = DB::table('expenses')
+            ->where('church_id', Auth::user()->id)
+            ->where('expense_category_id', $expense_category->id)
+            ->orderByDesc('ref_date')
+            ->paginate(8);
+        return view('dashboard.expense-categories.show')->with([
+            'expense_category' => $expense_category,
+            'expenses' => $expenses
+        ]);
     }
 
     /**
@@ -81,7 +81,7 @@ class ExpenseCategoryController extends Controller
 
         $expense_category->save();
 
-        return redirect()->route('dashboard.expense_categories.index');
+        return redirect()->route('dashboard.finance-categories');
     }
 
     /**
@@ -94,6 +94,6 @@ class ExpenseCategoryController extends Controller
     {
         $expense_category->delete();
 
-        return redirect()->route('dashboard.expense_categories.index');
+        return redirect()->back();
     }
 }

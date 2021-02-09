@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Member;
 use App\Congregation;
 use App\Classroom;
-use DomPDF;
+use Barryvdh\DomPDF\Facade as DomPDF;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -21,17 +22,34 @@ class MemberController extends Controller
     {
         // $members = Member::where('church_id', auth()->user()->church_id)->paginate(10);
         $active_members = Member::where('church_id', auth()->user()->church_id)
-                                ->whereNull('demission')
-                                ->orderBy('name', 'asc')
-                                ->paginate(10);
-        $inactive_members = Member::where('church_id', auth()->user()->church_id)
-                                ->whereNotNull('demission')
-                                ->orderBy('name', 'asc')
-                                ->paginate(10);
+            ->whereNull('demission')
+            ->orderBy('name', 'asc')
+            ->paginate(10);
+        $inactive_members = DB::table('members')
+            ->where('church_id', auth()->user()->church_id)
+            ->whereNotNull('demission')
+            ->orderBy('name', 'asc')
+            ->paginate(10);
+
+        $current_year = date("Y");
+
+        $active_members_this_year = DB::table('members')
+            ->where('church_id', auth()->user()->church_id)
+            ->whereNull('demission')
+            ->whereYear('admission', '=', $current_year)
+            ->count('id');
+
+        $inactive_members_this_year = DB::table('members')
+            ->where('church_id', auth()->user()->church_id)
+            ->whereNotNull('demission')
+            ->whereYear('demission', '=', $current_year)
+            ->count('id');
 
         return view('dashboard.members.index', [
             'active_members' => $active_members,
-            'inactive_members' => $inactive_members
+            'inactive_members' => $inactive_members,
+            'active_members_this_year' => $active_members_this_year,
+            'inactive_members_this_year' => $inactive_members_this_year
         ]);
     }
 
@@ -49,7 +67,6 @@ class MemberController extends Controller
             'classrooms' => $classrooms,
             'congregations' => $congregations
         ]);
-
     }
 
     /**
@@ -76,7 +93,6 @@ class MemberController extends Controller
         $member->save();
 
         return redirect()->route('dashboard.members.index');
-
     }
 
     /**
@@ -146,7 +162,26 @@ class MemberController extends Controller
     public function destroy(Member $member)
     {
         //
-        $member->delete();
+        // $member->delete();
+
+        return redirect()->route('dashboard.members.index');
+    }
+
+    public function readmit(Member $member)
+    {
+        $now = new DateTime();
+        $member->admission = $now->format("Y-m-d");
+        $member->demission = null;
+        $member->save();
+
+        return redirect()->route('dashboard.members.index');
+    }
+
+    public function demit(Member $member)
+    {
+        $now = new DateTime();
+        $member->demission = $now->format("Y-m-d");
+        $member->save();
 
         return redirect()->route('dashboard.members.index');
     }
@@ -154,9 +189,9 @@ class MemberController extends Controller
     public function simpleReport()
     {
         $active_members = Member::where('church_id', auth()->user()->church_id)
-                            ->whereNull('demission')
-                            ->orderBy('name', 'asc')
-                            ->get();
+            ->whereNull('demission')
+            ->orderBy('name', 'asc')
+            ->get();
         $pdf = DomPDF::loadView('dashboard.members.simple-report', compact('active_members'));
         return $pdf->download('lista-de-membros.pdf');
     }
@@ -164,9 +199,9 @@ class MemberController extends Controller
     public function inactivesReport()
     {
         $inactive_members = Member::where('church_id', auth()->user()->church_id)
-                            ->whereNotNull('demission')
-                            ->orderBy('name', 'asc')
-                            ->get();
+            ->whereNotNull('demission')
+            ->orderBy('name', 'asc')
+            ->get();
         $pdf = DomPDF::loadView('dashboard.members.inactives-report', compact('inactive_members'));
         return $pdf->download('lista-de-membros-inativos.pdf');
     }
@@ -174,20 +209,20 @@ class MemberController extends Controller
     public function anualReport()
     {
         $members = Member::where('church_id', auth()->user()->church_id)
-                                ->orderBy('name', 'asc')
-                                ->get();
+            ->orderBy('name', 'asc')
+            ->get();
         $current_year = date('Y');
 
         $active_members = $members->whereNull('demission');
 
-        $new_members = $active_members->filter( function ($member) use ($current_year) {
+        $new_members = $active_members->filter(function ($member) use ($current_year) {
             $admission_year = date('Y', strtotime($member->admission));
             return $admission_year === $current_year;
         });
 
         $inactive_members = $members->whereNotNull('demission');
 
-        $new_inactive_members = $inactive_members->filter( function ($member) use ($current_year) {
+        $new_inactive_members = $inactive_members->filter(function ($member) use ($current_year) {
             $demission_year = date('Y', strtotime($member->demission));
             return $demission_year === $current_year;
         });
@@ -206,27 +241,27 @@ class MemberController extends Controller
     public function customReport(Request $request)
     {
         $members = Member::where('church_id', auth()->user()->church_id)
-                                ->orderBy('name', 'asc')
-                                ->get();
+            ->orderBy('name', 'asc')
+            ->get();
         $initial_date = $request->initial_date;
         $final_date = $request->final_date;
 
-        $active_members = $members->filter( function ($member) use ($final_date) {
+        $active_members = $members->filter(function ($member) use ($final_date) {
             $admission = date('Y-m-d', strtotime($member->admission));
             return $admission <= $final_date && ($member->demission === null || $member->demission > $final_date);
         });
 
-        $new_members = $active_members->filter( function ($member) use ($initial_date) {
+        $new_members = $active_members->filter(function ($member) use ($initial_date) {
             $admission = date('Y-m-d', strtotime($member->admission));
             return $admission >= $initial_date;
         });
 
-        $inactive_members = $members->filter( function ($member) use ($final_date) {
+        $inactive_members = $members->filter(function ($member) use ($final_date) {
             $member->demission ? $demission = date('Y-m-d', strtotime($member->demission)) : $demission = null;
             return $demission <= $final_date && $demission !== null;
         });
 
-        $new_inactive_members = $inactive_members->filter( function ($member) use ($initial_date) {
+        $new_inactive_members = $inactive_members->filter(function ($member) use ($initial_date) {
             $demission = date('Y-m-d', strtotime($member->demission));
             return $demission >= $initial_date;
         });

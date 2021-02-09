@@ -3,7 +3,7 @@
         {{ __('Edit Account') . " - " . $account->name }}
     </x-slot>
 
-    <div class="card-body">
+    <div class="mt-4">
         <form action="{{ route('dashboard.accounts.update', $account) }}" method="post">
         @csrf
         {{ method_field('put') }}
@@ -36,11 +36,13 @@
             </div>
         </div>
 
+        <hr>
+
         <button type="submit" class="btn btn-primary">
             Atualizar
         </button>
         <a href="{{ route('dashboard.accounts.index') }}">
-            <button type="button" class="btn btn-light">Cancelar</button>
+            <button type="button" class="btn btn-secondary ml-1">Cancelar</button>
         </a>
 
         </form>

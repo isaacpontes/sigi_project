@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\FinancialCategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,12 +35,32 @@ Route::namespace('Dashboard')->prefix('dashboard')->middleware(['auth'])->name('
 
     Route::resource('/congregacoes', CongregationController::class)
         ->parameters([ 'congregacoes' => 'congregation' ])->names('congregations');
+    
+    Route::get('/lista-pdf/congregacoes', [
+        \App\Http\Controllers\Dashboard\CongregationController::class,
+        'exportPdfList'
+    ])->name('pdf-list.congregations');
 
     Route::resource('/classes', ClassroomController::class)
         ->parameters([ 'classes' => 'classroom' ])->names('classrooms');
 
+    Route::get('/lista-pdf/classes', [
+        \App\Http\Controllers\Dashboard\ClassroomController::class,
+        'exportPdfList'
+    ])->name('pdf-list.classrooms');    
+
     Route::resource('/membros', MemberController::class)
         ->parameters([ 'membros' => 'member' ])->names('members');
+    
+    Route::put('/membros/{member}/readmit', [
+        \App\Http\Controllers\Dashboard\MemberController::class,
+        'readmit'
+    ])->name('members.readmit');
+
+    Route::get('/membros/{member}/demit', [
+        \App\Http\Controllers\Dashboard\MemberController::class,
+        'demit'
+    ])->name('members.demit');
 
     // Relatório simplificado de toda a membresia
     Route::get('/membresia/relatorio-simples', [
@@ -98,6 +119,9 @@ Route::namespace('Dashboard')->prefix('dashboard')->middleware(['auth'])->name('
         'individualResume'
     ])->name('accounts.individual-resume');
 
+    Route::get('/categorias-lancamentos', [
+        FinancialCategoryController::class, 'index'
+    ])->name('finance-categories');
 
     Route::resource('/categorias-receita', IncomeCategoryController::class)
         ->parameters([ 'categorias-receita' => 'income_category' ])->names('income_categories');
