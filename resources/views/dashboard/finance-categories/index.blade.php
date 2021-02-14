@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <h3 class="mb-3">Receitas</h3>
-                    <form action="{{ route('dashboard.income_categories.store') }}" method="post">
+                    <form action="{{ route('dashboard.finances.categories-incomes.store') }}" method="post">
                         @csrf
             
                         <div class="form-group row">            
@@ -53,21 +53,21 @@
                             <tr>
                                 <td>{{ $income_category->name }}</td>
                                 <td class="d-flex">
-                                    <a href="{{ route('dashboard.income_categories.show', $income_category->id) }}">
+                                    <a href="{{ route('dashboard.finances.categories-incomes.show', $income_category->id) }}">
                                       <button type="button" class="btn btn-outline-primary mr-2 py-0">
                                         <span>
                                           {{ __('Details') }}
                                         </span>
                                       </button>
                                     </a>
-                                    <a href="{{ route('dashboard.income_categories.edit', $income_category->id) }}">
+                                    <a href="{{ route('dashboard.finances.categories-incomes.edit', $income_category->id) }}">
                                       <button type="button" class="btn btn-outline-secondary mr-2 py-0">
                                         <span>
                                           {{ __('Edit') }}
                                         </span>
                                       </button>
                                     </a>
-                                    <form action="{{ route('dashboard.income_categories.destroy', $income_category->id) }}" method="post">
+                                    <form action="{{ route('dashboard.finances.categories-incomes.destroy', $income_category->id) }}" method="post">
                                         @csrf
                                         {{ method_field('delete') }}
                                         <button type="submit" class="btn btn-outline-danger mr-2 py-0">
@@ -85,7 +85,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <h3 class="mb-3">Despesas</h3>
-                    <form action="{{ route('dashboard.expense_categories.store') }}" method="post">
+                    <form action="{{ route('dashboard.finances.categories-expenses.store') }}" method="post">
                         @csrf
             
                         <div class="form-group row">            
@@ -124,21 +124,21 @@
                             <tr>
                                 <td>{{ $expense_category->name }}</td>
                                 <td class="d-flex">
-                                    <a href="{{ route('dashboard.expense_categories.show', $expense_category->id) }}">
+                                    <a href="{{ route('dashboard.finances.categories-expenses.show', $expense_category->id) }}">
                                       <button type="button" class="btn btn-outline-primary mr-2 py-0">
                                         <span>
                                           {{ __('Details') }}
                                         </span>
                                       </button>
                                     </a>
-                                    <a href="{{ route('dashboard.expense_categories.edit', $expense_category->id) }}">
+                                    <a href="{{ route('dashboard.finances.categories-expenses.edit', $expense_category->id) }}">
                                       <button type="button" class="btn btn-outline-secondary mr-2 py-0">
                                         <span>
                                           {{ __('Edit') }}
                                         </span>
                                       </button>
                                     </a>
-                                    <form action="{{ route('dashboard.expense_categories.destroy', $expense_category->id) }}" method="post">
+                                    <form action="{{ route('dashboard.finances.categories-expenses.destroy', $expense_category->id) }}" method="post">
                                         @csrf
                                         {{ method_field('delete') }}
                                         <button type="submit" class="btn btn-outline-danger mr-2 py-0">

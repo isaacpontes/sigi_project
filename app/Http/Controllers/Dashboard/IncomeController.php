@@ -8,6 +8,8 @@ use App\Account;
 use App\Member;
 use App\IncomeCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class IncomeController extends Controller
 {
@@ -18,7 +20,17 @@ class IncomeController extends Controller
      */
     public function index()
     {
-        $incomes = Income::where('church_id', auth()->user()->church_id)->get();
+        $incomes = DB::table('incomes')
+            ->where('incomes.church_id', Auth::user()->church_id)
+            ->leftJoin('income_categories', 'incomes.income_category_id', '=', 'income_categories.id')
+            ->select([
+                'incomes.id',
+                'incomes.name',
+                'incomes.value',
+                'incomes.ref_date',
+                'income_categories.name AS category'
+        ])->paginate(10);
+
         return view('dashboard.incomes.index')->with('incomes', $incomes);
     }
 
@@ -71,6 +83,7 @@ class IncomeController extends Controller
      */
     public function show(Income $income)
     {
+        // dd($income);
         return view('dashboard.incomes.show')->with('income', $income);
     }
 

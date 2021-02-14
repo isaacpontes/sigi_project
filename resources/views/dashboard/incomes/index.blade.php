@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        {{ __('Incomes') }}
+        {{ __('All Incomes') }}
     </x-slot>
 
     @if (session('status'))
@@ -9,47 +9,58 @@
         </div>
     @endif
 
-    <a href="{{ route('dashboard.incomes.create') }}">
+    <a href="{{ route('dashboard.finances.incomes.create') }}">
         <button type="button" class="btn btn-primary mb-3">Adicionar Receita</button>
     </a>
 
     <div class="table-responsive">
-
         <table class="table table-striped table-md">
-        <thead>
-            <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nome</th>
-            <th scope="col">Valor</th>
-            <th scope="col">Data</th>
-            <th scope="col">Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach($incomes as $income)
-            <tr>
-            <th scope="row">{{ $income->id }}</th>
-            <td>{{ $income->name }}</td>
-            <td>R$ {{ number_format($income->value/100, 2, ',', '.') }}</td>
-            <td>{{ $income->ref_date }}</td>
-            <td>
-                <a href="{{ route('dashboard.incomes.show', $income->id) }}">
-                    <button type="button" class="btn btn-sm btn-secondary mr-2 float-left">Detalhes</button>
-                </a>
-                <a href="{{ route('dashboard.incomes.edit', $income->id) }}">
-                    <button type="button" class="btn btn-sm btn-light mr-2 float-left">Editar</button>
-                </a>
-                <form action="{{ route('dashboard.incomes.destroy', $income) }}" method="post" class="float-left">
-                    @csrf
-                    {{ method_field('delete') }}
-                    <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
-                </form>
-            </td>
-            </tr>
-        @endforeach
-        </tbody>
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($incomes as $income)
+                    <tr>
+                        <td>{{ $income->name }}</td>
+                        <td>R$ {{ number_format($income->value/100, 2, ',', '.') }}</td>
+                        <td>{{ date("d/m/Y", strtotime($income->ref_date)) }}</td>
+                        <td>{{ $income->category }}</td>
+                        <td class="d-flex">
+                            <a href="{{ route('dashboard.finances.incomes.show', $income->id) }}">
+                                <button type="button" class="btn btn-outline-primary mr-2 py-0">
+                                    <span>
+                                    {{ __('Details') }}
+                                    </span>
+                                </button>
+                            </a>
+                            <a href="{{ route('dashboard.finances.incomes.edit', $income->id) }}">
+                                <button type="button" class="btn btn-outline-secondary mr-2 py-0">
+                                    <span>
+                                    {{ __('Edit') }}
+                                    </span>
+                                </button>
+                            </a>
+                            <form action="{{ route('dashboard.finances.incomes.destroy', $income->id) }}" method="post" class="float-left">
+                                @csrf
+                                {{ method_field('delete') }}
+                                <button type="submit" class="btn btn-outline-danger mr-2 py-0">
+                                    <span>
+                                    {{ __('Delete') }}
+                                    </span>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
         </table>
-
+        {{ $incomes->links() }}
     </div>
 
 </x-app-layout>

@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="card-body">
-        <form action="{{ route('dashboard.incomes.update', $income) }}" method="post">
+        <form action="{{ route('dashboard.finances.incomes.update', $income) }}" method="post">
         @csrf
         {{ method_field('put') }}
 
@@ -23,21 +23,10 @@
         </div>
 
         <div class="form-group row">
-            <label for="income_category" class="col-md-2 col-form-label text-md-right">Categoria</label>
-
-            <select id="income_category" class="col-md-4 offset-md-1 form-control" name="income_category_id" required autofocus>
-                @foreach ($income_categories as $key => $value)
-                    <option value="{{ $key }}">{{ $value }}</option>
-                @endforeach
-            </select>
-
-        </div>
-
-        <div class="form-group row">
             <label for="value" class="col-md-2 col-form-label text-md-right">Valor</label>
 
-            <div class="col-md-6">
-            <input id="value" type="number" step="0.01" class="form-control @error('value') is-invalid @enderror" name="value" value="{{ $income->value/100 }}" required autofocus>
+            <div class="col-md-3">
+                <input id="value" type="number" step="0.01" class="form-control @error('value') is-invalid @enderror" name="value" value="{{ $income->value/100 }}" required>
 
                 @error('value')
                     <span class="invalid-feedback" role="alert">
@@ -50,8 +39,8 @@
         <div class="form-group row">
             <label for="ref_date" class="col-md-2 col-form-label text-md-right">Data</label>
 
-            <div class="col-md-6">
-            <input id="ref_date" type="date" class="form-control @error('ref_date') is-invalid @enderror" name="ref_date" value="{{ $income->ref_date }}" required autofocus>
+            <div class="col-md-3">
+                <input id="ref_date" type="date" class="form-control @error('ref_date') is-invalid @enderror" name="ref_date" value="{{ $income->ref_date }}" required>
 
                 @error('ref_date')
                     <span class="invalid-feedback" role="alert">
@@ -62,26 +51,42 @@
         </div>
 
         <div class="form-group row">
-            <label for="member" class="col-md-2 col-form-label text-md-right">Membro</label>
+            <label for="income_category" class="col-md-2 col-form-label text-md-right">Categoria</label>
 
-            <select id="member" class="col-md-4 offset-md-1 form-control" name="member_id" autofocus>
-                <option value="">Selecione um membro...</option>
-                @foreach ($members as $key => $value)
-                    <option value="{{ $key }}">{{ $value }}</option>
+            <select id="income_category" class="ml-3 col-sm-4 form-control" name="income_category_id" required>
+                <option>Selecione uma Categoria</option>
+                @foreach ($income_categories as $key => $value)
+                    <option value="{{ $key }}" @if ($income->income_category_id === $key) selected @endif>
+                        {{ $value }}
+                    </option>
                 @endforeach
             </select>
-
         </div>
 
         <div class="form-group row">
             <label for="account" class="col-md-2 col-form-label text-md-right">Conta</label>
 
-            <select id="account" class="col-md-4 offset-md-1 form-control" name="account_id" required autofocus>
+            <select id="account" class="ml-3 col-sm-4 form-control" name="account_id" required>
+                <option>Selecione uma conta</option>
                 @foreach ($accounts as $key => $value)
-                    <option value="{{ $key }}">{{ $value }}</option>
+                    <option value="{{ $key }}" @if ($income->account_id === $key) selected @endif>
+                        {{ $value }}
+                    </option>
                 @endforeach
             </select>
+        </div>
 
+        <div class="form-group row">
+            <label for="member" class="col-md-2 col-form-label text-md-right">Membro</label>
+
+            <select id="member" class="ml-3 col-sm-4 form-control" name="member_id" required>
+                <option>Selecione um membro (Opcional)</option>
+                @foreach ($members as $key => $value)
+                    <option value="{{ $key }}" @if ($income->member_id === $key) selected @endif>
+                        {{ $value }}
+                    </option>
+                @endforeach
+            </select>
         </div>
 
         <div class="form-group row">
@@ -98,11 +103,13 @@
             </div>
         </div>
 
+        <hr>
+
         <button type="submit" class="btn btn-primary">
             Atualizar
         </button>
-        <a href="{{ route('dashboard.incomes.index') }}">
-            <button type="button" class="btn btn-light">Cancelar</button>
+        <a href="{{ url()->previous() }}">
+            <button type="button" class="btn btn-outline-secondary">Cancelar</button>
         </a>
 
         </form>

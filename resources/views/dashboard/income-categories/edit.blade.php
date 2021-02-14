@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="card-body">
-        <form action="{{ route('dashboard.income_categories.update', $income_category) }}" method="post">
+        <form action="{{ route('dashboard.finances.categories-incomes.update', $income_category) }}" method="post">
         @csrf
         {{ method_field('put') }}
 
@@ -25,7 +25,7 @@
         <button type="submit" class="btn btn-primary">
             Atualizar
         </button>
-        <a href="{{ route('dashboard.income_categories.index') }}">
+        <a href="{{ route('dashboard.finances.categories') }}">
             <button type="button" class="btn btn-light">Cancelar</button>
         </a>
 

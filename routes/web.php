@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Dashboard\FinancialCategoryController;
+use App\Http\Controllers\Dashboard\MainController;
+use App\Http\Controllers\Dashboard\StartController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,36 +20,65 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
 require __DIR__.'/auth.php';
 
 Route::namespace('Dashboard')->prefix('dashboard')->middleware(['auth'])->name('dashboard.')->group( function () {
+    Route::get('/', [StartController::class, 'index'])->name('start');
 
     Route::resource('/usuarios', UsersController::class)
-        ->parameters([ 'usuarios' => 'user' ])->names('users')
-        ->only([ 'index', 'show', 'edit', 'update', 'destroy' ]);
+        ->parameters([ 'usuarios' => 'user' ])
+        ->names('users')
+        ->only([
+            'index',
+            'show',
+            'edit',
+            'update',
+            'destroy'
+    ]);
 
     Route::resource('/igrejas', ChurchController::class)
-        ->parameters([ 'igrejas' => 'church' ])->names('churches');
+        ->parameters([ 'igrejas' => 'church' ])
+        ->names('churches');
 
-    Route::resource('/congregacoes', CongregationController::class)
-        ->parameters([ 'congregacoes' => 'congregation' ])->names('congregations');
-    
-    Route::get('/lista-pdf/congregacoes', [
+    Route::get('/congregacoes/lista-pdf', [
         \App\Http\Controllers\Dashboard\CongregationController::class,
         'exportPdfList'
     ])->name('pdf-list.congregations');
 
-    Route::resource('/classes', ClassroomController::class)
-        ->parameters([ 'classes' => 'classroom' ])->names('classrooms');
+    Route::resource('/congregacoes', CongregationController::class)
+        ->parameters([ 'congregacoes' => 'congregation' ])->names('congregations');
 
-    Route::get('/lista-pdf/classes', [
+    Route::get('/classes/lista-pdf', [
         \App\Http\Controllers\Dashboard\ClassroomController::class,
         'exportPdfList'
-    ])->name('pdf-list.classrooms');    
+    ])->name('pdf-list.classrooms');   
+
+    Route::resource('/classes', ClassroomController::class)
+        ->parameters([ 'classes' => 'classroom' ])->names('classrooms'); 
+
+    // Relatório simplificado de toda a membresia
+    Route::get('/membros/relatorio-simples', [
+        \App\Http\Controllers\Dashboard\MemberController::class,
+        'simpleReport'
+    ])->name('members.simple-report');
+
+    // Relatório simplificado de membros inativos
+    Route::get('/membros/relatorio-inativos', [
+        \App\Http\Controllers\Dashboard\MemberController::class,
+        'inactivesReport'
+    ])->name('members.inactives-report');
+
+    // Relatório anual do balanço membros
+    Route::get('/membros/relatorio-anual', [
+        \App\Http\Controllers\Dashboard\MemberController::class,
+        'anualReport'
+    ])->name('members.anual-report');
+
+    // Relatório personalizado de membresia
+    Route::get('/membros/relatorio-personalizado', [
+        \App\Http\Controllers\Dashboard\MemberController::class,
+        'customReport'
+    ])->name('members.custom-report');
 
     Route::resource('/membros', MemberController::class)
         ->parameters([ 'membros' => 'member' ])->names('members');
@@ -62,76 +93,82 @@ Route::namespace('Dashboard')->prefix('dashboard')->middleware(['auth'])->name('
         'demit'
     ])->name('members.demit');
 
-    // Relatório simplificado de toda a membresia
-    Route::get('/membresia/relatorio-simples', [
-        \App\Http\Controllers\Dashboard\MemberController::class,
-        'simpleReport'
-    ])->name('members.simple-report');
-
-    // Relatório simplificado de membros inativos
-    Route::get('/membresia/relatorio-inativos', [
-        \App\Http\Controllers\Dashboard\MemberController::class,
-        'inactivesReport'
-    ])->name('members.inactives-report');
-
-    // Relatório anual do balanço membros
-    Route::get('/membresia/relatorio-anual', [
-        \App\Http\Controllers\Dashboard\MemberController::class,
-        'anualReport'
-    ])->name('members.anual-report');
-
-    // Relatório personalizado de membresia
-    Route::get('/membresia/relatorio-personalizado', [
-        \App\Http\Controllers\Dashboard\MemberController::class,
-        'customReport'
-    ])->name('members.custom-report');
-
     // Relatório individual de membro
     Route::get('/membros/{member}/pdf', [
         \App\Http\Controllers\Dashboard\MemberController::class,
         'individualReport'
     ])->name('members.individual-report');
 
-    Route::resource('/eventos', EventController::class)
-        ->parameters([ 'eventos' => 'event' ])->names('events');
+    // Route::resource('/eventos', EventController::class)
+    //     ->parameters([
+    //         'eventos' => 'event'
+    // ])->names('events');
 
-    Route::resource('/compromissos', AppointmentController::class)
-        ->parameters([ 'compromissos' => 'appointment' ])->names('appointments');
+    // Route::resource('/compromissos', AppointmentController::class)
+    //     ->parameters([
+    //         'compromissos' => 'appointment' 
+    // ])->names('appointments');
 
-    Route::resource('/contas', AccountController::class)
-        ->parameters([ 'contas' => 'account' ])->names('accounts');
+    Route::prefix('financas')->name('finances.')->group(function () {
+        // Relatório financeiro personalizado
+        Route::get('/contas/relatorio-personalizado', [
+            \App\Http\Controllers\Dashboard\AccountController::class,
+            'customReport'
+        ])->name('accounts.custom-report');
 
-    // Relatório financeiro personalizado
-    Route::get('/financeiro/relatorio-personalizado', [
-        \App\Http\Controllers\Dashboard\AccountController::class,
-        'customReport'
-    ])->name('accounts.custom-report');
+        // Relatório geral de todas as contas
+        Route::get('/contas/resumo-geral', [
+            \App\Http\Controllers\Dashboard\AccountController::class,
+            'generalResume'
+        ])->name('accounts.general-resume');
 
-    // Relatório geral de todas as contas
-    Route::get('/financeiro/resumo-geral', [
-        \App\Http\Controllers\Dashboard\AccountController::class,
-        'generalResume'
-    ])->name('accounts.general-resume');
+        // Relatório simplificado individual de conta
+        Route::get('/contas/{account}/resumo-individual', [
+            \App\Http\Controllers\Dashboard\AccountController::class,
+            'individualResume'
+        ])->name('accounts.individual-resume');
 
-    // Relatório simplificado individual de conta
-    Route::get('/financeiro/{account}/resumo-individual', [
-        \App\Http\Controllers\Dashboard\AccountController::class,
-        'individualResume'
-    ])->name('accounts.individual-resume');
+        Route::resource('/contas', AccountController::class)
+            ->parameters([ 'contas' => 'account' ])->names('accounts');
 
-    Route::get('/categorias-lancamentos', [
-        FinancialCategoryController::class, 'index'
-    ])->name('finance-categories');
+        Route::prefix('categories')->name('categories')->group(function () {
+            Route::get('/', [
+                FinancialCategoryController::class, 'index'
+            ]);
 
-    Route::resource('/categorias-receita', IncomeCategoryController::class)
-        ->parameters([ 'categorias-receita' => 'income_category' ])->names('income_categories');
+            Route::resource('/receitas', IncomeCategoryController::class)
+                ->parameters([ 'receitas' => 'income_category' ])
+                ->names('-incomes')
+                ->only([
+                    'index',
+                    'store',
+                    'show',
+                    'edit',
+                    'update',
+                    'destroy'
+            ]);
 
-    Route::resource('/categorias-despesa', ExpenseCategoryController::class)
-        ->parameters([ 'categorias-despesa' => 'expense_category' ])->names('expense_categories');
+            Route::resource('/despesas', ExpenseCategoryController::class)
+                ->parameters([ 'despesas' => 'expense_category' ])
+                ->names('-expenses')
+                ->only([
+                    'index',
+                    'store',
+                    'show',
+                    'edit',
+                    'update',
+                    'destroy'
+            ]);
+        });
 
-    Route::resource('/receitas', IncomeController::class)
-        ->parameters([ 'receitas' => 'income' ])->names('incomes');
-
-    Route::resource('/despesas', ExpenseController::class)
-        ->parameters([ 'despesas' => 'expense' ])->names('expenses');
+        Route::resource('/receitas', IncomeController::class)
+            ->parameters([
+                'receitas' => 'income'
+        ])->names('incomes');
+        
+        Route::resource('/despesas', ExpenseController::class)
+            ->parameters([
+                'despesas' => 'expense'
+        ])->names('expenses');
+    });
 });

@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="card-body">
-        <form action="{{ route('dashboard.accounts.store') }}" method="post">
+        <form action="{{ route('dashboard.finances.accounts.store') }}" method="post">
         @csrf
 
         <div class="form-group row">
@@ -58,7 +58,7 @@
         <button type="submit" class="btn btn-primary">
             {{ __('Save') }}
         </button>
-        <a href="{{ route('dashboard.accounts.index') }}">
+        <a href="{{ route('dashboard.finances.accounts.index') }}">
             <button type="button" class="btn btn-outline-secondary ml-1">Cancelar</button>
         </a>
 

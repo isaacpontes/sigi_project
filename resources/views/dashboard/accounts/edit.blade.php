@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="mt-4">
-        <form action="{{ route('dashboard.accounts.update', $account) }}" method="post">
+        <form action="{{ route('dashboard.finances.accounts.update', $account) }}" method="post">
         @csrf
         {{ method_field('put') }}
 
@@ -41,7 +41,7 @@
         <button type="submit" class="btn btn-primary">
             Atualizar
         </button>
-        <a href="{{ route('dashboard.accounts.index') }}">
+        <a href="{{ route('dashboard.finances.accounts.index') }}">
             <button type="button" class="btn btn-secondary ml-1">Cancelar</button>
         </a>
 

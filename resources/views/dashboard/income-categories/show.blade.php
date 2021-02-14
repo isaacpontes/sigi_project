@@ -4,6 +4,7 @@
     </x-slot>
 
     <div class="col-md-12">
+        <h3>Receitas Nesta Categoria</h3>
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -19,14 +20,14 @@
                             <td>{{ date("d/m/Y", strtotime($income->ref_date)) }}</td>
                             <td>R$ {{ number_format($income->value/100, 2, ',', '.') }}</td>
                             <td class="d-flex">
-                                <a href="{{ route('dashboard.incomes.show', $income->id) }}">
+                                <a href="{{ route('dashboard.finances.incomes.show', $income->id) }}">
                                   <button type="button" class="btn btn-outline-primary mr-2 py-0">
                                     <span>
                                       {{ __('Details') }}
                                     </span>
                                   </button>
                                 </a>
-                                <a href="{{ route('dashboard.incomes.edit', $income->id) }}">
+                                <a href="{{ route('dashboard.finances.incomes.edit', $income->id) }}">
                                   <button type="button" class="btn btn-outline-secondary mr-2 py-0">
                                     <span>
                                       {{ __('Edit') }}
@@ -41,7 +42,7 @@
             {{ $incomes->links() }}
         </div>
         <hr>
-        <a href="{{ route('dashboard.finance-categories') }}">
+        <a href="{{ route('dashboard.finances.categories') }}">
             <button type="button" class="btn btn-primary">Voltar</button>
         </a>
     </div>

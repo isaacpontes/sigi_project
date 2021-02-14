@@ -9,16 +9,40 @@
         </div>
     @endif
 
-    <a href="{{ route('dashboard.expense_categories.create') }}">
-        <button type="button" class="btn btn-primary mb-3">Adicionar Categoria</button>
-    </a>
+    <div class="row">
+        <div class="col-md-12">
+            <form action="{{ route('dashboard.finances.categories-expenses.store') }}" method="post">
+                @csrf
+    
+                <div class="form-group row">
+                    <label for="name" class="col-md-1 col-form-label text-md-right">Nome</label>
+    
+                    <div class="col-md-6">
+                        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" required autofocus>
+    
+                        @error('name')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary">
+                            Adicionar Categoria
+                        </button>
+                    </div>
+                </div>
+    
+            </form>
+        </div>
+    </div>
 
     <div class="table-responsive">
 
         <table class="table table-striped table-md">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Nome</th>
                     <th scope="col">Ações</th>
                 </tr>
@@ -26,21 +50,23 @@
             <tbody>
                 @foreach($expense_categories as $expense_category)
                     <tr>
-                        <th scope="row">{{ $expense_category->id }}</th>
                         <td>{{ $expense_category->name }}</td>
-                        <td>
-                            <a href="{{ route('dashboard.expense_categories.show', $expense_category->id) }}">
-                                <button type="button" class="btn btn-sm btn-secondary mr-2 float-left">Detalhes</button>
+                        <td class="d-flex">
+                            <a href="{{ route('dashboard.finances.categories-expenses.edit', $expense_category->id) }}">
+                                <button type="button" class="btn btn-outline-secondary mr-2 py-0">
+                                <span>
+                                    {{ __('Edit') }}
+                                </span>
+                                </button>
                             </a>
-                            <a href="{{ route('dashboard.expense_categories.edit', $expense_category->id) }}">
-                                <button type="button" class="btn btn-sm btn-light mr-2 float-left">Editar</button>
-                            </a>
-                            <form action="{{ route('dashboard.expense_categories.destroy', $expense_category) }}" method="post" class="float-left">
+                            <form action="{{ route('dashboard.finances.categories-expenses.destroy', $expense_category) }}" method="post">
                                 @csrf
                                 {{ method_field('delete') }}
-                                <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+                                <button type="submit" class="btn btn-outline-danger mr-2 py-0">
+                                    {{ __('Delete') }}
+                                </button>
                             </form>
-                        </td>
+                            </td>
                     </tr>
                 @endforeach
             </tbody>

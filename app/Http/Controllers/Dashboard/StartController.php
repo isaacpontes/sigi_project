@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class MainController extends Controller
+class StartController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -18,12 +18,12 @@ class MainController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Show the dashboard start page.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
     {
-        return view('dashboard.main');
+        return view('dashboard.start');
     }
 }

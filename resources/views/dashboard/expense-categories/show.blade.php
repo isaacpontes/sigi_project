@@ -19,14 +19,14 @@
                             <td>{{ date("d/m/Y", strtotime($expense->ref_date)) }}</td>
                             <td>R$ {{ number_format($expense->value/100, 2, ',', '.') }}</td>
                             <td class="d-flex">
-                                <a href="{{ route('dashboard.expenses.show', $expense->id) }}">
+                                <a href="{{ route('dashboard.finances.expenses.show', $expense->id) }}">
                                   <button type="button" class="btn btn-outline-primary mr-2 py-0">
                                     <span>
                                       {{ __('Details') }}
                                     </span>
                                   </button>
                                 </a>
-                                <a href="{{ route('dashboard.expenses.edit', $expense->id) }}">
+                                <a href="{{ route('dashboard.finances.expenses.edit', $expense->id) }}">
                                   <button type="button" class="btn btn-outline-secondary mr-2 py-0">
                                     <span>
                                       {{ __('Edit') }}
@@ -41,7 +41,7 @@
             {{ $expenses->links() }}
         </div>
         <hr>
-        <a href="{{ route('dashboard.finance-categories') }}">
+        <a href="{{ route('dashboard.finances.categories') }}">
             <button type="button" class="btn btn-primary">Voltar</button>
         </a>
     </div>

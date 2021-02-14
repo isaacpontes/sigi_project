@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="card-body">
-        <form action="{{ route('dashboard.expense_categories.store') }}" method="post">
+        <form action="{{ route('dashboard.finances.categories-expenses.store') }}" method="post">
         @csrf
 
         <div class="form-group row">
@@ -24,7 +24,7 @@
         <button type="submit" class="btn btn-primary">
             Cadastrar
         </button>
-        <a href="{{ route('dashboard.expense_categories.index') }}">
+        <a href="{{ route('dashboard.finances.categories-expenses.index') }}">
             <button type="button" class="btn btn-light">Cancelar</button>
         </a>
 

@@ -71,14 +71,14 @@
       <div class="row mt-4">
         <div class="col-sm-12">
           <div class="d-flex justify-content-end">
-            <a href="{{ route('dashboard.accounts.general-resume') }}" class="btn btn-outline-secondary">Exportar em PDF</a>
+            <a href="{{ route('dashboard.finances.accounts.general-resume') }}" class="btn btn-outline-secondary">Exportar em PDF</a>
           </div>
         </div>
       </div>
       <hr>
     </div>
     <div class="col-sm-8">
-      <a href="{{ route('dashboard.accounts.create') }}">
+      <a href="{{ route('dashboard.finances.accounts.create') }}">
         <button type="button" class="btn btn-primary mb-3">
           Adicionar Conta
         </button>
@@ -98,14 +98,14 @@
                 <td>{{ $account->name }}</td>
                 <td> R$ {{ number_format($account->balance/100, 2, ',', '.') }} </td>
                 <td class="d-flex">
-                  <a href="{{ route('dashboard.accounts.show', $account->id) }}">
+                  <a href="{{ route('dashboard.finances.accounts.show', $account->id) }}">
                     <button type="button" class="btn btn-outline-primary mr-2 py-0">
                       <span>
                         {{ __('Details') }}
                       </span>
                     </button>
                   </a>
-                  <a href="{{ route('dashboard.accounts.edit', $account->id) }}">
+                  <a href="{{ route('dashboard.finances.accounts.edit', $account->id) }}">
                     <button type="button" class="btn btn-outline-secondary mr-2 py-0">
                       <span>
                         {{ __('Edit') }}
@@ -123,7 +123,7 @@
       <p>
         O relatório financeiro consiste em um balanço de todas as receitas e despesas no período selecionado.
       </p>
-      <form action="{{ route('dashboard.accounts.custom-report') }}" method="GET">
+      <form action="{{ route('dashboard.finances.accounts.custom-report') }}" method="GET">
         <div class="row my-4">
           <div class="col-sm-4">
             <div class="form-group">

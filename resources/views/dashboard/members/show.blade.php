@@ -63,7 +63,7 @@
         <hr>
         <div class="mb-3 d-flex justify-content-between align-items-center">
           <div class="btn-group">
-            <a href="{{ route('dashboard.members.index') }}">
+            <a href="{{ url()->previous() }}">
               <button type="button" class="btn btn-primary">Voltar</button>
             </a>
             <a href="{{ route('dashboard.members.edit', $member) }}">

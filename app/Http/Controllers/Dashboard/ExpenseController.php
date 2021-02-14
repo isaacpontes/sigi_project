@@ -7,6 +7,8 @@ use App\Account;
 use App\ExpenseCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ExpenseController extends Controller
 {
@@ -17,7 +19,17 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        $expenses = Expense::where('church_id', auth()->user()->church_id)->get();
+        $expenses = DB::table('expenses')
+            ->where('expenses.church_id', Auth::user()->church_id)
+            ->leftJoin('expense_categories', 'expenses.expense_category_id', '=', 'expense_categories.id')
+            ->select([
+                'expenses.id',
+                'expenses.name',
+                'expenses.value',
+                'expenses.ref_date',
+                'expense_categories.name AS category'
+        ])->paginate(10);
+
         return view('dashboard.expenses.index')->with('expenses', $expenses);
     }
 

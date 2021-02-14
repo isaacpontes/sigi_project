@@ -3,20 +3,64 @@
         {{ __('Income') . " - " . $income->name }}
     </x-slot>
 
-    <div class="col-md-6">
-        <label><strong>Nome: </strong> {{ $income->name }}</label><br>
-        <label><strong>Valor: </strong> {{ number_format($income->value/100, 2, ',', '.') }}</label><br>
-        <label><strong>Data: </strong> {{ $income->ref_date }}</label><br>
-        <label><strong>Categoria: </strong> {{ $income->incomeCategory->name }}</label><br>
+    <div class="col-md-8 ml-3">
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <h5> {{ __('Name') }}: </h5>
+            <label>{{ $income->name }}</label>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <h5> {{ __('Value') }}: </h5>
+            <label>R$ {{ number_format($income->value/100, '2', ',', '.') }}</label>
+          </div>
+          <div class="col-md-6">
+            <h5> {{ __('Date') }}: </h5>
+            <label>{{ date("d/m/Y", strtotime($income->ref_date)) }}</label>
+          </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+              <h5> {{ __('Category') }}: </h5>
+              <label>{{ $income->incomeCategory->name }}</label>
+            </div>
+            <div class="col-md-6">
+              <h5> {{ __('Account') }}: </h5>
+              <label>{{ $income->account->name }}</label>
+            </div>
+        </div>
         @isset($income->member)
-            <label><strong>Membro: </strong> {{ $income->member->name }}</label><br>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <h5> {{ __('Member') }}: </h5>
+                    <label>{{ $income->member->name }}</label>
+                </div>
+            </div>
         @endisset
-        <label><strong>Informações Adicionais: </strong> {{ $income->add_info }}</label><br>
-        <label><strong>Igreja: </strong> {{ $income->church->name }}</label><br>
+        @isset($income->add_info)
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <h5> {{ __('Additional Information') }}: </h5>
+                    <label>{{ $income->add_info }}</label>
+                </div>
+            </div>
+        @endisset
         <hr>
-        <a href="{{ route('dashboard.incomes.index') }}">
-            <button type="button" class="btn btn-light float-right">Voltar</button>
-        </a>
+        <div class="mb-3 d-flex justify-content-between align-items-center">
+          <div class="btn-group">
+            <a href="{{ url()->previous() }}">
+              <button type="button" class="btn btn-primary">Voltar</button>
+            </a>
+            <a href="{{ route('dashboard.finances.incomes.edit', $income->id) }}">
+              <button type="button" class="btn btn-outline-secondary ml-1">Editar</button>
+            </a>
+          </div>
+
+          <div class="btn-group me-3">
+          </div>
+        </div>
+
     </div>
 
 </x-app-layout>

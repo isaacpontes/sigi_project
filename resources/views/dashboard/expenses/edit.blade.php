@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="card-body">
-        <form action="{{ route('dashboard.expenses.update', $expense) }}" method="post">
+        <form action="{{ route('dashboard.finances.expenses.update', $expense) }}" method="post">
         @csrf
         {{ method_field('put') }}
 
@@ -23,21 +23,10 @@
         </div>
 
         <div class="form-group row">
-            <label for="expense_category" class="col-md-2 col-form-label text-md-right">Categoria</label>
-
-            <select id="expense_category" class="col-md-4 offset-md-1 form-control" name="expense_category_id" required autofocus>
-                @foreach ($expense_categories as $key => $value)
-                    <option value="{{ $key }}">{{ $value }}</option>
-                @endforeach
-            </select>
-
-        </div>
-
-        <div class="form-group row">
             <label for="value" class="col-md-2 col-form-label text-md-right">Valor</label>
 
-            <div class="col-md-6">
-            <input id="value" type="number" step="0.01" class="form-control @error('value') is-invalid @enderror" name="value" value="{{ $expense->value/100 }}" required autofocus>
+            <div class="col-md-3">
+                <input id="value" type="number" step="0.01" class="form-control @error('value') is-invalid @enderror" name="value" value="{{ $expense->value/100 }}" required>
 
                 @error('value')
                     <span class="invalid-feedback" role="alert">
@@ -50,8 +39,8 @@
         <div class="form-group row">
             <label for="ref_date" class="col-md-2 col-form-label text-md-right">Data</label>
 
-            <div class="col-md-6">
-            <input id="ref_date" type="date" class="form-control @error('ref_date') is-invalid @enderror" name="ref_date" value="{{ $expense->ref_date }}" required autofocus>
+            <div class="col-md-3">
+                <input id="ref_date" type="date" class="form-control @error('ref_date') is-invalid @enderror" name="ref_date" value="{{ $expense->ref_date }}" required>
 
                 @error('ref_date')
                     <span class="invalid-feedback" role="alert">
@@ -62,14 +51,29 @@
         </div>
 
         <div class="form-group row">
-            <label for="account" class="col-md-2 col-form-label text-md-right">Conta</label>
+            <label for="expense_category" class="col-md-2 col-form-label text-md-right">Categoria</label>
 
-            <select id="account" class="col-md-4 offset-md-1 form-control" name="account_id" required autofocus>
-                @foreach ($accounts as $key => $value)
-                    <option value="{{ $key }}">{{ $value }}</option>
+            <select id="expense_category" class="ml-3 col-sm-4 form-control" name="expense_category_id" required>
+                <option>Selecione uma Categoria</option>
+                @foreach ($expense_categories as $key => $value)
+                    <option value="{{ $key }}" @if ($expense->expense_category_id === $key) selected @endif>
+                        {{ $value }}
+                    </option>
                 @endforeach
             </select>
+        </div>
 
+        <div class="form-group row">
+            <label for="account" class="col-md-2 col-form-label text-md-right">Conta</label>
+
+            <select id="account" class="ml-3 col-sm-4 form-control" name="account_id" required>
+                <option>Selecione uma conta</option>
+                @foreach ($accounts as $key => $value)
+                    <option value="{{ $key }}" @if ($expense->account_id === $key) selected @endif>
+                        {{ $value }}
+                    </option>
+                @endforeach
+            </select>
         </div>
 
         <div class="form-group row">
@@ -86,11 +90,13 @@
             </div>
         </div>
 
+        <hr>
+
         <button type="submit" class="btn btn-primary">
             Atualizar
         </button>
-        <a href="{{ route('dashboard.expenses.index') }}">
-            <button type="button" class="btn btn-light">Cancelar</button>
+        <a href="{{ url()->previous() }}">
+            <button type="button" class="btn btn-outline-secondary">Cancelar</button>
         </a>
 
         </form>
