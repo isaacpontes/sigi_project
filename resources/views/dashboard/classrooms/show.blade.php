@@ -4,15 +4,15 @@
     </x-slot>
 
     <div class="row">
-        <div class="col-4">
+        <div class="col-md-4">
             <div class="row mb-3">
-                <div class="col-6">
+                <div class="col-md-6">
                   <h5> {{ __('Total de Alunos') }}: </h5>
                   <label>{{ $active_members->total() }}</label>
                 </div>
             </div>
             <div class="row mb-3">
-              <div class="col-12">
+              <div class="col-md-12">
                 <h5> {{ __('Additional Information') }}: </h5>
                 <label>{{ $classroom->add_info }}</label>
               </div>
@@ -36,7 +36,7 @@
             </div>
     
         </div>
-        <div class="col-8">
+        <div class="col-md-8">
             <h5 class="mb-3">Alunos da Classe</h5>
           <div class="table-responsive">
             <table class="table  ">

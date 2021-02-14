@@ -3,36 +3,36 @@
         {{ __('Expense') . " - " . $expense->name }}
     </x-slot>
 
-    <div class="col-8 ms-3">
+    <div class="col-md-8 ms-3">
         <div class="row mb-3">
-          <div class="col-6">
+          <div class="col-md-6">
             <h5> {{ __('Name') }}: </h5>
             <label>{{ $expense->name }}</label>
           </div>
         </div>
         <div class="row mb-3">
-          <div class="col-6">
+          <div class="col-md-6">
             <h5> {{ __('Value') }}: </h5>
             <label>R$ {{ number_format($expense->value/100, '2', ',', '.') }}</label>
           </div>
-          <div class="col-6">
+          <div class="col-md-6">
             <h5> {{ __('Date') }}: </h5>
             <label>{{ date("d/m/Y", strtotime($expense->ref_date)) }}</label>
           </div>
         </div>
         <div class="row mb-3">
-            <div class="col-6">
+            <div class="col-md-6">
               <h5> {{ __('Category') }}: </h5>
               <label>{{ $expense->expenseCategory->name }}</label>
             </div>
-            <div class="col-6">
+            <div class="col-md-6">
               <h5> {{ __('Account') }}: </h5>
               <label>{{ $expense->account->name }}</label>
             </div>
         </div>
         @isset($expense->add_info)
             <div class="row mb-3">
-                <div class="col-12">
+                <div class="col-md-12">
                     <h5> {{ __('Additional Information') }}: </h5>
                     <label>{{ $expense->add_info }}</label>
                 </div>

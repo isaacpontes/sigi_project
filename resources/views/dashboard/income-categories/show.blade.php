@@ -3,7 +3,7 @@
         {{ __('Income Category') . " - " . $income_category->name }}
     </x-slot>
 
-    <div class="col-12">
+    <div class="col-md-12">
         <h3>Receitas Nesta Categoria</h3>
         <div class="table-responsive">
             <table class="table  ">

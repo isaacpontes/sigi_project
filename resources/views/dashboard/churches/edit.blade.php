@@ -9,9 +9,9 @@
         {{ method_field('put') }}
 
         <div class="mb-3 row">
-            <label for="name" class="col-2 col-form-label text-md-end">Nome</label>
+            <label for="name" class="col-md-2 col-form-label text-md-end">Nome</label>
 
-            <div class="col-6">
+            <div class="col-md-6">
                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $church->name }}" required autofocus>
 
                 @error('name')
@@ -23,9 +23,9 @@
         </div>
 
         <div class="mb-3 row">
-            <label for="email" class="col-2 col-form-label text-md-end">Email</label>
+            <label for="email" class="col-md-2 col-form-label text-md-end">Email</label>
 
-            <div class="col-6">
+            <div class="col-md-6">
                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $church->email }}" required autocomplete="email" autofocus>
 
                 @error('email')
@@ -37,9 +37,9 @@
         </div>
 
         <div class="mb-3 row">
-            <label for="cnpj" class="col-2 col-form-label text-md-end">CNPJ</label>
+            <label for="cnpj" class="col-md-2 col-form-label text-md-end">CNPJ</label>
 
-            <div class="col-6">
+            <div class="col-md-6">
                 <input id="cnpj" type="cnpj" class="form-control @error('cnpj') is-invalid @enderror" name="cnpj" value="{{ $church->cnpj }}">
 
                 @error('cnpj')
@@ -51,9 +51,9 @@
         </div>
 
         <div class="mb-3 row">
-            <label for="phone" class="col-2 col-form-label text-md-end">Telefone</label>
+            <label for="phone" class="col-md-2 col-form-label text-md-end">Telefone</label>
 
-            <div class="col-6">
+            <div class="col-md-6">
                 <input id="phone" type="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ $church->phone }}">
 
                 @error('phone')

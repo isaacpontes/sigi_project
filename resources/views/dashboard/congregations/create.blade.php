@@ -8,9 +8,9 @@
             @csrf
 
             <div class="mb-3 row">
-                <label for="name" class="col-2 col-form-label text-md-end">Nome</label>
+                <label for="name" class="col-md-2 col-form-label text-md-end">Nome</label>
 
-                <div class="col-6">
+                <div class="col-md-6">
                     <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" required autofocus>
 
                     @error('name')
@@ -22,9 +22,9 @@
             </div>
 
             <div class="mb-3 row">
-                <label for="phone" class="col-2 col-form-label text-md-end">Telefone</label>
+                <label for="phone" class="col-md-2 col-form-label text-md-end">Telefone</label>
 
-                <div class="col-6">
+                <div class="col-md-6">
                     <input id="phone" type="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" required autofocus>
 
                     @error('phone')
@@ -36,9 +36,9 @@
             </div>
 
             <div class="mb-3 row">
-                <label for="address" class="col-2 col-form-label text-md-end">Endereço</label>
+                <label for="address" class="col-md-2 col-form-label text-md-end">Endereço</label>
 
-                <div class="col-6">
+                <div class="col-md-6">
                     <input id="address" type="address" class="form-control @error('address') is-invalid @enderror" name="address" required autofocus>
 
                     @error('address')
@@ -50,9 +50,9 @@
             </div>
 
             <div class="mb-3 row">
-                <label for="add_info" class="col-2 col-form-label text-md-end">Informações Adicionais</label>
+                <label for="add_info" class="col-md-2 col-form-label text-md-end">Informações Adicionais</label>
 
-                <div class="col-6">
+                <div class="col-md-6">
                     <textarea id="add_info" type="add_info" class="form-control @error('add_info') is-invalid @enderror" name="add_info"></textarea>
 
                     @error('add_info')

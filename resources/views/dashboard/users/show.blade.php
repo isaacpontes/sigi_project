@@ -3,7 +3,7 @@
         {{ __('User') . " - " . $user->name }}
     </x-slot>
 
-    <div class="col-6">
+    <div class="col-md-6">
         <label>{{ $user->name }}</label><br>
         <label>{{ $user->email }}</label><br>
         <label>{{ $user->church->name }}</label><br>

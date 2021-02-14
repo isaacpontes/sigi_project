@@ -10,15 +10,15 @@
     @endif
 
     <div class="row">
-        <div class="col-6">
+        <div class="col-md-6">
             <div class="row">
-                <div class="col-12">
+                <div class="col-md-12">
                     <h3 class="mb-3">Receitas</h3>
                     <form action="{{ route('dashboard.finances.categories-incomes.store') }}" method="post">
                         @csrf
             
                         <div class="mb-3 row">            
-                            <div class="col-6">
+                            <div class="col-md-6">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" placeholder="Ex.: Ofertas" required>
             
                                 @error('name')
@@ -28,7 +28,7 @@
                                 @enderror
                             </div>
         
-                            <div class="col-4">
+                            <div class="col-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     Adicionar Categoria
                                 </button>
@@ -81,15 +81,15 @@
                 </table>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-md-6">
             <div class="row">
-                <div class="col-12">
+                <div class="col-md-12">
                     <h3 class="mb-3">Despesas</h3>
                     <form action="{{ route('dashboard.finances.categories-expenses.store') }}" method="post">
                         @csrf
             
                         <div class="mb-3 row">            
-                            <div class="col-6">
+                            <div class="col-md-6">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" placeholder="Ex.: Impostos" required>
             
                                 @error('name')
@@ -99,7 +99,7 @@
                                 @enderror
                             </div>
         
-                            <div class="col-4">
+                            <div class="col-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     Adicionar Categoria
                                 </button>

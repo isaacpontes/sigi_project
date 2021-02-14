@@ -3,7 +3,7 @@
         {{ __('Event') . " - " . $event->name }}
     </x-slot>
 
-    <div class="col-6">
+    <div class="col-md-6">
         <label>
             <strong>Nome: </strong>
             {{ $event->name }}
