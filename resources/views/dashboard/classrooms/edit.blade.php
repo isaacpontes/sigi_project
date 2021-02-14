@@ -8,8 +8,8 @@
             @csrf
             {{ method_field('put') }}
 
-            <div class="form-group row">
-                <label for="name" class="col-md-2 col-form-label text-md-right">Nome</label>
+            <div class="mb-3 row">
+                <label for="name" class="col-md-2 col-form-label text-md-end">Nome</label>
 
                 <div class="col-md-6">
                     <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $classroom->name }}" required autofocus>
@@ -22,8 +22,8 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label for="add_info" class="col-md-2 col-form-label text-md-right">Informações Adicionais</label>
+            <div class="mb-3 row">
+                <label for="add_info" class="col-md-2 col-form-label text-md-end">Informações Adicionais</label>
 
                 <div class="col-md-6">
                     <textarea id="add_info" type="add_info" class="form-control @error('add_info') is-invalid @enderror" name="add_info">{{ $classroom->add_info }}</textarea>

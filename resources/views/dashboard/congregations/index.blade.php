@@ -19,7 +19,7 @@
             </div>
           </div>
           <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table  ">
               <thead>
                 <tr>
                   <th scope="col">Nome</th>
@@ -34,14 +34,14 @@
                     <td>{{ $congregation->phone }}</td>
                     <td class="d-flex">
                       <a href="{{ route('dashboard.congregations.show', $congregation->id) }}">
-                        <button type="button" class="btn btn-outline-primary mr-2 py-0">
+                        <button type="button" class="btn btn-outline-primary me-2 py-0">
                           <span>
                             {{ __('Details') }}
                           </span>
                         </button>
                       </a>
                       <a href="{{ route('dashboard.congregations.edit', $congregation->id) }}">
-                        <button type="button" class="btn btn-outline-secondary mr-2 py-0">
+                        <button type="button" class="btn btn-outline-secondary me-2 py-0">
                           <span>
                             {{ __('Edit') }}
                           </span>

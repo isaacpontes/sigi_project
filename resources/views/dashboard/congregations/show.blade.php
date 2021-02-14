@@ -36,7 +36,7 @@
                   <button type="button" class="btn btn-primary">Voltar</button>
                 </a>
                 <a href="{{ route('dashboard.congregations.edit', $congregation) }}">
-                  <button type="button" class="btn btn-outline-secondary ml-1">Editar</button>
+                  <button type="button" class="btn btn-outline-secondary ms-1">Editar</button>
                 </a>
               </div>
     
@@ -51,7 +51,7 @@
         <div class="col-md-8">
             <h5 class="mb-3">Membros da Congregação</h5>
           <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table  ">
               <thead>
                 <tr>
                   <th scope="col">Nome</th>
@@ -66,21 +66,21 @@
                     <td>{{ $member->phone }}</td>
                     <td class="d-flex">
                       <a href="{{ route('dashboard.members.show', $member->id) }}">
-                        <button type="button" class="btn btn-outline-primary mr-2 py-0">
+                        <button type="button" class="btn btn-outline-primary me-2 py-0">
                           <span>
                             {{ __('Details') }}
                           </span>
                         </button>
                       </a>
                       <a href="{{ route('dashboard.members.edit', $member->id) }}">
-                        <button type="button" class="btn btn-outline-secondary mr-2 py-0">
+                        <button type="button" class="btn btn-outline-secondary me-2 py-0">
                           <span>
                             {{ __('Edit') }}
                           </span>
                         </button>
                       </a>
                       {{-- <a href="{{ route('dashboard.members.demit', $member->id) }}">
-                        <button type="button" class="btn btn-outline-danger mr-2 py-0">
+                        <button type="button" class="btn btn-outline-danger me-2 py-0">
                           <span>
                             {{ __('Demit') }}
                           </span>

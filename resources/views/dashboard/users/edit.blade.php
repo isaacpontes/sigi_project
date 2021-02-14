@@ -8,8 +8,8 @@
         @csrf
         {{ method_field('put') }}
 
-        <div class="form-group row">
-            <label for="email" class="col-md-2 col-form-label text-md-right">Email</label>
+        <div class="mb-3 row">
+            <label for="email" class="col-md-2 col-form-label text-md-end">Email</label>
 
             <div class="col-md-6">
                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email }}" required autocomplete="email" autofocus>
@@ -22,8 +22,8 @@
             </div>
         </div>
 
-        <div class="form-group row">
-            <label for="name" class="col-md-2 col-form-label text-md-right">Nome</label>
+        <div class="mb-3 row">
+            <label for="name" class="col-md-2 col-form-label text-md-end">Nome</label>
 
             <div class="col-md-6">
                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $user->name }}" required autofocus>
@@ -36,8 +36,8 @@
             </div>
         </div>
 
-        {{-- <div class="form-group row">
-            <label for="roles" class="col-md-2 col-form-label text-md-right">Permissões</label>
+        {{-- <div class="mb-3 row">
+            <label for="roles" class="col-md-2 col-form-label text-md-end">Permissões</label>
 
             <div class="col-md-6">
                 @foreach($roles as $role)

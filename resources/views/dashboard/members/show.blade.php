@@ -3,7 +3,7 @@
         {{ __('Member') . " - " . $member->name }}
     </x-slot>
 
-    <div class="col-md-10 ml-3">
+    <div class="col-md-10 ms-3">
         <div class="row mb-3">
           <div class="col-md-4">
             <h5> {{ __('Name') }}: </h5>
@@ -67,7 +67,7 @@
               <button type="button" class="btn btn-primary">Voltar</button>
             </a>
             <a href="{{ route('dashboard.members.edit', $member) }}">
-              <button type="button" class="btn btn-outline-secondary ml-1">Editar</button>
+              <button type="button" class="btn btn-outline-secondary ms-1">Editar</button>
             </a>
           </div>
 

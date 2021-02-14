@@ -8,8 +8,8 @@
             @csrf
             {{ method_field('put') }}
 
-            <div class="form-group row">
-                <label for="name" class="col-md-2 col-form-label text-md-right">Nome</label>
+            <div class="mb-3 row">
+                <label for="name" class="col-md-2 col-form-label text-md-end">Nome</label>
 
                 <div class="col-md-6">
                     <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $congregation->name }}" required autofocus>
@@ -22,8 +22,8 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label for="phone" class="col-md-2 col-form-label text-md-right">Telefone</label>
+            <div class="mb-3 row">
+                <label for="phone" class="col-md-2 col-form-label text-md-end">Telefone</label>
 
                 <div class="col-md-6">
                     <input id="phone" type="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ $congregation->phone }}">
@@ -36,8 +36,8 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label for="address" class="col-md-2 col-form-label text-md-right">Endereço</label>
+            <div class="mb-3 row">
+                <label for="address" class="col-md-2 col-form-label text-md-end">Endereço</label>
 
                 <div class="col-md-6">
                     <input id="address" type="address" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ $congregation->address }}">
@@ -50,8 +50,8 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label for="add_info" class="col-md-2 col-form-label text-md-right">Informações Adicionais</label>
+            <div class="mb-3 row">
+                <label for="add_info" class="col-md-2 col-form-label text-md-end">Informações Adicionais</label>
 
                 <div class="col-md-6">
                     <textarea id="add_info" type="add_info" class="form-control @error('add_info') is-invalid @enderror" name="add_info">{{ $congregation->add_info }}</textarea>

@@ -7,8 +7,8 @@
         <form action="{{ route('dashboard.churches.store') }}" method="post">
         @csrf
 
-        <div class="form-group row">
-            <label for="name" class="col-md-2 col-form-label text-md-right">Nome</label>
+        <div class="mb-3 row">
+            <label for="name" class="col-md-2 col-form-label text-md-end">Nome</label>
 
             <div class="col-md-6">
                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" required autofocus>
@@ -21,8 +21,8 @@
             </div>
         </div>
 
-        <div class="form-group row">
-            <label for="email" class="col-md-2 col-form-label text-md-right">Email</label>
+        <div class="mb-3 row">
+            <label for="email" class="col-md-2 col-form-label text-md-end">Email</label>
 
             <div class="col-md-6">
                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email"  required autocomplete="email" autofocus>
@@ -35,8 +35,8 @@
             </div>
         </div>
 
-        <div class="form-group row">
-            <label for="cnpj" class="col-md-2 col-form-label text-md-right">CNPJ</label>
+        <div class="mb-3 row">
+            <label for="cnpj" class="col-md-2 col-form-label text-md-end">CNPJ</label>
 
             <div class="col-md-6">
                 <input id="cnpj" type="cnpj" class="form-control @error('cnpj') is-invalid @enderror" name="cnpj" required autofocus>
@@ -49,8 +49,8 @@
             </div>
         </div>
 
-        <div class="form-group row">
-            <label for="phone" class="col-md-2 col-form-label text-md-right">Telefone</label>
+        <div class="mb-3 row">
+            <label for="phone" class="col-md-2 col-form-label text-md-end">Telefone</label>
 
             <div class="col-md-6">
                 <input id="phone" type="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" required autofocus>

@@ -14,7 +14,7 @@
     </a>
 
     <div class="table-responsive">
-        <table class="table table-striped table-md">
+        <table class="table   ">
             <thead>
                 <tr>
                     <th scope="col">Nome</th>
@@ -33,14 +33,14 @@
                         <td>{{ $expense->category }}</td>
                         <td class="d-flex">
                             <a href="{{ route('dashboard.finances.expenses.show', $expense->id) }}">
-                                <button type="button" class="btn btn-outline-primary mr-2 py-0">
+                                <button type="button" class="btn btn-outline-primary me-2 py-0">
                                     <span>
                                     {{ __('Details') }}
                                     </span>
                                 </button>
                             </a>
                             <a href="{{ route('dashboard.finances.expenses.edit', $expense->id) }}">
-                                <button type="button" class="btn btn-outline-secondary mr-2 py-0">
+                                <button type="button" class="btn btn-outline-secondary me-2 py-0">
                                     <span>
                                     {{ __('Edit') }}
                                     </span>
@@ -49,7 +49,7 @@
                             <form action="{{ route('dashboard.finances.expenses.destroy', $expense->id) }}" method="post" class="float-left">
                                 @csrf
                                 {{ method_field('delete') }}
-                                <button type="submit" class="btn btn-outline-danger mr-2 py-0">
+                                <button type="submit" class="btn btn-outline-danger me-2 py-0">
                                     <span>
                                     {{ __('Delete') }}
                                     </span>

@@ -3,7 +3,7 @@
         {{ __('Expense') . " - " . $expense->name }}
     </x-slot>
 
-    <div class="col-md-8 ml-3">
+    <div class="col-md-8 ms-3">
         <div class="row mb-3">
           <div class="col-md-6">
             <h5> {{ __('Name') }}: </h5>
@@ -45,7 +45,7 @@
               <button type="button" class="btn btn-primary">Voltar</button>
             </a>
             <a href="{{ route('dashboard.finances.expenses.edit', $expense->id) }}">
-              <button type="button" class="btn btn-outline-secondary ml-1">Editar</button>
+              <button type="button" class="btn btn-outline-secondary ms-1">Editar</button>
             </a>
           </div>
 
