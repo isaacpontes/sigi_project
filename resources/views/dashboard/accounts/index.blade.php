@@ -13,14 +13,14 @@
     <div class="col-sm-4">
       <h3 class="my-1">Resumo</h3>
 
-      <div class="my-3 mr-5">
+      <div class="my-3 me-5">
         <h5>
           Saldo Total:
           R$ {{ number_format($total_balance, 2, ',', '.') }}
         </h5>
       </div>
 
-      <div class="my-3 mr-5">
+      <div class="my-3 me-5">
         <h5 class="mb-0"> {{ __('Current Month') }} ({{ date("m/Y") }})</h5>
         <div class="mt-1 d-flex justify-content-between">
           <div>Entradas:</div>
@@ -36,7 +36,7 @@
         </div>
       </div>
 
-      <div class="my-3 mr-5">
+      <div class="my-3 me-5">
         <h5 class="mb-0"> {{ __('Last Month') }} ({{ date("m/Y", strtotime("-1 month")) }})</h5>
         <div class="mt-1 d-flex justify-content-between">
           <div>Entradas:</div>
@@ -52,7 +52,7 @@
         </div>
       </div>
 
-      <div class="my-3 mr-5">
+      <div class="my-3 me-5">
         <h5 class="mb-0"> {{ __('Current Year') }} ({{ date("Y") }})</h5>
         <div class="mt-1 d-flex justify-content-between">
           <div>Entradas:</div>
@@ -84,7 +84,7 @@
         </button>
       </a>
       <div class="table-responsive">
-        <table class="table table-striped table-md">
+        <table class="table   ">
           <thead>
             <tr>
               <th scope="col">Conta</th>
@@ -99,14 +99,14 @@
                 <td> R$ {{ number_format($account->balance/100, 2, ',', '.') }} </td>
                 <td class="d-flex">
                   <a href="{{ route('dashboard.finances.accounts.show', $account->id) }}">
-                    <button type="button" class="btn btn-outline-primary mr-2 py-0">
+                    <button type="button" class="btn btn-outline-primary me-2 py-0">
                       <span>
                         {{ __('Details') }}
                       </span>
                     </button>
                   </a>
                   <a href="{{ route('dashboard.finances.accounts.edit', $account->id) }}">
-                    <button type="button" class="btn btn-outline-secondary mr-2 py-0">
+                    <button type="button" class="btn btn-outline-secondary me-2 py-0">
                       <span>
                         {{ __('Edit') }}
                       </span>

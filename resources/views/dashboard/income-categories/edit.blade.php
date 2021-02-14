@@ -8,10 +8,10 @@
         @csrf
         {{ method_field('put') }}
 
-        <div class="form-group row">
-            <label for="name" class="col-md-2 col-form-label text-md-right">Nome</label>
+        <div class="mb-3 row">
+            <label for="name" class="col-2 col-form-label text-md-end">Nome</label>
 
-            <div class="col-md-6">
+            <div class="col-6">
                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $income_category->name }}" required autofocus>
 
                 @error('name')

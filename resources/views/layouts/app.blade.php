@@ -27,14 +27,12 @@
                     <!-- Left Sidebar -->
                     @include('layouts.sidebar')
 
-                    <main role="main" class="col-md-9 ml-sm-auto bg-white col-lg-10 pt-3 px-4">
+                    <main role="main" class="col-9 ms-sm-auto col-lg-10 px-md-4">
 
                         <!-- Page Heading -->
-                        <header class="">
-                            <div class="d-flex p-2 mb-3 border-bottom">
-                                <h1 class="h2">{{ $header }}</h1>
-                            </div>
-                        </header>
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">{{ $header }}</h1>
+                        </div>
 
                         <!-- Page Content -->
                         <div class="min-vh-100">

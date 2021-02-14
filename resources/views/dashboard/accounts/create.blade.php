@@ -7,10 +7,10 @@
         <form action="{{ route('dashboard.finances.accounts.store') }}" method="post">
         @csrf
 
-        <div class="form-group row">
-            <label for="name" class="col-md-2 col-form-label text-md-right">Nome</label>
+        <div class="row mb-3">
+            <label for="name" class="col-2 col-form-label text-md-end">Nome</label>
 
-            <div class="col-md-6">
+            <div class="col-6">
                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" required autofocus>
 
                 @error('name')
@@ -22,10 +22,10 @@
         </div>
 
 
-        <div class="form-group row">
-            <label for="balance" class="col-md-2 col-form-label text-md-right">Inicializar com Saldo</label>
+        <div class="row mb-3">
+            <label for="balance" class="col-2 col-form-label text-md-end">Inicializar com Saldo</label>
 
-            <div class="col-md-6">
+            <div class="col-6">
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">R$</span>
@@ -40,10 +40,10 @@
             </div>
         </div>
 
-        <div class="form-group row">
-            <label for="add_info" class="col-md-2 col-form-label text-md-right">Informações Adicionais</label>
+        <div class="row mb-3">
+            <label for="add_info" class="col-2 col-form-label text-md-end">Informações Adicionais</label>
 
-            <div class="col-md-6">
+            <div class="col-6">
                 <textarea id="add_info" type="add_info" class="form-control @error('add_info') is-invalid @enderror" name="add_info"></textarea>
 
                 @error('add_info')
@@ -59,7 +59,7 @@
             {{ __('Save') }}
         </button>
         <a href="{{ route('dashboard.finances.accounts.index') }}">
-            <button type="button" class="btn btn-outline-secondary ml-1">Cancelar</button>
+            <button type="button" class="btn btn-outline-secondary ms-1">Cancelar</button>
         </a>
 
         </form>

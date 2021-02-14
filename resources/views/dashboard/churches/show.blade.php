@@ -9,7 +9,7 @@
         </div>
     @endif
 
-    <div class="col-md-6">
+    <div class="col-6">
         <label>
             <strong>Nome: </strong>
             {{ $church->name }}

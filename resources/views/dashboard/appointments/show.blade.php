@@ -3,7 +3,7 @@
         {{ __('Appointment') . " - " . $appointment->name }}
     </x-slot>
 
-    <div class="col-md-6">
+    <div class="col-6">
         <label>Nome: {{ $appointment->name }}</label><br>
         <label>Data e Hora: {{ $appointment->happens_at }}</label><br>
         <label>Outras Informações: {{ $appointment->add_info }}</label><br>

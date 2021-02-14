@@ -13,7 +13,7 @@
 
     <div class="table-responsive">
 
-        <table class="table table-striped table-md">
+        <table class="table   ">
             <thead>
             <tr>
                 <th scope="col">#</th>
@@ -30,10 +30,10 @@
                 <td>{{ $event->happens_at }}</td>
                 <td>
                 <a href="{{ route('dashboard.events.show', $event->id) }}">
-                    <button type="button" class="btn btn-sm btn-secondary mr-2 float-left">Detalhes</button>
+                    <button type="button" class="btn btn-sm btn-secondary me-2 float-left">Detalhes</button>
                 </a>
                 <a href="{{ route('dashboard.events.edit', $event->id) }}">
-                    <button type="button" class="btn btn-sm btn-light mr-2 float-left">Editar</button>
+                    <button type="button" class="btn btn-sm btn-light me-2 float-left">Editar</button>
                 </a>
                 <form action="{{ route('dashboard.events.destroy', $event) }}" method="post" class="float-left">
                     @csrf

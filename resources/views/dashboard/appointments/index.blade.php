@@ -13,7 +13,7 @@
 
     <div class="table-responsive">
 
-        <table class="table table-striped table-md">
+        <table class="table   ">
         <thead>
         <tr>
             <th scope="col">#</th>
@@ -32,10 +32,10 @@
             <td>{{ $appointment->completed }}</td>
             <td>
             <a href="{{ route('dashboard.appointments.show', $appointment->id) }}">
-                <button type="button" class="btn btn-sm btn-secondary mr-2 float-left">Detalhes</button>
+                <button type="button" class="btn btn-sm btn-secondary me-2 float-left">Detalhes</button>
             </a>
             <a href="{{ route('dashboard.appointments.edit', $appointment->id) }}">
-                <button type="button" class="btn btn-sm btn-light mr-2 float-left">Editar</button>
+                <button type="button" class="btn btn-sm btn-light me-2 float-left">Editar</button>
             </a>
             <form action="{{ route('dashboard.appointments.destroy', $appointment) }}" method="post">
                 @csrf

@@ -36,7 +36,7 @@
         <div class="col-sm-6">
           <h5>Entradas</h5>
           <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table  ">
               <thead>
                 <tr>
                   <th>Nome</th>
@@ -52,7 +52,7 @@
                     <td>
                         <a
                             href="{{ route('dashboard.finances.accounts.show', $income->id) }}"
-                            class="btn btn-outline-primary mr-2 py-0"
+                            class="btn btn-outline-primary me-2 py-0"
                         >
                             <span>
                                 {{ __('Details') }}
@@ -68,7 +68,7 @@
         <div class="col-sm-6">
           <h5>Saídas</h5>
           <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table  ">
               <thead>
                 <tr>
                   <th>Nome</th>
@@ -84,7 +84,7 @@
                     <td>
                         <a
                             href="{{ route('dashboard.finances.accounts.show', $expense->id) }}"
-                            class="btn btn-outline-primary mr-2 py-0"
+                            class="btn btn-outline-primary me-2 py-0"
                         >
                             <span>
                                 {{ __('Details') }}

@@ -13,7 +13,7 @@
 
     <div class="table-responsive">
 
-        <table class="table table-striped table-md">
+        <table class="table   ">
         <thead>
         <tr>
             <th scope="col">#</th>
@@ -28,7 +28,7 @@
             <td>{{ $role->name }}</td>
             <td>
             <a href="{{ route('dashboard.roles.edit', $role->id) }}">
-                <button type="button" class="btn btn-sm btn-light mr-2 float-left">Editar</button>
+                <button type="button" class="btn btn-sm btn-light me-2 float-left">Editar</button>
             </a>
             <form action="{{ route('dashboard.roles.destroy', $role) }}" method="post">
                 @csrf

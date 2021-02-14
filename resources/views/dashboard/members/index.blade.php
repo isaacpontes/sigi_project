@@ -14,7 +14,7 @@
     <div class="col-sm-4">
       <h3 class="my-1">Resumo</h3>
 
-      <div class="my-3 mr-5">
+      <div class="my-3 me-5">
         <h5>
           Total de Membros: {{ $active_members->total() }}
         </h5>
@@ -23,7 +23,7 @@
         </h5> --}}
       </div>
       
-      <div class="my-3 mr-5">
+      <div class="my-3 me-5">
         <h5>
           Neste Ano
         </h5>
@@ -39,7 +39,7 @@
         O relatório de membresia consiste em um balanço das entradas e saídas de membros no período selecionado.
       </p>
           <form action="{{ route('dashboard.members.custom-report') }}" method="GET">
-            <div class="form-group">
+            <div class="mb-3">
               <label for="initial_date">Data Inicial</label>
               <input id="initial_date" type="date" class="form-control" name="initial_date" required>
               <div class="invalid-feedback">
@@ -47,7 +47,7 @@
               </div>
             </div>
 
-            <div class="form-group">
+            <div class="mb-3">
               <label for="final_date">Data Final</label>
               <input id="final_date" type="date" class="form-control" name="final_date" required>
               <div class="invalid-feedback">
@@ -72,7 +72,7 @@
         </div>
       </div>
       <div class="table-responsive">
-        <table class="table table-striped">
+        <table class="table  ">
           <thead>
             <tr>
               <th scope="col">Nome</th>
@@ -87,21 +87,21 @@
                 <td>{{ $member->phone }}</td>
                 <td class="d-flex">
                   <a href="{{ route('dashboard.members.show', $member->id) }}">
-                    <button type="button" class="btn btn-outline-primary mr-2 py-0">
+                    <button type="button" class="btn btn-outline-primary me-2 py-0">
                       <span>
                         {{ __('Details') }}
                       </span>
                     </button>
                   </a>
                   <a href="{{ route('dashboard.members.edit', $member->id) }}">
-                    <button type="button" class="btn btn-outline-secondary mr-2 py-0">
+                    <button type="button" class="btn btn-outline-secondary me-2 py-0">
                       <span>
                         {{ __('Edit') }}
                       </span>
                     </button>
                   </a>
                   <a href="{{ route('dashboard.members.demit', $member->id) }}">
-                    <button type="button" class="btn btn-outline-danger mr-2 py-0">
+                    <button type="button" class="btn btn-outline-danger me-2 py-0">
                       <span>
                         {{ __('Demit') }}
                       </span>
@@ -122,7 +122,7 @@
         </div>
       </div>
       <div class="table-responsive">
-        <table class="table table-striped">
+        <table class="table  ">
           <thead>
             <tr>
               <th scope="col">Nome</th>
@@ -137,7 +137,7 @@
                 <td>{{ $member->phone }}</td>
                 <td class="d-flex">
                 <a href="{{ route('dashboard.members.show', $member->id) }}">
-                  <button type="button" class="btn btn-outline-primary mr-2 py-0">
+                  <button type="button" class="btn btn-outline-primary me-2 py-0">
                     <span>
                       {{ __('Details') }}
                     </span>

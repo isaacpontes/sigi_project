@@ -10,14 +10,14 @@
     @endif
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-12">
             <form action="{{ route('dashboard.finances.categories-expenses.store') }}" method="post">
                 @csrf
     
-                <div class="form-group row">
-                    <label for="name" class="col-md-1 col-form-label text-md-right">Nome</label>
+                <div class="mb-3 row">
+                    <label for="name" class="col-1 col-form-label text-md-end">Nome</label>
     
-                    <div class="col-md-6">
+                    <div class="col-6">
                         <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" required autofocus>
     
                         @error('name')
@@ -27,7 +27,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-4">
                         <button type="submit" class="btn btn-primary">
                             Adicionar Categoria
                         </button>
@@ -40,7 +40,7 @@
 
     <div class="table-responsive">
 
-        <table class="table table-striped table-md">
+        <table class="table   ">
             <thead>
                 <tr>
                     <th scope="col">Nome</th>
@@ -53,7 +53,7 @@
                         <td>{{ $expense_category->name }}</td>
                         <td class="d-flex">
                             <a href="{{ route('dashboard.finances.categories-expenses.edit', $expense_category->id) }}">
-                                <button type="button" class="btn btn-outline-secondary mr-2 py-0">
+                                <button type="button" class="btn btn-outline-secondary me-2 py-0">
                                 <span>
                                     {{ __('Edit') }}
                                 </span>
@@ -62,7 +62,7 @@
                             <form action="{{ route('dashboard.finances.categories-expenses.destroy', $expense_category) }}" method="post">
                                 @csrf
                                 {{ method_field('delete') }}
-                                <button type="submit" class="btn btn-outline-danger mr-2 py-0">
+                                <button type="submit" class="btn btn-outline-danger me-2 py-0">
                                     {{ __('Delete') }}
                                 </button>
                             </form>

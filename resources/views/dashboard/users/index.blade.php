@@ -11,7 +11,7 @@
 
     <div class="table-responsive">
 
-        <table class="table table-striped table-md">
+        <table class="table   ">
             <thead>
             <tr>
                 <th scope="col">#</th>
