@@ -9,43 +9,66 @@
         </div>
     @endif
 
-    <div class="table-responsive">
+    <a href="{{ route('dashboard.users.create') }}">
+        <button type="button" class="btn btn-primary mb-3">Adicionar Usuário</button>
+    </a>
 
-        <table class="table   ">
+    <div class="table-responsive">
+        <table class="table">
             <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nome</th>
-                <th scope="col">E-Mail</th>
-                <th scope="col">Igreja</th>
-                <th scope="col">Ações</th>
-            </tr>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">E-Mail</th>
+                    <th scope="col">Admin.</th>
+                    <th scope="col">Secret.</th>
+                    <th scope="col">Tesour.</th>
+                    <th scope="col">Ações</th>
+                </tr>
             </thead>
             <tbody>
-            @foreach($users as $user)
-            <tr>
-                <th scope="row">{{ $user->id }}</th>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
-                <td>{{ $user->church->name }}</td>
-                <td>
-                <a href="{{ route('dashboard.users.show', $user->id) }}">
-                    <button type="button" class="btn btn-sm btn-info float-left">Detalhes</button>
-                </a>
-                <a href="{{ route('dashboard.users.edit', $user->id) }}">
-                    <button type="button" class="btn btn-sm btn-warning float-left">Editar</button>
-                </a>
-                <form action="{{ route('dashboard.users.destroy', $user) }}" method="post" class="float-left">
-                    @csrf
-                    {{ method_field('delete') }}
-                    <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
-                </form>
-                </td>
-            </tr>
-            @endforeach
-
+                @foreach($users as $user)
+                    <tr>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>
+                            @if ($user->church_admin)
+                                <span class="text-success ms-3"><i class="fas fa-check-circle fa-fw"></i></span> 
+                            @else
+                                <span class="text-danger ms-3"><i class="fas fa-times-circle fa-fw"></i></span>
+                            @endif
+                        </td>
+                        <td>
+                            @if ($user->members_admin)
+                                <span class="text-success ms-3"><i class="fas fa-check-circle fa-fw"></i></span> 
+                            @else
+                                <span class="text-danger ms-3"><i class="fas fa-times-circle fa-fw"></i></span>
+                            @endif
+                        </td>
+                        <td>
+                            @if ($user->finances_admin)
+                                <span class="text-success ms-3"><i class="fas fa-check-circle fa-fw"></i></span> 
+                            @else
+                                <span class="text-danger ms-3"><i class="fas fa-times-circle fa-fw"></i></span>
+                            @endif
+                        </td>
+                        <td class="d-flex">
+                            <a href="{{ route('dashboard.users.edit', $user->id) }}">
+                                <button type="button" class="btn btn-outline-secondary me-2 py-0">
+                                    Editar
+                                </button>
+                            </a>
+                            <form action="{{ route('dashboard.users.destroy', $user->id) }}" method="post" class="float-left">
+                                @csrf
+                                {{ method_field('delete') }}
+                                <button type="submit" class="btn btn-outline-danger me-2 py-0">
+                                    Excluir
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
-            </table>
+        </table>
     </div>
 
 </x-app-layout>

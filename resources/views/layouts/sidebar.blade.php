@@ -1,5 +1,11 @@
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
     <div class="position-sticky pt-3">
+        <div class="mx-5 my-3 text-center">
+            <h5>{{ Auth::user()->name }}</h5>
+            <a href="{{ route('dashboard.users.show', Auth::user()->id) }}" class="text-secondary text-decoration-none">
+                Ver Perfil
+            </a>
+        </div>
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('dashboard.start') }}">
@@ -55,6 +61,14 @@
                     Despesas
                 </a>
             </li>
+            @if (Auth::user()->church_admin)
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('dashboard.users.index') }}">
+                        <i class="fa fa-user fa-fw mx-1" ></i>
+                        Usuários
+                    </a>
+                </li>
+            @endif
         </ul>
     </div>
 </nav>

@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Dashboard\FinancialCategoryController;
-use App\Http\Controllers\Dashboard\MainController;
 use App\Http\Controllers\Dashboard\StartController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,16 +24,19 @@ require __DIR__.'/auth.php';
 Route::namespace('Dashboard')->prefix('dashboard')->middleware(['auth'])->name('dashboard.')->group( function () {
     Route::get('/', [StartController::class, 'index'])->name('start');
 
+    Route::put('/usuarios/{user}/update-info', [
+        \App\Http\Controllers\Dashboard\UsersController::class,
+        'updateInfo'
+    ])->name('users.update-info');
+
+    Route::post('/usuarios/{user}/update-password', [
+        \App\Http\Controllers\Dashboard\UsersController::class,
+        'updatePassword'
+    ])->name('users.update-password');
+
     Route::resource('/usuarios', UsersController::class)
         ->parameters([ 'usuarios' => 'user' ])
-        ->names('users')
-        ->only([
-            'index',
-            'show',
-            'edit',
-            'update',
-            'destroy'
-    ]);
+        ->names('users');
 
     Route::resource('/igrejas', ChurchController::class)
         ->parameters([ 'igrejas' => 'church' ])
