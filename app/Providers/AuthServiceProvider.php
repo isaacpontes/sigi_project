@@ -52,7 +52,5 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('manageMembership', function($user) {
             return $user->members_admin;
         });
-
-        //
     }
 }

@@ -20,16 +20,16 @@
             <hr>
             <div class="mb-3 d-flex justify-content-between align-items-center">
               <div class="btn-group">
-                <a href="{{ route('dashboard.classrooms.index') }}">
+                <a href="{{ route('dashboard.membership.classrooms.index') }}">
                   <button type="button" class="btn btn-primary">Voltar</button>
                 </a>
-                <a href="{{ route('dashboard.classrooms.edit', $classroom) }}">
+                <a href="{{ route('dashboard.membership.classrooms.edit', $classroom) }}">
                   <button type="button" class="btn btn-outline-secondary ms-1">Editar</button>
                 </a>
               </div>
     
               <div class="btn-group me-3">
-                {{-- <a href="{{ route('dashboard.classrooms.individual-report', $classroom) }}" class="btn btn-outline-secondary">
+                {{-- <a href="{{ route('dashboard.membership.classrooms.individual-report', $classroom) }}" class="btn btn-outline-secondary">
                   Exportar em PDF
                 </a> --}}
               </div>
@@ -53,21 +53,21 @@
                     <td>{{ $member->name }}</td>
                     <td>{{ $member->phone }}</td>
                     <td class="d-flex">
-                      <a href="{{ route('dashboard.members.show', $member->id) }}">
+                      <a href="{{ route('dashboard.membership.members.show', $member->id) }}">
                         <button type="button" class="btn btn-outline-primary me-2 py-0">
                           <span>
                             {{ __('Details') }}
                           </span>
                         </button>
                       </a>
-                      <a href="{{ route('dashboard.members.edit', $member->id) }}">
+                      <a href="{{ route('dashboard.membership.members.edit', $member->id) }}">
                         <button type="button" class="btn btn-outline-secondary me-2 py-0">
                           <span>
                             {{ __('Edit') }}
                           </span>
                         </button>
                       </a>
-                      {{-- <a href="{{ route('dashboard.members.demit', $member->id) }}">
+                      {{-- <a href="{{ route('dashboard.membership.members.demit', $member->id) }}">
                         <button type="button" class="btn btn-outline-danger me-2 py-0">
                           <span>
                             {{ __('Demit') }}

@@ -48,70 +48,73 @@ Route::namespace('Dashboard')->prefix('dashboard')->middleware(['auth'])->name('
     ])->name('pdf-list.congregations');
 
     Route::resource('/congregacoes', CongregationController::class)
-        ->parameters([ 'congregacoes' => 'congregation' ])->names('congregations');
+        ->parameters([ 'congregacoes' => 'congregation' ])->names('congregations');  
 
-    Route::get('/classes/lista-pdf', [
-        \App\Http\Controllers\Dashboard\ClassroomController::class,
-        'exportPdfList'
-    ])->name('pdf-list.classrooms');   
+    Route::prefix('membresia')->name('membership.')->middleware('auth.membership')->group( function () {
+        // Listagem de todas as classes de estudo
+        Route::get('/classes/lista-pdf', [
+            \App\Http\Controllers\Dashboard\ClassroomController::class,
+            'exportPdfList'
+        ])->name('classrooms.pdf-list');
 
-    Route::resource('/classes', ClassroomController::class)
-        ->parameters([ 'classes' => 'classroom' ])->names('classrooms'); 
-
-    // Relatório simplificado de toda a membresia
-    Route::get('/membros/relatorio-simples', [
-        \App\Http\Controllers\Dashboard\MemberController::class,
-        'simpleReport'
-    ])->name('members.simple-report');
-
-    // Relatório simplificado de membros inativos
-    Route::get('/membros/relatorio-inativos', [
-        \App\Http\Controllers\Dashboard\MemberController::class,
-        'inactivesReport'
-    ])->name('members.inactives-report');
-
-    // Relatório anual do balanço membros
-    Route::get('/membros/relatorio-anual', [
-        \App\Http\Controllers\Dashboard\MemberController::class,
-        'anualReport'
-    ])->name('members.anual-report');
-
-    // Relatório personalizado de membresia
-    Route::get('/membros/relatorio-personalizado', [
-        \App\Http\Controllers\Dashboard\MemberController::class,
-        'customReport'
-    ])->name('members.custom-report');
-
-    Route::resource('/membros', MemberController::class)
-        ->parameters([ 'membros' => 'member' ])->names('members');
+        Route::resource('/classes', ClassroomController::class)
+            ->parameters([ 'classes' => 'classroom' ])->names('classrooms'); 
     
-    Route::put('/membros/{member}/readmit', [
-        \App\Http\Controllers\Dashboard\MemberController::class,
-        'readmit'
-    ])->name('members.readmit');
-
-    Route::get('/membros/{member}/demit', [
-        \App\Http\Controllers\Dashboard\MemberController::class,
-        'demit'
-    ])->name('members.demit');
-
-    // Relatório individual de membro
-    Route::get('/membros/{member}/pdf', [
-        \App\Http\Controllers\Dashboard\MemberController::class,
-        'individualReport'
-    ])->name('members.individual-report');
-
-    // Route::resource('/eventos', EventController::class)
-    //     ->parameters([
-    //         'eventos' => 'event'
-    // ])->names('events');
+        // Relatório simplificado de toda a membresia
+        Route::get('/membros/relatorio-simples', [
+            \App\Http\Controllers\Dashboard\MemberController::class,
+            'simpleReport'
+        ])->name('members.simple-report');
+    
+        // Relatório simplificado de membros inativos
+        Route::get('/membros/relatorio-inativos', [
+            \App\Http\Controllers\Dashboard\MemberController::class,
+            'inactivesReport'
+        ])->name('members.inactives-report');
+    
+        // Relatório anual do balanço membros
+        Route::get('/membros/relatorio-anual', [
+            \App\Http\Controllers\Dashboard\MemberController::class,
+            'anualReport'
+        ])->name('members.anual-report');
+    
+        // Relatório personalizado de membresia
+        Route::get('/membros/relatorio-personalizado', [
+            \App\Http\Controllers\Dashboard\MemberController::class,
+            'customReport'
+        ])->name('members.custom-report');
+    
+        Route::resource('/membros', MemberController::class)
+            ->parameters([ 'membros' => 'member' ])->names('members');
+        
+        Route::put('/membros/{member}/readmit', [
+            \App\Http\Controllers\Dashboard\MemberController::class,
+            'readmit'
+        ])->name('members.readmit');
+    
+        Route::get('/membros/{member}/demit', [
+            \App\Http\Controllers\Dashboard\MemberController::class,
+            'demit'
+        ])->name('members.demit');
+    
+        // Relatório individual de membro
+        Route::get('/membros/{member}/pdf', [
+            \App\Http\Controllers\Dashboard\MemberController::class,
+            'individualReport'
+        ])->name('members.individual-report');
+    
+        // Route::resource('/eventos', EventController::class)
+        //     ->parameters([
+        //         'eventos' => 'event'
+        // ])->names('events');
+    });
 
     // Route::resource('/compromissos', AppointmentController::class)
     //     ->parameters([
     //         'compromissos' => 'appointment' 
     // ])->names('appointments');
 
-    Route::prefix('financas')->name('finances.')->group(function () {
+    Route::prefix('financas')->name('finances.')->middleware('auth.finances')->group(function () {
         // Relatório financeiro personalizado
         Route::get('/contas/relatorio-personalizado', [
             \App\Http\Controllers\Dashboard\AccountController::class,

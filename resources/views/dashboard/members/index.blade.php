@@ -38,7 +38,7 @@
       <p>
         O relatório de membresia consiste em um balanço das entradas e saídas de membros no período selecionado.
       </p>
-          <form action="{{ route('dashboard.members.custom-report') }}" method="GET">
+          <form action="{{ route('dashboard.membership.members.custom-report') }}" method="GET">
             <div class="mb-3">
               <label for="initial_date">Data Inicial</label>
               <input id="initial_date" type="date" class="form-control" name="initial_date" required>
@@ -64,11 +64,11 @@
 
     <div class="col-sm-8 pl-4">
       <div class="pb-3 d-flex justify-content-between align-items-center">
-        <a href="{{ route('dashboard.members.create') }}" class="btn btn-primary">{{ __('Add Member') }}</a>
+        <a href="{{ route('dashboard.membership.members.create') }}" class="btn btn-primary">{{ __('Add Member') }}</a>
 
         <div class="btn-group me-3">
-          <a href="{{ route('dashboard.members.simple-report') }}" class="btn btn-outline-secondary">Exportar em PDF</a>
-          <a href="{{ route('dashboard.members.anual-report') }}" class="btn btn-outline-secondary">Resumo</a>
+          <a href="{{ route('dashboard.membership.members.simple-report') }}" class="btn btn-outline-secondary">Exportar em PDF</a>
+          <a href="{{ route('dashboard.membership.members.anual-report') }}" class="btn btn-outline-secondary">Resumo</a>
         </div>
       </div>
       <div class="table-responsive">
@@ -86,21 +86,21 @@
                 <td>{{ $member->name }}</td>
                 <td>{{ $member->phone }}</td>
                 <td class="d-flex">
-                  <a href="{{ route('dashboard.members.show', $member->id) }}">
+                  <a href="{{ route('dashboard.membership.members.show', $member->id) }}">
                     <button type="button" class="btn btn-outline-primary me-2 py-0">
                       <span>
                         {{ __('Details') }}
                       </span>
                     </button>
                   </a>
-                  <a href="{{ route('dashboard.members.edit', $member->id) }}">
+                  <a href="{{ route('dashboard.membership.members.edit', $member->id) }}">
                     <button type="button" class="btn btn-outline-secondary me-2 py-0">
                       <span>
                         {{ __('Edit') }}
                       </span>
                     </button>
                   </a>
-                  <a href="{{ route('dashboard.members.demit', $member->id) }}">
+                  <a href="{{ route('dashboard.membership.members.demit', $member->id) }}">
                     <button type="button" class="btn btn-outline-danger me-2 py-0">
                       <span>
                         {{ __('Demit') }}
@@ -118,7 +118,7 @@
         <h4 class="mb-0">Membros Inativos</h4>
 
         <div class="btn-group me-1">
-          <a href="{{ route('dashboard.members.inactives-report') }}" class="btn btn-outline-secondary">Exportar em PDF</a>
+          <a href="{{ route('dashboard.membership.members.inactives-report') }}" class="btn btn-outline-secondary">Exportar em PDF</a>
         </div>
       </div>
       <div class="table-responsive">
@@ -136,14 +136,14 @@
                 <td>{{ $member->name }}</td>
                 <td>{{ $member->phone }}</td>
                 <td class="d-flex">
-                <a href="{{ route('dashboard.members.show', $member->id) }}">
+                <a href="{{ route('dashboard.membership.members.show', $member->id) }}">
                   <button type="button" class="btn btn-outline-primary me-2 py-0">
                     <span>
                       {{ __('Details') }}
                     </span>
                   </button>
                 </a>
-                <form action="{{ route('dashboard.members.readmit', $member->id) }}" method="post">
+                <form action="{{ route('dashboard.membership.members.readmit', $member->id) }}" method="post">
                   @csrf
                   {{ method_field('put') }}
                   <button type="submit" class="btn btn-outline-success py-0">
