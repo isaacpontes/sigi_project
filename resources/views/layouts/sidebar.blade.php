@@ -15,15 +15,15 @@
             </li>
             @if (Auth::user()->members_admin)
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dashboard.membership.classrooms.index') }}">
-                        <i class="fa fa-chalkboard-teacher fa-fw mx-1" ></i>
-                        Classes
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{{ route('dashboard.membership.members.index') }}">
                         <i class="fa fa-users fa-fw mx-1" ></i>
                         Membros
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('dashboard.membership.classrooms.index') }}">
+                        <i class="fa fa-chalkboard-teacher fa-fw mx-1" ></i>
+                        Classes
                     </a>
                 </li>
                 {{-- <li class="nav-item">
@@ -61,16 +61,22 @@
                     </ul>
                 </li>
             @endif
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('dashboard.congregations.index') }}">
-                    <i class="fa fa-place-of-worship fa-fw mx-1" ></i>
-                    Congregações
-                </a>
-            </li>
             @if (Auth::user()->church_admin)
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dashboard.users.index') }}">
-                        <i class="fa fa-user fa-fw mx-1" ></i>
+                    <a class="nav-link" href="{{ route( 'dashboard.church.show' ) }}">
+                        <i class="fa fa-church fa-fw mx-1" ></i>
+                        Igreja
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route( 'dashboard.congregations.index' ) }}">
+                        <i class="fa fa-sitemap fa-fw mx-1" ></i>
+                        Congregações
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route( 'dashboard.users.index' ) }}">
+                        <i class="fa fa-users-cog fa-fw mx-1" ></i>
                         Usuários
                     </a>
                 </li>

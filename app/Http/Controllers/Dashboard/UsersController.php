@@ -21,7 +21,7 @@ class UsersController extends Controller
     public function index()
     {
         if (Gate::denies('manageChurchUsers')) {
-            abort(403);
+            return redirect()->route('dashboard.start')->with('error', 'Você não está autorizado a utilizar este recurso.');
         }
         $users = DB::table('users')
             ->where('church_id', Auth::user()->church_id)
@@ -38,7 +38,7 @@ class UsersController extends Controller
     {
         // Authorization Gate
         if (Gate::denies('manageChurchUsers')) {
-            abort(403);
+            return redirect()->route('dashboard.start')->with('error', 'Você não está autorizado a utilizar este recurso.');
         }
         return view('dashboard.users.create');
     }
@@ -53,7 +53,7 @@ class UsersController extends Controller
     {
         // Authorization Gate
         if (Gate::denies('manageChurchUsers')) {
-            abort(403);
+            return redirect()->route('dashboard.start')->with('error', 'Você não está autorizado a utilizar este recurso.');
         }
 
         $request->validate([
@@ -93,7 +93,7 @@ class UsersController extends Controller
     {
         // Authorization Gate
         if (Gate::denies('manageUser', $user)) {
-            abort(403);
+            return redirect()->route('dashboard.start')->with('error', 'Você não está autorizado a utilizar este recurso.');
         }
         return view('dashboard.users.show')->with('user', $user);
     }
@@ -108,7 +108,7 @@ class UsersController extends Controller
     {
         // Authorization Gate
         if (Gate::denies('manageChurchUsers', $user)) {
-            abort(403);
+            return redirect()->route('dashboard.start')->with('error', 'Você não está autorizado a utilizar este recurso.');
         }
         return view('dashboard.users.edit')->with('user', $user);
     }
@@ -124,7 +124,7 @@ class UsersController extends Controller
     {
         // Authorization Gate
         if (Gate::denies('manageChurchUsers', $user)) {
-            abort(403);
+            return redirect()->route('dashboard.start')->with('error', 'Você não está autorizado a utilizar este recurso.');
         }
 
         $request->validate([
@@ -159,7 +159,7 @@ class UsersController extends Controller
     {
         // Authorization Gate
         if (Gate::denies('manageUser', $user)) {
-            abort(403);
+            return redirect()->route('dashboard.start')->with('error', 'Você não está autorizado a utilizar este recurso.');
         }
 
         $request->validate([
@@ -191,7 +191,7 @@ class UsersController extends Controller
     {
         // Authorization Gate
         if (Gate::denies('manageUser', $user)) {
-            abort(403);
+            return redirect()->route('dashboard.start')->with('error', 'Você não está autorizado a utilizar este recurso.');
         }
 
         $request->validate([
@@ -221,7 +221,7 @@ class UsersController extends Controller
     {
         // Authorization Gate
         if (Gate::denies('manageChurchUsers')) {
-            abort(403);
+            return redirect()->route('dashboard.start')->with('error', 'Você não está autorizado a utilizar este recurso.');
         }
         try {
             $user->delete();

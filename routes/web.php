@@ -28,7 +28,7 @@ Route::namespace('Dashboard')->prefix('dashboard')->middleware(['auth'])->name('
         \App\Http\Controllers\Dashboard\UsersController::class,
         'updateInfo'
     ])->name('users.update-info');
-
+    
     Route::post('/usuarios/{user}/update-password', [
         \App\Http\Controllers\Dashboard\UsersController::class,
         'updatePassword'
@@ -38,9 +38,15 @@ Route::namespace('Dashboard')->prefix('dashboard')->middleware(['auth'])->name('
         ->parameters([ 'usuarios' => 'user' ])
         ->names('users');
 
-    Route::resource('/igrejas', ChurchController::class)
-        ->parameters([ 'igrejas' => 'church' ])
-        ->names('churches');
+    Route::get('/igreja', [
+        \App\Http\Controllers\Dashboard\ChurchController::class,
+        'show'
+    ])->name('church.show');
+
+    Route::put('/igreja', [
+        \App\Http\Controllers\Dashboard\ChurchController::class,
+        'update'
+    ])->name('church.update');
 
     Route::get('/congregacoes/lista-pdf', [
         \App\Http\Controllers\Dashboard\CongregationController::class,
