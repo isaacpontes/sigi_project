@@ -26,9 +26,9 @@ class IncomeFactory extends Factory
     public function definition()
     {
         $church = $this->faker->randomElement(Church::all());
-        $account = $this->faker->randomElement(Account::where('church_id', $church->id));
-        $member = $this->faker->randomElement(Member::where('church_id', $church->id));
-        $income_category = $this->faker->randomElement(IncomeCategory::where('church_id', $church->id));
+        $account = $this->faker->randomElement(Account::where('church_id', $church->id)->get());
+        $member = $this->faker->randomElement(Member::where('church_id', $church->id)->get());
+        $income_category = $this->faker->randomElement(IncomeCategory::where('church_id', $church->id)->get());
 
         return [
             'name' => $this->faker->text(16),

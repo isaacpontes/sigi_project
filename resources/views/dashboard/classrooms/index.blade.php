@@ -12,10 +12,10 @@
     <div class="row">
         <div class="col-sm-12">
           <div class="pb-3 d-flex justify-content-between align-items-center">
-            <a href="{{ route('dashboard.classrooms.create') }}" class="btn btn-primary">{{ __('Add Classroom') }}</a>
+            <a href="{{ route('dashboard.membership.classrooms.create') }}" class="btn btn-primary">{{ __('Add Classroom') }}</a>
     
             <div class="btn-group me-3">
-              <a href="{{ route('dashboard.pdf-list.classrooms') }}" class="btn btn-outline-secondary">Exportar em PDF</a>
+              <a href="{{ route('dashboard.membership.classrooms.pdf-list') }}" class="btn btn-outline-secondary">Exportar em PDF</a>
             </div>
           </div>
           <div class="table-responsive">
@@ -31,14 +31,14 @@
                   <tr>
                     <td>{{ $classroom->name }}</td>
                     <td class="d-flex">
-                      <a href="{{ route('dashboard.classrooms.show', $classroom->id) }}">
+                      <a href="{{ route('dashboard.membership.classrooms.show', $classroom->id) }}">
                         <button type="button" class="btn btn-outline-primary me-2 py-0">
                           <span>
                             {{ __('Details') }}
                           </span>
                         </button>
                       </a>
-                      <a href="{{ route('dashboard.classrooms.edit', $classroom->id) }}">
+                      <a href="{{ route('dashboard.membership.classrooms.edit', $classroom->id) }}">
                         <button type="button" class="btn btn-outline-secondary me-2 py-0">
                           <span>
                             {{ __('Edit') }}

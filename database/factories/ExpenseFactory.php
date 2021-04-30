@@ -25,8 +25,8 @@ class ExpenseFactory extends Factory
     public function definition()
     {
         $church = $this->faker->randomElement(Church::all());
-        $account = $this->faker->randomElement(Account::where('church_id', $church->id));
-        $expense_cateogory = $this->faker->randomElement(ExpenseCategory::where('church_id', $church->id));
+        $account = $this->faker->randomElement(Account::where('church_id', $church->id)->get());
+        $expense_cateogory = $this->faker->randomElement(ExpenseCategory::where('church_id', $church->id)->get());
 
         return [
             'name' => $this->faker->text(16),

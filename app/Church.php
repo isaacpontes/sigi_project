@@ -10,7 +10,7 @@ class Church extends Model
     use HasFactory;
 
     // Permit creating new Church on RegisterController and filling the email
-    protected $fillable = ['name', 'email', 'plan', 'expiration'];
+    protected $fillable = ['name', 'email', 'phone', 'plan', 'expiration'];
 
     /**
      * The users that belong to the church.

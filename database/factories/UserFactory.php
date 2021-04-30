@@ -23,7 +23,7 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        $church = Church::factory()->create();
+        $church = $this->faker->randomElement(Church::all());
 
         return [
             'name' => $this->faker->name,

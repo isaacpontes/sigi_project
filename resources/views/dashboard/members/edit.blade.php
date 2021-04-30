@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="card-body">
-        <form action="{{ route('dashboard.members.update', $member) }}" method="post">
+        <form action="{{ route('dashboard.membership.members.update', $member) }}" method="post">
             @csrf
             {{ method_field('put') }}
             <div class="mb-3 row">
@@ -109,7 +109,7 @@
             <button type="submit" class="btn btn-primary">
                 Cadastrar
             </button>
-            <a href="{{ route('dashboard.members.index') }}">
+            <a href="{{ route('dashboard.membership.members.index') }}">
                 <button type="button" class="btn btn-outline-secondary ms-1">Cancelar</button>
             </a>
 

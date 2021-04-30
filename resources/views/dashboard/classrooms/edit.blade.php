@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="card-body">
-        <form action="{{ route('dashboard.classrooms.update', $classroom) }}" method="post">
+        <form action="{{ route('dashboard.membership.classrooms.update', $classroom) }}" method="post">
             @csrf
             {{ method_field('put') }}
 
@@ -41,7 +41,7 @@
             <button type="submit" class="btn btn-primary">
                 Atualizar
             </button>
-            <a href="{{ route('dashboard.classrooms.index') }}">
+            <a href="{{ route('dashboard.membership.classrooms.index') }}">
                 <button type="button" class="btn btn-outline-secondary">Cancelar</button>
             </a>
 
