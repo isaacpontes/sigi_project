@@ -5,18 +5,18 @@ O SiGI é uma aplicação web de código aberto desenvolvida para auxiliar na or
 ### Características relevantes:
 
 - Painel de controle intuitivo;
-- Relatórios resumidos ou completos;
+- Relatórios resumidos, completos e personalizados;
 - Perfis de usuário com diferentes permissões;
-- Estrutura básica de um SaaS, com a possibilidade de múltiplas igrejas separadas utilizando o sistema;
+- Gestão financeira de entradas e saídas;
 
 ### Tecnologias envolvidas:
 
-A aplicação foi desenvolvida utilizando a linguagem PHP com o framework MVC Laravel e para o banco de dados foi utilizado o MySQL. Abaixo estão detalhadas mais tecnologias e bibliotecas relevantes utilizadas no projeto atualmente:
+A aplicação foi desenvolvida utilizando a linguagem PHP com o framework MVC Laravel e para o banco de dados foi utilizado o MariaDB. Abaixo estão detalhadas mais tecnologias e bibliotecas relevantes utilizadas no projeto atualmente:
 
-- PHP 7.4.x;
+- PHP 8;
 - Laravel Framework 8;
 - Laravel Breeze para Autenticação;
-- Bootstrap 4;
-- MySQL 8;
+- Bootstrap 5;
+- MariaDB;
 
 **Atenção:** Este é um projeto em desenvolvimento, portanto mais atualizações serão implementadas. No entanto, eu o desenvolvo sozinho e de forma voluntária, portanto elas poderão demorar um pouco.
