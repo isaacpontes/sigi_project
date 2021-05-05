@@ -23,7 +23,7 @@ class ClassroomFactory extends Factory
     public function definition()
     {
         return [
-            'name' => 'Congregação ' . $this->faker->text(10),
+            'name' => 'Classe ' . $this->faker->text(10),
             'add_info' => $this->faker->text(200),
             'church_id' => $this->faker->randomElement(Church::all()->pluck('id')->toArray())
         ];

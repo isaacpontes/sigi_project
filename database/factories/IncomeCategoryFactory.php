@@ -23,7 +23,7 @@ class IncomeCategoryFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->text(8) . " Account",
+            'name' => 'Conta ' . $this->faker->text(8),
             'church_id' => $this->faker->randomElement(Church::all()->pluck('id')->toArray())
         ];
     }

@@ -23,7 +23,7 @@ class ExpenseCategoryFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->text(8) . " Expenses",
+            'name' => 'Despesas de ' . $this->faker->text(8),
             'church_id' => $this->faker->randomElement(Church::all()->pluck('id')->toArray())
         ];
     }
