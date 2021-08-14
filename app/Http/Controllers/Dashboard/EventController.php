@@ -4,11 +4,17 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Event;
-use App\Member;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
+    private $rules = [
+        'name' => 'required',
+        'description' => 'required',
+        'happens_at' => 'required|date'
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -16,9 +22,14 @@ class EventController extends Controller
      */
     public function index()
     {
-        //
-        $events = Event::where('church_id', auth()->user()->church_id)->get();
-        return view('dashboard.events.index')->with('events', $events);
+        $events = Event::query()
+            ->where('church_id', auth()->user()->church_id)
+            ->orderByDesc('happens_at')
+            ->get(['id', 'name', 'happens_at']);
+
+        return view('dashboard.events.index')->with([
+            'events' => $events
+        ]);
     }
 
     /**
@@ -39,16 +50,26 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $event = new Event();
-        $event->name = $request->name;
-        $event->description = $request->description;
-        $event->happens_at = $request->happens_at;
-        $event->church_id = \auth()->user()->church_id;
+        $request->validate($this->rules);
 
-        $event->save();
+        try {
+            $event = new Event();
+            $event->name = $request->name;
+            $event->description = $request->description;
+            $event->happens_at = $request->happens_at;
+            $event->church_id = \auth()->user()->church_id;
 
-        return \redirect()->route('dashboard.events.index');
+            $event->save();
+
+            return \redirect()->route('dashboard.events.index')->with([
+                'status' => 'Evento criado com sucesso.'
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao criar evento.',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -59,8 +80,9 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        //
-        return view('dashboard.events.show')->with('event', $event);
+        return view('dashboard.events.show')->with([
+            'event' => $event
+        ]);
     }
 
     /**
@@ -71,7 +93,6 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
-        //
         return view('dashboard.events.edit')->with([
             'event' => $event,
         ]);
@@ -86,14 +107,24 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        //
-        $event->name = $request->name;
-        $event->description = $request->description;
-        $event->happens_at = $request->happens_at;
+        $request->validate($this->rules);
 
-        $event->save();
+        try {
+            $event->update([
+                'name' => $request->name,
+                'description' => $request->description,
+                'happens_at' => $request->happens_at
+            ]);
 
-        return redirect()->route('dashboard.events.index');
+            return redirect()->route('dashboard.events.index')->with([
+                'status' => 'Evento atualizado com sucesso.'
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao atualizar evento.',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -104,9 +135,17 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        //
-        $event->delete();
+        try {
+            $event->delete();
 
-        return redirect()->route('dashboard.events.index');
+            return redirect()->route('dashboard.events.index')->with([
+                'status' => 'Evento excluído com sucesso.'
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao excluir evento.',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 }

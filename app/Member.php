@@ -13,6 +13,22 @@ class Member extends Model
     {
         return $this->demission === null ? true : false;
     }
+
+    public function readmit()
+    {
+        $now = new \DateTime();
+        $this->admission = $now->format("Y-m-d");
+        $this->demission = null;
+        $this->save();
+    }
+
+    public function demit()
+    {
+        $now = new \DateTime();
+        $this->demission = $now->format("Y-m-d");
+        $this->save();
+    }
+
     public function church()
     {
         return $this->belongsTo('App\Church');

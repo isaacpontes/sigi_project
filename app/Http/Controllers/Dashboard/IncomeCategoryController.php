@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\DB;
 
 class IncomeCategoryController extends Controller
 {
+    private $rules = [
+        'name' => 'required|string'
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +21,10 @@ class IncomeCategoryController extends Controller
      */
     public function index()
     {
-        $income_categories = IncomeCategory::where('church_id', auth()->user()->church_id)->get();
+        $income_categories = IncomeCategory::query()
+            ->where('church_id', auth()->user()->church_id)
+            ->get(['id', 'name']);
+
         return view('dashboard.income-categories.index')->with('income_categories', $income_categories);
     }
 
@@ -29,13 +36,24 @@ class IncomeCategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate($this->rules);
+
         $income_category = new IncomeCategory();
         $income_category->name = $request->name;
         $income_category->church_id = auth()->user()->church_id;
 
-        $income_category->save();
+        try {
+            $income_category->save();
 
-        return redirect()->back();
+            return redirect()->back()->with([
+                'status' => 'Categoria de receitas salva com sucesso.'
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao salvar categoria de receitas.',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -50,7 +68,8 @@ class IncomeCategoryController extends Controller
             ->where('church_id', Auth::user()->id)
             ->where('income_category_id', $income_category->id)
             ->orderByDesc('ref_date')
-            ->paginate(8);
+            ->paginate(20);
+
         return view('dashboard.income-categories.show')->with([
             'income_category' => $income_category,
             'incomes' => $incomes
@@ -77,11 +96,22 @@ class IncomeCategoryController extends Controller
      */
     public function update(Request $request, IncomeCategory $income_category)
     {
-        $income_category->name = $request->name;
+        $request->validate($this->rules);
 
-        $income_category->save();
+        try {
+            $income_category->update([
+                'name' => $request->name
+            ]);
 
-        return redirect()->route('dashboard.finance-categories');
+            return redirect()->route('dashboard.finances.categories')->with([
+                'status' => 'Categoria de receitas atualizada com sucesso.'
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao atualizar categoria de receitas.',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -92,8 +122,15 @@ class IncomeCategoryController extends Controller
      */
     public function destroy(IncomeCategory $income_category)
     {
-        $income_category->delete();
+        try {
+            $income_category->delete();
 
-        return redirect()->back();
+            return redirect()->back();
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao excluir categoria de receitas.',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 }

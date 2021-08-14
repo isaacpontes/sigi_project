@@ -15,6 +15,31 @@
         </div>
     @endif
 
+    <h2>Olá, {{ auth()->user()->name }}!</h2>
     You're logged in! And this is the start page.
+
+    <div class="row mt-4">
+        <div class="col-md-6 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Compromissos da Semana</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Compromissos da Semana</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Aniversariantes da Semana</h5>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </x-app-layout>

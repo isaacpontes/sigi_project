@@ -19,8 +19,6 @@ class CreateChurchesTable extends Migration
             $table->string('email');
             $table->string('phone')->default('');
             $table->text('add_info')->nullable();
-            $table->integer('plan');
-            $table->date('expiration');
             $table->timestamps();
         });
     }

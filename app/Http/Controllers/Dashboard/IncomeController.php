@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Income;
 use App\Account;
+use App\Helpers\IncomesHelper;
 use App\Member;
 use App\IncomeCategory;
 use Illuminate\Http\Request;
@@ -13,6 +14,23 @@ use Illuminate\Support\Facades\DB;
 
 class IncomeController extends Controller
 {
+    private $rules = [
+        'name' => 'required|string',
+        'value' => 'required|numeric',
+        'ref_date' => 'required|date',
+        'add_info' => 'string',
+        'member_id' => 'string',
+        'expense_category_id' => 'required|string',
+        'account_id' => 'required|string'
+    ];
+
+    private $incomes_helper;
+
+    public function __construct()
+    {
+        $this->incomes_helper = new IncomesHelper();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +47,9 @@ class IncomeController extends Controller
                 'incomes.value',
                 'incomes.ref_date',
                 'income_categories.name AS category'
-        ])->paginate(10);
+            ])
+            ->orderByDesc('ref_date')
+            ->paginate(20);
 
         return view('dashboard.incomes.index')->with('incomes', $incomes);
     }
@@ -41,9 +61,18 @@ class IncomeController extends Controller
      */
     public function create()
     {
-        $accounts = Account::where('church_id', auth()->user()->church_id)->pluck('name', 'id');
-        $members = Member::where('church_id', auth()->user()->church_id)->pluck('name', 'id');
-        $income_categories = IncomeCategory::where('church_id', auth()->user()->church_id)->pluck('name', 'id');
+        $accounts = DB::table('accounts')
+            ->where('church_id', auth()->user()->church_id)
+            ->pluck('name', 'id');
+
+        $members = DB::table('members')
+            ->where('church_id', auth()->user()->church_id)
+            ->pluck('name', 'id');
+
+        $income_categories = DB::table('income_categories')
+            ->where('church_id', auth()->user()->church_id)
+            ->pluck('name', 'id');
+
         return view('dashboard.incomes.create')->with([
             'accounts' => $accounts,
             'members' => $members,
@@ -59,20 +88,22 @@ class IncomeController extends Controller
      */
     public function store(Request $request)
     {
-        $income = new Income();
-        $income->name = $request->name;
-        $income->value = intval($request->value * 100); // Using integer type for currency on DB;
-        $income->ref_date = $request->ref_date;
-        $income->add_info = $request->add_info;
-        $income->member_id = $request->member_id;
-        $income->income_category_id = $request->income_category_id;
-        $income->account_id = $request->account_id;
-        $income->church_id = auth()->user()->church_id;
+        $request->validate($this->rules);
 
-        $income->save();
-        $income->saveOnAccount();
+        try {
+            $this->incomes_helper->saveTransaction($request);
 
-        return redirect()->route('dashboard.incomes.index');
+            return redirect()
+                ->route('dashboard.finances.categories-incomes.show', $request->income_category_id)
+                ->with([
+                    'status' => 'Receita salva com sucesso.'
+                ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao salvar receita',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -83,7 +114,6 @@ class IncomeController extends Controller
      */
     public function show(Income $income)
     {
-        // dd($income);
         return view('dashboard.incomes.show')->with('income', $income);
     }
 
@@ -95,9 +125,18 @@ class IncomeController extends Controller
      */
     public function edit(Income $income)
     {
-        $accounts = Account::where('church_id', auth()->user()->church_id)->pluck('name', 'id');
-        $members = Member::where('church_id', auth()->user()->church_id)->pluck('name', 'id');
-        $income_categories = IncomeCategory::where('church_id', auth()->user()->church_id)->pluck('name', 'id');
+        $accounts = DB::table('accounts')
+            ->where('church_id', auth()->user()->church_id)
+            ->pluck('name', 'id');
+
+        $members = DB::table('members')
+            ->where('church_id', auth()->user()->church_id)
+            ->pluck('name', 'id');
+
+        $income_categories = DB::table('income_categories')
+            ->where('church_id', auth()->user()->church_id)
+            ->pluck('name', 'id');
+
         return view('dashboard.incomes.edit')->with([
             'income' => $income,
             'accounts' => $accounts,
@@ -115,20 +154,22 @@ class IncomeController extends Controller
      */
     public function update(Request $request, Income $income)
     {
-        $income->deleteOnAccount();
+        $request->validate($this->rules);
 
-        $income->name = $request->name;
-        $income->value = intval($request->value * 100); // Using integer type for currency on DB;
-        $income->ref_date = $request->ref_date;
-        $income->add_info = $request->add_info;
-        $income->member_id = $request->member_id;
-        $income->income_category_id = $request->income_category_id;
-        $income->account_id = $request->account_id;
+        try {
+            $this->incomes_helper->updateTransaction($income, $request);
 
-        $income->save();
-        $income->saveOnAccount();
-
-        return redirect()->route('dashboard.incomes.index');
+            return redirect()
+                ->route('dashboard.finances.categories-incomes.show', $request->income_category_id)
+                ->with([
+                    'status' => 'Receita atualizada com sucesso.'
+                ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao atualizar receita',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -139,9 +180,19 @@ class IncomeController extends Controller
      */
     public function destroy(Income $income)
     {
-        $income->delete();
-        $income->deleteOnAccount();
+        try {
+            $this->incomes_helper->deleteTransaction($income);
 
-        return redirect()->route('dashboard.incomes.index');
+            return redirect()
+                ->route('dashboard.finances.categories-incomes.show', $income->income_category_id)
+                ->with([
+                    'status' => 'Receita excluida com sucesso.'
+                ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao excluir receita',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 }

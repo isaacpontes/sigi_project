@@ -11,14 +11,14 @@ class Income extends Model
 
     public function saveOnAccount()
     {
-        $account = Account::find($this->account_id);
+        $account = Account::findOrFail($this->account_id);
         $account->balance += $this->value;
         $account->save();
     }
 
     public function deleteOnAccount()
     {
-        $account = Account::find($this->account_id);
+        $account = Account::findOrFail($this->account_id);
         $account->balance -= $this->value;
         $account->save();
     }

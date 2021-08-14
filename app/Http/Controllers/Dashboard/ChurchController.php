@@ -38,6 +38,13 @@ class ChurchController extends Controller
         if (Gate::denies('manageChurch', $church)) {
             return redirect()->route('dashboard.start')->with('error', 'Você não está autorizado a utilizar este recurso.');
         }
+
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'phone' => 'required|string'
+        ]);
+
         try {
             $church->update([
                 'name' => $request->name,
@@ -50,8 +57,8 @@ class ChurchController extends Controller
         } catch (\Throwable $th) {
             return  redirect()->route('dashboard.church.show')->with([
                 'error' => 'Não foi possível salvar as informações. Erro interno do servidor.',
+                'message' => $th->getMessage()
             ]);
         }
-
     }
 }

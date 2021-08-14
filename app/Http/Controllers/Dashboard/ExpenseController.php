@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Expense;
-use App\Account;
-use App\ExpenseCategory;
+use App\Helpers\ExpensesHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +11,22 @@ use Illuminate\Support\Facades\DB;
 
 class ExpenseController extends Controller
 {
+    private $rules = [
+        'name' => 'required|string',
+        'value' => 'required|numeric',
+        'ref_date' => 'required|date',
+        'add_info' => 'string',
+        'expense_category_id' => 'required|string',
+        'account_id' => 'required|string'
+    ];
+
+    private $expenses_helper;
+
+    public function __construct()
+    {
+        $this->expenses_helper = new ExpensesHelper();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +43,9 @@ class ExpenseController extends Controller
                 'expenses.value',
                 'expenses.ref_date',
                 'expense_categories.name AS category'
-        ])->paginate(10);
+            ])
+            ->orderByDesc('ref_date')
+            ->paginate(20);
 
         return view('dashboard.expenses.index')->with('expenses', $expenses);
     }
@@ -40,8 +57,14 @@ class ExpenseController extends Controller
      */
     public function create()
     {
-        $accounts = Account::where('church_id', auth()->user()->church_id)->pluck('name', 'id');
-        $expense_categories = ExpenseCategory::where('church_id', auth()->user()->church_id)->pluck('name', 'id');
+        $accounts = DB::table('accounts')
+            ->where('church_id', auth()->user()->church_id)
+            ->pluck('name', 'id');
+
+        $expense_categories = DB::table('expense_categories')
+            ->where('church_id', auth()->user()->church_id)
+            ->pluck('name', 'id');
+
         return view('dashboard.expenses.create')->with([
             'accounts' => $accounts,
             'expense_categories' => $expense_categories
@@ -56,19 +79,22 @@ class ExpenseController extends Controller
      */
     public function store(Request $request)
     {
-        $expense = new Expense();
-        $expense->name = $request->name;
-        $expense->value = intval($request->value * 100); // Using integer type for currency on DB;
-        $expense->ref_date = $request->ref_date;
-        $expense->add_info = $request->add_info;
-        $expense->expense_category_id = $request->expense_category_id;
-        $expense->account_id = $request->account_id;
-        $expense->church_id = auth()->user()->church_id;
+        $request->validate($this->rules);
 
-        $expense->save();
-        $expense->saveOnAccount();
+        try {
+            $this->expenses_helper->saveTransaction($request);
 
-        return redirect()->route('dashboard.expenses.index');
+            return redirect()
+                ->route('dashboard.finances.categories-expenses.show', $request->expense_category_id)
+                ->with([
+                    'status' => 'Despesa salva com sucesso.'
+                ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao salvar despesa',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -90,8 +116,13 @@ class ExpenseController extends Controller
      */
     public function edit(Expense $expense)
     {
-        $accounts = Account::where('church_id', auth()->user()->church_id)->pluck('name', 'id');
-        $expense_categories = ExpenseCategory::where('church_id', auth()->user()->church_id)->pluck('name', 'id');
+        $accounts = DB::table('accounts')
+            ->where('church_id', auth()->user()->church_id)
+            ->pluck('name', 'id');
+        $expense_categories = DB::table('expense_categories')
+            ->where('church_id', auth()->user()->church_id)
+            ->pluck('name', 'id');
+
         return view('dashboard.expenses.edit')->with([
             'expense' => $expense,
             'accounts' => $accounts,
@@ -108,20 +139,22 @@ class ExpenseController extends Controller
      */
     public function update(Request $request, Expense $expense)
     {
-        $expense->deleteOnAccount();
+        $request->validate($this->rules);
 
-        $expense->name = $request->name;
-        $expense->value = intval($request->value * 100); // Using integer type for currency on DB;
-        $expense->ref_date = $request->ref_date;
-        $expense->add_info = $request->add_info;
-        $expense->expense_category_id = $request->expense_category_id;
-        $expense->account_id = $request->account_id;
-        $expense->church_id = auth()->user()->church_id;
+        try {
+            $this->expenses_helper->updateTransaction($expense, $request);
 
-        $expense->save();
-        $expense->saveOnAccount();
-
-        return redirect()->route('dashboard.expenses.index');
+            return redirect()
+                ->route('dashboard.finances.categories-expenses.show', $request->expense_category_id)
+                ->with([
+                    'status' => 'Despesa atualizada com sucesso.'
+                ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao atualizar despesa',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -132,9 +165,19 @@ class ExpenseController extends Controller
      */
     public function destroy(Expense $expense)
     {
-        $expense->delete();
-        $expense->deleteOnAccount();
+        try {
+            $this->expenses_helper->deleteTransaction($expense);
 
-        return redirect()->route('dashboard.expenses.index');
+            return redirect()
+                ->route('dashboard.finances.categories-expenses.show', $expense->expense_category_id)
+                ->with([
+                    'status' => 'Despesa excluida com sucesso.'
+                ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao excluir despesa',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 }

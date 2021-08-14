@@ -31,85 +31,89 @@
       </div>
     </div>
     <div class="col-sm-8">
-      <h3 class="mb-3">Últimos Lancamentos</h3>
-      <div class="row">
-        <div class="col-sm-6">
-          <h5>Entradas</h5>
-          <div class="table-responsive">
-            <table class="table  ">
-              <thead>
-                <tr>
-                  <th>Nome</th>
-                  <th>Valor</th>
-                  <th>Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                @foreach ($incomes as $income)
-                  <tr>
-                    <td>{{ $income->name }}</td>
-                    <td>R$ {{ number_format($income->value/100, 2, ',', '.') }}</td>
-                    <td>
-                        <a
-                            href="{{ route('dashboard.finances.accounts.show', $income->id) }}"
-                            class="btn btn-outline-primary me-2 py-0"
-                        >
-                            <span>
-                                {{ __('Details') }}
-                            </span>
-                        </a>
-                    </td>
-                  </tr>
-                @endforeach
-              </tbody>
-            </table>
-          </div>
+        <div class="card mb-4">
+            <div class="card-header">Últimos Lancamentos</div>
+            <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <h5>Entradas</h5>
+                    <div class="table-responsive">
+                      <table class="table  ">
+                        <thead>
+                          <tr>
+                            <th>Nome</th>
+                            <th>Valor</th>
+                            <th>Ações</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach ($incomes as $income)
+                            <tr>
+                              <td>{{ $income->name }}</td>
+                              <td>R$ {{ number_format($income->value/100, 2, ',', '.') }}</td>
+                              <td>
+                                  <a
+                                      href="{{ route('dashboard.finances.accounts.show', $income->id) }}"
+                                      class="btn btn-outline-info me-2 py-0"
+                                  >
+                                      <span>
+                                          {{ __('Details') }}
+                                      </span>
+                                  </a>
+                              </td>
+                            </tr>
+                          @endforeach
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <h5>Saídas</h5>
+                    <div class="table-responsive">
+                      <table class="table  ">
+                        <thead>
+                          <tr>
+                            <th>Nome</th>
+                            <th>Valor</th>
+                            <th>Ações</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach ($expenses as $expense)
+                            <tr>
+                              <td>{{ $expense->name }}</td>
+                              <td>R$ {{ number_format($expense->value/100, 2, ',', '.') }}</td>
+                              <td>
+                                  <a
+                                      href="{{ route('dashboard.finances.accounts.show', $expense->id) }}"
+                                      class="btn btn-outline-info me-2 py-0"
+                                  >
+                                      <span>
+                                          {{ __('Details') }}
+                                      </span>
+                                  </a>
+                              </td>
+                            </tr>
+                          @endforeach
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="pb-3 d-flex justify-content-end align-items-center">
+                      <a href="{{ route('dashboard.finances.incomes.index') }}" class="btn btn-primary">{{ __('All Incomes') }}</a>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="pb-3 d-flex justify-content-end align-items-center">
+                      <a href="{{ route('dashboard.finances.expenses.index') }}" class="btn btn-primary">{{ __('All Expenses') }}</a>
+                    </div>
+                  </div>
+                </div>
+            </div>
         </div>
-        <div class="col-sm-6">
-          <h5>Saídas</h5>
-          <div class="table-responsive">
-            <table class="table  ">
-              <thead>
-                <tr>
-                  <th>Nome</th>
-                  <th>Valor</th>
-                  <th>Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                @foreach ($expenses as $expense)
-                  <tr>
-                    <td>{{ $expense->name }}</td>
-                    <td>R$ {{ number_format($expense->value/100, 2, ',', '.') }}</td>
-                    <td>
-                        <a
-                            href="{{ route('dashboard.finances.accounts.show', $expense->id) }}"
-                            class="btn btn-outline-primary me-2 py-0"
-                        >
-                            <span>
-                                {{ __('Details') }}
-                            </span>
-                        </a>
-                    </td>
-                  </tr>
-                @endforeach
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-6">
-          <div class="pb-3 d-flex justify-content-end align-items-center">
-            <a href="{{ route('dashboard.finances.incomes.index') }}" class="btn btn-sm btn-outline-primary">{{ __('All Incomes') }}</a>
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <div class="pb-3 d-flex justify-content-end align-items-center">
-            <a href="{{ route('dashboard.finances.expenses.index') }}" class="btn btn-sm btn-outline-primary">{{ __('All Expenses') }}</a>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 

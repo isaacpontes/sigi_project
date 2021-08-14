@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Account;
-use App\Helpers\FinanceHelper;
+use App\Helpers\AccountsHelper;
 use App\Http\Controllers\Controller;
 use DateTime;
 use Illuminate\Http\Request;
@@ -11,6 +11,19 @@ use Illuminate\Support\Facades\DB;
 
 class AccountController extends Controller
 {
+    private $rules = [
+        'name' => 'required|string',
+        'balance' => 'required|numeric',
+        'add_info' => 'string'
+    ];
+
+    private $accounts_helper;
+
+    public function __construct()
+    {
+        $this->accounts_helper = new AccountsHelper();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,45 +32,25 @@ class AccountController extends Controller
     public function index()
     {
         $accounts = DB::table('accounts')
-            ->where('church_id', Auth()->user()->church_id)
-            ->get(['id', 'name', 'balance', 'add_info']);
+            ->where('church_id', auth()->user()->church_id)
+            ->get(['id', 'name', 'balance']);
 
         $incomes = DB::table('incomes')
-            ->where('church_id', Auth()->user()->church_id)
+            ->where('church_id', auth()->user()->church_id)
             ->get(['value', 'ref_date']);
 
         $expenses = DB::table('expenses')
-            ->where('church_id', Auth()->user()->church_id)
+            ->where('church_id', auth()->user()->church_id)
             ->get(['value', 'ref_date']);
 
-        $current_month = date("Y-m");
-        $current_year = date("Y");
-        $last_month = date("Y-m", strtotime("-1 month"));
-        $last_year = date("Y", strtotime("-1 year"));
+        $current_month_incomes = $this->accounts_helper->getCurrentMonthTransactionsTotal($incomes);
+        $current_month_expenses = $this->accounts_helper->getCurrentMonthTransactionsTotal($expenses);
 
-        $month_incomes = FinanceHelper::filterTransactionsByMonth($incomes, $current_month);
-        $current_month_incomes = $month_incomes->sum('value');
-        $current_month_incomes /= 100;
+        $current_year_incomes = $this->accounts_helper->getCurrentYearTransactionsTotal($incomes);
+        $current_year_expenses = $this->accounts_helper->getCurrentYearTransactionsTotal($expenses);
 
-        $year_incomes = FinanceHelper::filterTransactionsByYear($incomes, $current_year);
-        $current_year_incomes = $year_incomes->sum('value');
-        $current_year_incomes /= 100;
-
-        $month_expenses = FinanceHelper::filterTransactionsByMonth($expenses, $current_month);
-        $current_month_expenses = $month_expenses->sum('value');
-        $current_month_expenses /= 100;
-
-        $year_expenses = FinanceHelper::filterTransactionsByYear($expenses, $current_year);
-        $current_year_expenses = $year_expenses->sum('value');
-        $current_year_expenses /= 100;
-
-        $month_incomes = FinanceHelper::filterTransactionsByMonth($incomes, $last_month);
-        $last_month_incomes = $month_incomes->sum('value');
-        $last_month_incomes /= 100;
-
-        $month_expenses = FinanceHelper::filterTransactionsByMonth($expenses, $last_month);
-        $last_month_expenses = $month_expenses->sum('value');
-        $last_month_expenses /= 100;
+        $last_month_incomes = $this->accounts_helper->getLastMonthTransactionsTotal($incomes);
+        $last_month_expenses = $this->accounts_helper->getLastMonthTransactionsTotal($expenses);
 
         $current_month_balance = $current_month_incomes - $current_month_expenses;
         $current_year_balance = $current_year_incomes - $current_year_expenses;
@@ -99,15 +92,26 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate($this->rules);
+
         $account = new Account();
         $account->name = $request->name;
         $account->balance = intval($request->balance * 100);
         $account->add_info = $request->add_info;
         $account->church_id = auth()->user()->church_id;
 
-        $account->save();
+        try {
+            $account->save();
 
-        return redirect()->route('dashboard.accounts.store');
+            return redirect()->route('dashboard.accounts.store')->with([
+                'status' => 'Conta salva com sucesso.'
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao salvar conta.',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -119,17 +123,17 @@ class AccountController extends Controller
     public function show(Account $account)
     {
         $incomes = DB::table('incomes')
-                        ->where('church_id', Auth()->user()->church_id)
-                        ->where('account_id', $account->id)
-                        ->orderBy('ref_date', 'desc')
-                        ->limit(8)
-                        ->get();
+            ->where('church_id', auth()->user()->church_id)
+            ->where('account_id', $account->id)
+            ->orderBy('ref_date', 'desc')
+            ->limit(8)
+            ->get();
         $expenses = DB::table('expenses')
-                        ->where('church_id', Auth()->user()->church_id)
-                        ->where('account_id', $account->id)
-                        ->orderBy('ref_date', 'desc')
-                        ->limit(8)
-                        ->get();
+            ->where('church_id', auth()->user()->church_id)
+            ->where('account_id', $account->id)
+            ->orderBy('ref_date', 'desc')
+            ->limit(8)
+            ->get();
 
         return view('dashboard.accounts.show')->with([
             'account' => $account,
@@ -158,12 +162,25 @@ class AccountController extends Controller
      */
     public function update(Request $request, Account $account)
     {
-        $account->name = $request->name;
-        $account->add_info = $request->add_info;
+        $request->validate([
+            'name' => 'required'
+        ]);
 
-        $account->save();
+        try {
+            $account->update([
+                'name' => $request->name,
+                'add_info' => $request->add_info
+            ]);
 
-        return redirect()->route('dashboard.accounts.index');
+            return redirect()->route('dashboard.accounts.index')->with([
+                'status' => 'Conta atualizada com sucesso.'
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao atualizar conta.',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -174,21 +191,30 @@ class AccountController extends Controller
      */
     public function destroy(Account $account)
     {
-        $account->delete();
+        try {
+            $account->delete();
 
-        return redirect()->route('dashboard.accounts.index');
+            return redirect()->route('dashboard.accounts.index')->with([
+                'status' => 'Conta excluída com sucesso.'
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->route('dashboard.accounts.index')->with([
+                'error' => 'Erro ao excluir conta.',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 
     public function individualResume(Account $account)
     {
-        $pdf = FinanceHelper::createIndividualPdfResume($account);
+        $pdf = $this->accounts_helper->createIndividualPdfResume($account);
 
         return $pdf->download('resumo-conta-' . $account->name . '.pdf');
     }
 
     public function generalResume()
     {
-        $pdf = FinanceHelper::createGeneralPdfResume();
+        $pdf = $this->accounts_helper->createGeneralPdfResume();
 
         return $pdf->download('relatorio-financeiro-geral.pdf');
     }
@@ -197,12 +223,16 @@ class AccountController extends Controller
     {
         $initial_date = DateTime::createFromFormat('Y-m-d', $request->query('initial_date'));
         $final_date = DateTime::createFromFormat('Y-m-d', $request->query('final_date'));
+
         if ($request->query('account_id')) {
             $account_id = $request->query('account_id');
-            $pdf = FinanceHelper::createIndividualCustomPdfReport($initial_date, $final_date, $account_id);
+
+            $pdf = $this->accounts_helper->createIndividualCustomPdfReport($initial_date, $final_date, $account_id);
+
             $file_name = 'relatorio-financeiro-individual-' . $initial_date->format("d-m-Y") . '-' . $final_date->format("d-m-Y") . '.pdf';
         } else {
-            $pdf = FinanceHelper::createCustomPdfReport($initial_date, $final_date);
+            $pdf = $this->accounts_helper->createCustomPdfReport($initial_date, $final_date);
+
             $file_name = 'relatorio-financeiro-' . $initial_date->format("d-m-Y") . '-' . $final_date->format("d-m-Y") . '.pdf';
         }
 

@@ -8,8 +8,17 @@ use Barryvdh\DomPDF\Facade as DomPdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use function PHPSTORM_META\map;
+
 class CongregationController extends Controller
 {
+    private $rules = [
+        'name' => 'required|string',
+        'phone' => 'required|string',
+        'address' => 'required|string',
+        'add_info' => 'string'
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -17,11 +26,11 @@ class CongregationController extends Controller
      */
     public function index()
     {
-        //
         $congregations = DB::table('congregations')
             ->where('church_id', auth()->user()->church_id)
             ->select(['id', 'name', 'phone'])
             ->paginate(10);
+
         return view('dashboard.congregations.index')->with('congregations', $congregations);
     }
 
@@ -32,7 +41,6 @@ class CongregationController extends Controller
      */
     public function create()
     {
-        //
         return view('dashboard.congregations.create');
     }
 
@@ -44,7 +52,8 @@ class CongregationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate($this->rules);
+
         $congregation = new Congregation();
         $congregation->name = $request->name;
         $congregation->phone = $request->phone;
@@ -52,9 +61,18 @@ class CongregationController extends Controller
         $congregation->add_info = $request->add_info;
         $congregation->church_id = auth()->user()->church_id;
 
-        $congregation->save();
+        try {
+            $congregation->save();
 
-        return redirect()->route('dashboard.congregations.index');
+            return redirect()->route('dashboard.congregations.index')->with([
+                'status' => 'Congregação salva com sucesso.'
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao salvar congregação.',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -65,12 +83,8 @@ class CongregationController extends Controller
      */
     public function show(Congregation $congregation)
     {
-        $active_members = DB::table('members')
-            ->where('church_id', auth()->user()->church_id)
-            ->where('congregation_id', $congregation->id)
-            ->whereNull('demission')
-            ->orderBy('name', 'asc')
-            ->paginate(8);
+        $active_members = $congregation->getActiveMembers();
+
         return view('dashboard.congregations.show')->with([
             'congregation' => $congregation,
             'active_members' => $active_members
@@ -85,9 +99,8 @@ class CongregationController extends Controller
      */
     public function edit(Congregation $congregation)
     {
-        //
         return view('dashboard.congregations.edit')->with([
-          'congregation' => $congregation
+            'congregation' => $congregation
         ]);
     }
 
@@ -100,15 +113,25 @@ class CongregationController extends Controller
      */
     public function update(Request $request, Congregation $congregation)
     {
-        //
-        $congregation->name = $request->name;
-        $congregation->phone = $request->phone;
-        $congregation->address = $request->address;
-        $congregation->add_info = $request->add_info;
+        $request->validate();
 
-        $congregation->save();
+        try {
+            $congregation->update([
+                'name' => $request->name,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'add_info' => $request->add_info
+            ]);
 
-        return redirect()->route('dashboard.congregations.index');
+            return redirect()->route('dashboard.congregations.index')->with([
+                'status' => 'Congregação atualizada com sucesso.'
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao atualizar congregação.',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -119,9 +142,18 @@ class CongregationController extends Controller
      */
     public function destroy(Congregation $congregation)
     {
-        $congregation->delete();
+        try {
+            $congregation->delete();
 
-        return redirect()->route('dashboard.congregations.index');
+            return redirect()->route('dashboard.congregations.index')->with([
+                'status' => 'Congregação excluída com sucesso.'
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao excluir congregação.',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 
     public function exportPdfList()
@@ -131,6 +163,7 @@ class CongregationController extends Controller
             ->orderBy('created_at')
             ->get(['name', 'phone', 'address']);
         $pdf = DomPdf::loadView('dashboard.congregations.pdf-list', compact('congregations'));
+
         return $pdf->download('lista-de-congregacoes.pdf');
     }
 }

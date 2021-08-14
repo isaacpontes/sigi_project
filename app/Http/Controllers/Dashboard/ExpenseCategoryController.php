@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\DB;
 
 class ExpenseCategoryController extends Controller
 {
+    private $rules = [
+        'name' => 'required|string'
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +21,10 @@ class ExpenseCategoryController extends Controller
      */
     public function index()
     {
-        $expense_categories = ExpenseCategory::where('church_id', auth()->user()->church_id)->get();
+        $expense_categories = ExpenseCategory::query()
+            ->where('church_id', auth()->user()->church_id)
+            ->get();
+
         return view('dashboard.expense-categories.index')->with('expense_categories', $expense_categories);
     }
 
@@ -29,13 +36,24 @@ class ExpenseCategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate($this->rules);
+
         $expense_category = new ExpenseCategory();
         $expense_category->name = $request->name;
         $expense_category->church_id = auth()->user()->church_id;
 
-        $expense_category->save();
+        try {
+            $expense_category->save();
 
-        return redirect()->back();
+            return redirect()->back()->with([
+                'status' => 'Categoria de despesas salva com sucesso.'
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao salvar categoria de despesas.',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -50,7 +68,8 @@ class ExpenseCategoryController extends Controller
             ->where('church_id', Auth::user()->id)
             ->where('expense_category_id', $expense_category->id)
             ->orderByDesc('ref_date')
-            ->paginate(8);
+            ->paginate(20);
+
         return view('dashboard.expense-categories.show')->with([
             'expense_category' => $expense_category,
             'expenses' => $expenses
@@ -77,11 +96,22 @@ class ExpenseCategoryController extends Controller
      */
     public function update(Request $request, ExpenseCategory $expense_category)
     {
-        $expense_category->name = $request->name;
+        $request->validate($this->rules);
 
-        $expense_category->save();
+        try {
+            $expense_category->update([
+                'name' => $request->name
+            ]);
 
-        return redirect()->route('dashboard.finance-categories');
+            return redirect()->route('dashboard.finances.categories')->with([
+                'status' => 'Categoria de despesas atualizada com sucesso.'
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao atualizar categoria de despesas.',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -92,8 +122,15 @@ class ExpenseCategoryController extends Controller
      */
     public function destroy(ExpenseCategory $expense_category)
     {
-        $expense_category->delete();
+        try {
+            $expense_category->delete();
 
-        return redirect()->back();
+            return redirect()->back();
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao excluir categoria de despesas.',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 }

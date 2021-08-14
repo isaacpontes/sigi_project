@@ -4,15 +4,33 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Member;
-use App\Congregation;
-use App\Classroom;
+use App\Helpers\MemberHelper;
 use Barryvdh\DomPDF\Facade as DomPDF;
-use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class MemberController extends Controller
 {
+    private $rules = [
+        'name' => 'required|string',
+        'gender' => 'required|numeric',
+        'birth' => 'required|date',
+        'email' => 'required|email',
+        'phone' => 'string',
+        'address' => 'string',
+        'admission' => 'required|date',
+        'demission' => 'date',
+        'classroom_id' => 'string',
+        'congregation_id' => 'required|string'
+    ];
+
+    private $member_helper;
+
+    public function __construct()
+    {
+        $this->member_helper = new MemberHelper();
+    }
+
     /**
      * Display a listing of the members.
      *
@@ -20,36 +38,21 @@ class MemberController extends Controller
      */
     public function index()
     {
-        // $members = Member::where('church_id', auth()->user()->church_id)->paginate(10);
-        $active_members = Member::where('church_id', auth()->user()->church_id)
-            ->whereNull('demission')
-            ->orderBy('name', 'asc')
-            ->paginate(10);
-        $inactive_members = DB::table('members')
-            ->where('church_id', auth()->user()->church_id)
-            ->whereNotNull('demission')
-            ->orderBy('name', 'asc')
-            ->paginate(10);
+        $active_members = $this->member_helper->findAllActive(true, 10, ['id', 'name', 'phone', 'email']);
+
+        $inactive_members = $this->member_helper->findAllInactive(true, 10, ['id', 'name', 'phone', 'email']);
 
         $current_year = date("Y");
 
-        $active_members_this_year = DB::table('members')
-            ->where('church_id', auth()->user()->church_id)
-            ->whereNull('demission')
-            ->whereYear('admission', '=', $current_year)
-            ->count('id');
+        $admited_this_year = $this->member_helper->countAdmitedMembersByYear($current_year);
 
-        $inactive_members_this_year = DB::table('members')
-            ->where('church_id', auth()->user()->church_id)
-            ->whereNotNull('demission')
-            ->whereYear('demission', '=', $current_year)
-            ->count('id');
+        $demited_this_year = $this->member_helper->countDemitedMembersByYear($current_year);
 
         return view('dashboard.members.index', [
             'active_members' => $active_members,
             'inactive_members' => $inactive_members,
-            'active_members_this_year' => $active_members_this_year,
-            'inactive_members_this_year' => $inactive_members_this_year
+            'active_members_this_year' => $admited_this_year,
+            'inactive_members_this_year' => $demited_this_year
         ]);
     }
 
@@ -60,9 +63,13 @@ class MemberController extends Controller
      */
     public function create()
     {
-        //
-        $congregations = Congregation::where('church_id', auth()->user()->church_id)->pluck('name', 'id');
-        $classrooms = Classroom::where('church_id', auth()->user()->church_id)->pluck('name', 'id');
+        $congregations = DB::table('congregations')
+            ->where('church_id', auth()->user()->church_id)
+            ->pluck('name', 'id');
+        $classrooms = DB::table('classrooms')
+            ->where('church_id', auth()->user()->church_id)
+            ->pluck('name', 'id');
+
         return view('dashboard.members.create')->with([
             'classrooms' => $classrooms,
             'congregations' => $congregations
@@ -77,10 +84,11 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate($this->rules);
+
         $member = new Member();
         $member->name = $request->name;
-        $member->gender = $request->gender;
+        $member->gender = $request->gender; // Change to Enum
         $member->birth = $request->birth;
         $member->email = $request->email;
         $member->phone = $request->phone;
@@ -90,9 +98,18 @@ class MemberController extends Controller
         $member->congregation_id = $request->congregation_id;
         $member->church_id = auth()->user()->church_id;
 
-        $member->save();
+        try {
+            $member->save();
 
-        return redirect()->route('dashboard.members.index');
+            return redirect()->route('dashboard.membership.members.index')->with([
+                'status' => 'Membro cadastrado com sucesso.'
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao cadastrar membro.',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -103,7 +120,6 @@ class MemberController extends Controller
      */
     public function show(Member $member)
     {
-        //
         return view('dashboard.members.show')->with([
             'member' => $member
         ]);
@@ -117,9 +133,14 @@ class MemberController extends Controller
      */
     public function edit(Member $member)
     {
-        //
-        $congregations = Congregation::where('church_id', auth()->user()->church_id)->pluck('name', 'id');
-        $classrooms = Classroom::where('church_id', auth()->user()->church_id)->pluck('name', 'id');
+        $congregations = DB::table('congregations')
+            ->where('church_id', auth()->user()->church_id)
+            ->pluck('name', 'id');
+
+        $classrooms = DB::table('classrooms')
+            ->where('church_id', auth()->user()->church_id)
+            ->pluck('name', 'id');
+
         return view('dashboard.members.edit')->with([
             'member' => $member,
             'congregations' => $congregations,
@@ -136,63 +157,67 @@ class MemberController extends Controller
      */
     public function update(Request $request, Member $member)
     {
-        //
-        $member->name = $request->name;
-        $member->gender = $request->gender;
-        $member->birth = $request->birth;
-        $member->email = $request->email;
-        $member->phone = $request->phone;
-        $member->address = $request->address;
-        $member->admission = $request->admission;
-        $member->demission = $request->demission;
-        $member->classroom_id = $request->classroom_id;
-        $member->congregation_id = $request->congregation_id;
+        $request->validate($this->rules);
 
-        $member->save();
 
-        return redirect()->route('dashboard.members.index');
+        try {
+            $member->update([
+                'name' => $request->name,
+                'gender' => $request->gender,
+                'birth' => $request->birth,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'admission' => $request->admission,
+                'demission' => $request->demission,
+                'classroom_id' => $request->classroom_id,
+                'congregation_id' => $request->congregation_id
+            ]);
+
+            return redirect()->route('dashboard.membership.members.index')->with([
+                'status' => 'Membro atualizado com sucesso.'
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao atualizar membro.',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 
-    /**
-     * Remove the specified member from storage.
-     *
-     * @param  \App\Member  $member
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Member $member)
-    {
-        //
-        // $member->delete();
+    // /**
+    //  * Remove the specified member from storage.
+    //  *
+    //  * @param  \App\Member  $member
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function destroy(Member $member)
+    // {
+    //     $member->delete();
 
-        return redirect()->route('dashboard.members.index');
-    }
+    //     return redirect()->route('dashboard.members.index');
+    // }
 
     public function readmit(Member $member)
     {
-        $now = new DateTime();
-        $member->admission = $now->format("Y-m-d");
-        $member->demission = null;
-        $member->save();
+        $member->readmit();
 
         return redirect()->route('dashboard.members.index');
     }
 
     public function demit(Member $member)
     {
-        $now = new DateTime();
-        $member->demission = $now->format("Y-m-d");
-        $member->save();
+        $member->demit();
 
         return redirect()->route('dashboard.members.index');
     }
 
     public function simpleReport()
     {
-        $active_members = Member::where('church_id', auth()->user()->church_id)
-            ->whereNull('demission')
-            ->orderBy('name', 'asc')
-            ->get();
+        $active_members = $this->member_helper->findAllActive();
+
         $pdf = DomPDF::loadView('dashboard.members.simple-report', compact('active_members'));
+
         return $pdf->download('lista-de-membros.pdf');
     }
 

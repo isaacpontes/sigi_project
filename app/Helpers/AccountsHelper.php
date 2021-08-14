@@ -8,9 +8,46 @@ use Barryvdh\DomPDF\Facade as DomPDF;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
-class FinanceHelper
+class AccountsHelper
 {
-    public static function filterTransactionsByMonth(Collection $transactions, string $month)
+    public function getCurrentMonthTransactionsTotal(Collection $transactions): float
+    {
+        $today = new DateTime();
+        $current_month = $today->format("Y-m");
+
+        $current_month_transactions = $this->filterTransactionsByMonth($transactions, $current_month);
+        $sum = $current_month_transactions->sum('value');
+        $sum /= 100;
+
+        return $sum;
+    }
+
+    public function getCurrentYearTransactionsTotal(Collection $transactions): float
+    {
+        $today = new DateTime();
+        $current_year = $today->format("Y");
+
+        $current_year_transactions = $this->filterTransactionsByYear($transactions, $current_year);
+        $sum = $current_year_transactions->sum('value');
+        $sum /= 100;
+
+        return $sum;
+    }
+
+    public function getLastMonthTransactionsTotal(Collection $transactions): float
+    {
+        $today = new DateTime('-1 month');
+        $last_month = $today->format("Y-m");
+
+        $last_month_transactions = $this->filterTransactionsByMonth($transactions, $last_month);
+        $sum = $last_month_transactions->sum('value');
+        $sum /= 100;
+
+        return $sum;
+    }
+
+
+    public function filterTransactionsByMonth(Collection $transactions, string $month)
     {
         $month_transactions = $transactions->filter(function ($transaction) use ($month) {
             $ref_month = date("Y-m", strtotime($transaction->ref_date));
@@ -20,7 +57,7 @@ class FinanceHelper
         return $month_transactions;
     }
 
-    public static function filterTransactionsByYear(Collection $transactions, string $year)
+    public function filterTransactionsByYear(Collection $transactions, string $year)
     {
         $year_transactions = $transactions->filter(function ($transaction) use ($year) {
             $ref_year = date("Y", strtotime($transaction->ref_date));
@@ -30,7 +67,7 @@ class FinanceHelper
         return $year_transactions;
     }
 
-    public static function createIndividualPdfResume(Account $account)
+    public function createIndividualPdfResume(Account $account)
     {
         $incomes = $account->incomes;
         $expenses = $account->expenses;
@@ -38,19 +75,19 @@ class FinanceHelper
         $current_month = date("Y-m");
         $current_year = date("Y");
 
-        $month_incomes = self::filterTransactionsByMonth($incomes, $current_month);
+        $month_incomes = $this->filterTransactionsByMonth($incomes, $current_month);
         $current_month_incomes = $month_incomes->sum('value');
         $current_month_incomes /= 100;
 
-        $year_incomes = self::filterTransactionsByYear($incomes, $current_year);
+        $year_incomes = $this->filterTransactionsByYear($incomes, $current_year);
         $current_year_incomes = $year_incomes->sum('value');
         $current_year_incomes /= 100;
 
-        $month_expenses = self::filterTransactionsByMonth($expenses, $current_month);
+        $month_expenses = $this->filterTransactionsByMonth($expenses, $current_month);
         $current_month_expenses = $month_expenses->sum('value');
         $current_month_expenses /= 100;
 
-        $year_expenses = self::filterTransactionsByYear($expenses, $current_year);
+        $year_expenses = $this->filterTransactionsByYear($expenses, $current_year);
         $current_year_expenses = $year_expenses->sum('value');
         $current_year_expenses /= 100;
 
@@ -74,7 +111,7 @@ class FinanceHelper
         return $pdf;
     }
 
-    public static function createGeneralPdfResume()
+    public function createGeneralPdfResume()
     {
         $accounts = DB::table('accounts')
             ->where('church_id', Auth()->user()->church_id)
@@ -91,35 +128,35 @@ class FinanceHelper
         $last_month = date("Y-m", strtotime("-1 month"));
         $last_year = date("Y", strtotime("-1 year"));
 
-        $month_incomes = self::filterTransactionsByMonth($incomes, $current_month);
+        $month_incomes = $this->filterTransactionsByMonth($incomes, $current_month);
         $current_month_incomes = $month_incomes->sum('value');
         $current_month_incomes /= 100;
 
-        $year_incomes = self::filterTransactionsByYear($incomes, $current_year);
+        $year_incomes = $this->filterTransactionsByYear($incomes, $current_year);
         $current_year_incomes = $year_incomes->sum('value');
         $current_year_incomes /= 100;
 
-        $month_expenses = self::filterTransactionsByMonth($expenses, $current_month);
+        $month_expenses = $this->filterTransactionsByMonth($expenses, $current_month);
         $current_month_expenses = $month_expenses->sum('value');
         $current_month_expenses /= 100;
 
-        $year_expenses = self::filterTransactionsByYear($expenses, $current_year);
+        $year_expenses = $this->filterTransactionsByYear($expenses, $current_year);
         $current_year_expenses = $year_expenses->sum('value');
         $current_year_expenses /= 100;
 
-        $month_incomes = self::filterTransactionsByMonth($incomes, $last_month);
+        $month_incomes = $this->filterTransactionsByMonth($incomes, $last_month);
         $last_month_incomes = $month_incomes->sum('value');
         $last_month_incomes /= 100;
 
-        $year_incomes = self::filterTransactionsByYear($incomes, $last_year);
+        $year_incomes = $this->filterTransactionsByYear($incomes, $last_year);
         $last_year_incomes = $year_incomes->sum('value');
         $last_year_incomes /= 100;
 
-        $month_expenses = self::filterTransactionsByMonth($expenses, $last_month);
+        $month_expenses = $this->filterTransactionsByMonth($expenses, $last_month);
         $last_month_expenses = $month_expenses->sum('value');
         $last_month_expenses /= 100;
 
-        $year_expenses = self::filterTransactionsByYear($expenses, $last_year);
+        $year_expenses = $this->filterTransactionsByYear($expenses, $last_year);
         $last_year_expenses = $year_expenses->sum('value');
         $last_year_expenses /= 100;
 
@@ -151,11 +188,12 @@ class FinanceHelper
         return $pdf;
     }
 
-    public static function createCustomPdfReport(DateTime $initial_date, DateTime $final_date)
+    public function createCustomPdfReport(DateTime $initial_date, DateTime $final_date)
     {
         $accounts = DB::table('accounts')
             ->where('church_id', Auth()->user()->church_id)
             ->get(['id', 'name', 'balance', 'add_info']);
+
         $incomes = DB::table('incomes')
             ->where('incomes.church_id', Auth()->user()->church_id)
             ->whereDate('incomes.ref_date', '>=', $initial_date)
@@ -163,6 +201,7 @@ class FinanceHelper
             ->leftJoin('income_categories', 'incomes.income_category_id', '=', 'income_categories.id')
             ->select('incomes.value', 'income_categories.name AS category')
             ->get();
+
         $expenses = DB::table('expenses')
             ->where('expenses.church_id', Auth()->user()->church_id)
             ->whereDate('expenses.ref_date', '>=', $initial_date)
@@ -194,7 +233,7 @@ class FinanceHelper
         return $pdf;
     }
 
-    public static function createIndividualCustomPdfReport(DateTime $initial_date, DateTime $final_date, int $account_id)
+    public function createIndividualCustomPdfReport(DateTime $initial_date, DateTime $final_date, int $account_id)
     {
         $account = DB::table('accounts')->find($account_id);
 
@@ -206,6 +245,7 @@ class FinanceHelper
             ->leftJoin('income_categories', 'incomes.income_category_id', '=', 'income_categories.id')
             ->select('incomes.value', 'income_categories.name AS category')
             ->get();
+
         $expenses = DB::table('expenses')
             ->where('expenses.church_id', Auth()->user()->church_id)
             ->where('expenses.account_id', $account_id)

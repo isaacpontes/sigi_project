@@ -9,6 +9,14 @@ class Appointment extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'happens_at',
+        'completed',
+        'add_info',
+        'user_id'
+    ];
+
     public function user()
     {
         return $this->belongsTo('App\User');

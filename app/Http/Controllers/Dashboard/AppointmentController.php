@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
+    private $rules = [
+        'name' => 'required',
+        'happens_at' => 'required|date_format:Y-m-d\TH:i',
+        'completed' => 'boolean',
+        'add_info' => 'string'
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +22,11 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        //
-        $appointments = Appointment::where('user_id', auth()->user()->id)->get();
+        $appointments = Appointment::query()
+            ->where('user_id', auth()->user()->church_id)
+            ->orderByDesc('happens_at')
+            ->get(['id', 'name', 'happens_at', 'completed']);
+
         return view('dashboard.appointments.index')->with('appointments', $appointments);
     }
 
@@ -27,7 +37,6 @@ class AppointmentController extends Controller
      */
     public function create()
     {
-        //
         return view('dashboard.appointments.create');
     }
 
@@ -39,7 +48,8 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate($this->rules);
+
         $appointment = new Appointment();
         $appointment->name = $request->name;
         $appointment->happens_at = $request->happens_at;
@@ -47,9 +57,18 @@ class AppointmentController extends Controller
         $appointment->add_info = $request->add_info;
         $appointment->user_id = \auth()->user()->id;
 
-        $appointment->save();
+        try {
+            $appointment->save();
 
-        return \redirect()->route('dashboard.appointments.index');
+            return \redirect()->route('dashboard.appointments.index')->with([
+                'status' => 'Compromisso criado com sucesso.'
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao salvar compromisso.',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -60,7 +79,6 @@ class AppointmentController extends Controller
      */
     public function show(Appointment $appointment)
     {
-        //
         return view('dashboard.appointments.show')->with('appointment', $appointment);
     }
 
@@ -72,7 +90,6 @@ class AppointmentController extends Controller
      */
     public function edit(Appointment $appointment)
     {
-        //
         return view('dashboard.appointments.edit')->with('appointment', $appointment);
     }
 
@@ -85,16 +102,27 @@ class AppointmentController extends Controller
      */
     public function update(Request $request, Appointment $appointment)
     {
-        //
-        // $request->completed ? dd($request) : dd('false');
-        $appointment->name = $request->name;
-        $appointment->happens_at = $request->happens_at;
-        $appointment->completed = $request->completed;
-        $appointment->add_info = $request->add_info;
+        $request->validate($this->rules);
 
-        $appointment->save();
+        $completed = $request->completed === "1" ? true : false;
 
-        return \redirect()->route('dashboard.appointments.index');
+        try {
+            $appointment->update([
+                'name' => $request->name,
+                'happens_at' => $request->happens_at,
+                'completed' => $completed,
+                'add_info' => $request->add_info
+            ]);
+
+            return \redirect()->route('dashboard.appointments.index')->with([
+                'status' => 'Compromisso atualizado com sucesso.'
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao atualizar compromisso.',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -105,9 +133,16 @@ class AppointmentController extends Controller
      */
     public function destroy(Appointment $appointment)
     {
-        //
-        $appointment->delete();
-
-        return \redirect()->route('dashboard.appointments.index');
+        try {
+            $appointment->delete();
+            return \redirect()->route('dashboard.appointments.index')->with([
+                'status' => 'Compromisso excluído com sucesso.'
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error' => 'Erro ao excluir compromisso.',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 }

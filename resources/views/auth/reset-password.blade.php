@@ -1,4 +1,16 @@
 <x-guest-layout>
+    <x-slot name="navlinks">
+        <a class="nav-link" href="/">
+            Apresentação
+        </a>
+        <a class="nav-link" href="#">
+            GitHub
+        </a>
+        <a class="nav-link active" aria-current="page" href="/login">
+            Entrar
+        </a>
+    </x-slot>
+
   <x-auth-card>
     <x-slot name="logo">
       <a href="/">

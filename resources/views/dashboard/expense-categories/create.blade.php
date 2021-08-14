@@ -3,8 +3,7 @@
         {{ __('New Expense Category') }}
     </x-slot>
 
-    <div class="card-body">
-        <form action="{{ route('dashboard.finances.categories-expenses.store') }}" method="post">
+    <form action="{{ route('dashboard.finances.categories-expenses.store') }}" method="post">
         @csrf
 
         <div class="mb-3 row">
@@ -21,14 +20,13 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" class="btn btn-success">
             Cadastrar
         </button>
         <a href="{{ route('dashboard.finances.categories-expenses.index') }}">
             <button type="button" class="btn btn-light">Cancelar</button>
         </a>
 
-        </form>
-    </div>
+    </form>
 
 </x-app-layout>

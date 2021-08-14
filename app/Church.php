@@ -10,7 +10,7 @@ class Church extends Model
     use HasFactory;
 
     // Permit creating new Church on RegisterController and filling the email
-    protected $fillable = ['name', 'email', 'phone', 'plan', 'expiration'];
+    protected $fillable = ['name', 'email', 'phone'];
 
     /**
      * The users that belong to the church.
@@ -22,7 +22,7 @@ class Church extends Model
 
     public function congregations()
     {
-    	return $this->hasMany('App\Congregation');
+        return $this->hasMany('App\Congregation');
     }
 
     public function classrooms()
