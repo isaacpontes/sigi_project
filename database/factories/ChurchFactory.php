@@ -26,8 +26,8 @@ class ChurchFactory extends Factory
             'email' => $this->faker->unique()->safeEmail,
             'phone' => $this->faker->phoneNumber,
             'add_info' => $this->faker->text(200),
-            'plan' => $this->faker->numberBetween(1,3),
-            'expiration' => $this->faker->dateTimeBetween('-2 years', '+2 years')
+            // 'plan' => $this->faker->numberBetween(1,3),
+            // 'expiration' => $this->faker->dateTimeBetween('-2 years', '+2 years')
         ];
     }
 }
