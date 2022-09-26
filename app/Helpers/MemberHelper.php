@@ -29,6 +29,24 @@ class MemberHelper
         return $active_members;
     }
 
+    public function findAllActiveWithCongregation()
+    {
+        $active_members = DB::table('members')
+            ->where('members.church_id', auth()->user()->church_id)
+            ->whereNull('demission')
+            ->leftJoin('congregations', 'congregations.id', '=', 'members.congregation_id')
+            ->orderBy('members.name', 'asc')
+            ->get([
+                'members.id',
+                'members.name',
+                'members.phone',
+                'members.birth',
+                'congregations.name AS congregation'
+            ]);
+
+        return $active_members;
+    }
+
     public function findAllInactive(
         $paginate = false,
         $perPage = 15,

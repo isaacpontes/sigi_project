@@ -214,7 +214,7 @@ class MemberController extends Controller
 
     public function simpleReport()
     {
-        $active_members = $this->member_helper->findAllActive();
+        $active_members = $this->member_helper->findAllActiveWithCongregation();
 
         $pdf = DomPDF::loadView('dashboard.members.simple-report', compact('active_members'));
 

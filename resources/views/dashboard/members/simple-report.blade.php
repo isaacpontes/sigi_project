@@ -77,7 +77,7 @@
             <td>{{ $member->name }}</td>
             <td>{{ $member->phone }}</td>
             <td class="text-center">{{ date("d / m / Y", strtotime($member->birth))  }}</td>
-            <td>{{ $member->congregation->name }}</td>
+            <td>{{ $member->congregation }}</td>
           </tr>
         @endforeach
       </tbody>
