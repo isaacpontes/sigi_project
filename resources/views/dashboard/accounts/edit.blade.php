@@ -10,6 +10,12 @@
                     Editar Informações da Conta - {{ $account->name }}
                 </div>
                 <div class="card-body">
+                    @if (session('error'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ session('error') }}
+                            {{ session('message') }}
+                        </div>
+                    @endif
                     <form action="{{ route('dashboard.finances.accounts.update', $account) }}" method="post">
                     @csrf
                     {{ method_field('put') }}

@@ -96,9 +96,8 @@ class ExpenseCategoryController extends Controller
      */
     public function update(Request $request, ExpenseCategory $expense_category)
     {
-        $request->validate($this->rules);
-
         try {
+            $request->validate($this->rules);
             $expense_category->update([
                 'name' => $request->name
             ]);

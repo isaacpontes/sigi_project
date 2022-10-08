@@ -157,7 +157,6 @@ class MemberController extends Controller
     public function update(Request $request, Member $member)
     {
         try {
-            // dd($request);
             $request->validate($this->rules);
             $member->update([
                 'name' => $request->name,

@@ -10,6 +10,12 @@
                     {{ __('Editar Informações da Receita') }}
                 </div>
                 <div class="card-body">
+                    @if (session('error'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ session('error') }}
+                            {{ session('message') }}
+                        </div>
+                    @endif
                     <form action="{{ route('dashboard.finances.incomes.update', $income) }}" method="post">
                         @csrf
                         @method('PUT')
@@ -121,7 +127,7 @@
                             <button type="submit" class="btn btn-success">
                                 {{ __('Salvar')}}
                             </button>
-                            <a href="{{ url()->previous() }}" class="btn btn-outline-secondary">
+                            <a href="{{ route('dashboard.finances.incomes.index') }}" class="btn btn-outline-secondary">
                                 {{ __('Cancelar')}}
                             </a>
                         </div>

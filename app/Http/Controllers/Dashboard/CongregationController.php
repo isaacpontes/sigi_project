@@ -113,9 +113,8 @@ class CongregationController extends Controller
      */
     public function update(Request $request, Congregation $congregation)
     {
-        $request->validate();
-
         try {
+            $request->validate($this->rules);
             $congregation->update([
                 'name' => $request->name,
                 'phone' => $request->phone,

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Event;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
@@ -50,9 +49,8 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->rules);
-
         try {
+            $request->validate($this->rules);
             $event = new Event();
             $event->name = $request->name;
             $event->description = $request->description;
@@ -116,7 +114,7 @@ class EventController extends Controller
                 'happens_at' => $request->happens_at
             ]);
 
-            return redirect()->route('dashboard.events.index')->with([
+            return redirect()->route('dashboard.membership.events.index')->with([
                 'status' => 'Evento atualizado com sucesso.'
             ]);
         } catch (\Throwable $th) {

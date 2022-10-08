@@ -96,9 +96,8 @@ class IncomeCategoryController extends Controller
      */
     public function update(Request $request, IncomeCategory $income_category)
     {
-        $request->validate($this->rules);
-
         try {
+            $request->validate($this->rules);
             $income_category->update([
                 'name' => $request->name
             ]);

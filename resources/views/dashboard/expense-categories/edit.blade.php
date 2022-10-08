@@ -3,6 +3,13 @@
         {{ __('Edit Expense Category') . " - " . $expense_category->name }}
     </x-slot>
 
+    @if (session('error'))
+        <div class="alert alert-danger" role="alert">
+            {{ session('error') }}
+            {{ session('message') }}
+        </div>
+    @endif
+
     <form action="{{ route('dashboard.finances.categories-expenses.update', $expense_category) }}" method="post">
         @csrf
         {{ method_field('put') }}

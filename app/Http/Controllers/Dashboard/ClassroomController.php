@@ -109,14 +109,12 @@ class ClassroomController extends Controller
      */
     public function update(Request $request, Classroom $classroom)
     {
-        $request->validate($this->rules);
-
         try {
+            $request->validate($this->rules);
             $classroom->update([
                 'name' => $request->name,
                 'add_info' => $request->add_info
             ]);
-
             return redirect()->route('dashboard.membership.classrooms.index')->with([
                 'status' => 'Classe atualizada com sucesso.'
             ]);
