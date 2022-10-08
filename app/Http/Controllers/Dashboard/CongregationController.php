@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Congregation;
-use Barryvdh\DomPDF\Facade as DomPdf;
+use Barryvdh\DomPDF\Facade\Pdf as DomPdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 

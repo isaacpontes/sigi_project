@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Member;
 use App\Helpers\MemberHelper;
-use Barryvdh\DomPDF\Facade as DomPDF;
+use Barryvdh\DomPDF\Facade\Pdf as DomPdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
