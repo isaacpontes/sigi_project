@@ -162,17 +162,16 @@ class AccountController extends Controller
      */
     public function update(Request $request, Account $account)
     {
-        $request->validate([
-            'name' => 'required'
-        ]);
-
         try {
+            $request->validate([
+                'name' => 'required'
+            ]);
             $account->update([
                 'name' => $request->name,
                 'add_info' => $request->add_info
             ]);
 
-            return redirect()->route('dashboard.accounts.index')->with([
+            return redirect()->route('dashboard.finances.accounts.index')->with([
                 'status' => 'Conta atualizada com sucesso.'
             ]);
         } catch (\Throwable $th) {

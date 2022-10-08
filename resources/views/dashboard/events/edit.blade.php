@@ -3,12 +3,6 @@
         {{ __('Edit Event') . " - " . $event->name }}
     </x-slot>
 
-    @if (session('error'))
-        <div class="alert alert-danger" role="alert">
-            {{ session('error') }}
-        </div>
-    @endif
-
     <div class="row">
         <div class="col-md-10 col-lg-8 offset-md-1 offset-lg-2">
             <div class="card">
@@ -16,6 +10,12 @@
                     {{ __('Editar Informações do Evento') }}
                 </div>
                 <div class="card-body">
+                    @if (session('error'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ session('error') }}
+                            {{ session('message') }}
+                        </div>
+                    @endif
                     <form action="{{ route('dashboard.membership.events.update', $event) }}" method="post">
                         @csrf
                         @method('PUT')
