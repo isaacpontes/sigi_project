@@ -11,6 +11,12 @@
                     {{ __('Membro') }}
                 </div>
                 <div class="card-body">
+                    @if (session('error'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ session('error') }}
+                            {{ session('message') }}
+                        </div>
+                    @endif
                     <form action="{{ route('dashboard.membership.members.store') }}" method="post">
                         @csrf
 

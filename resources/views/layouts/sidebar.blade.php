@@ -40,7 +40,7 @@
                     </a>
                 </li>
                 {{-- <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dashboard.events.index') }}">
+                    <a class="nav-link" href="{{ route('dashboard.membership.events.index') }}">
                         <i class="fa fa-calendar-alt fa-fw mx-1" ></i>
                         Eventos
                     </a>

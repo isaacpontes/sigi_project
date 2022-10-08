@@ -61,7 +61,7 @@ class EventController extends Controller
 
             $event->save();
 
-            return \redirect()->route('dashboard.events.index')->with([
+            return \redirect()->route('dashboard.membership.events.index')->with([
                 'status' => 'Evento criado com sucesso.'
             ]);
         } catch (\Throwable $th) {
@@ -116,7 +116,7 @@ class EventController extends Controller
                 'happens_at' => $request->happens_at
             ]);
 
-            return redirect()->route('dashboard.events.index')->with([
+            return redirect()->route('dashboard.membership.events.index')->with([
                 'status' => 'Evento atualizado com sucesso.'
             ]);
         } catch (\Throwable $th) {
@@ -138,7 +138,7 @@ class EventController extends Controller
         try {
             $event->delete();
 
-            return redirect()->route('dashboard.events.index')->with([
+            return redirect()->route('dashboard.membership.events.index')->with([
                 'status' => 'Evento excluído com sucesso.'
             ]);
         } catch (\Throwable $th) {

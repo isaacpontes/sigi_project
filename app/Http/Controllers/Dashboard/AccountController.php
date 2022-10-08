@@ -103,7 +103,7 @@ class AccountController extends Controller
         try {
             $account->save();
 
-            return redirect()->route('dashboard.accounts.store')->with([
+            return redirect()->route('dashboard.finances.accounts.store')->with([
                 'status' => 'Conta salva com sucesso.'
             ]);
         } catch (\Throwable $th) {
@@ -172,7 +172,7 @@ class AccountController extends Controller
                 'add_info' => $request->add_info
             ]);
 
-            return redirect()->route('dashboard.accounts.index')->with([
+            return redirect()->route('dashboard.finances.accounts.index')->with([
                 'status' => 'Conta atualizada com sucesso.'
             ]);
         } catch (\Throwable $th) {
@@ -194,11 +194,11 @@ class AccountController extends Controller
         try {
             $account->delete();
 
-            return redirect()->route('dashboard.accounts.index')->with([
+            return redirect()->route('dashboard.finances.accounts.index')->with([
                 'status' => 'Conta excluída com sucesso.'
             ]);
         } catch (\Throwable $th) {
-            return redirect()->route('dashboard.accounts.index')->with([
+            return redirect()->route('dashboard.finances.accounts.index')->with([
                 'error' => 'Erro ao excluir conta.',
                 'message' => $th->getMessage()
             ]);

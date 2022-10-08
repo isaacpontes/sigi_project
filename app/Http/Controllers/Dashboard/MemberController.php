@@ -193,21 +193,21 @@ class MemberController extends Controller
     // {
     //     $member->delete();
 
-    //     return redirect()->route('dashboard.members.index');
+    //     return redirect()->route('dashboard.membership.members.index');
     // }
 
     public function readmit(Member $member)
     {
         $member->readmit();
 
-        return redirect()->route('dashboard.members.index');
+        return redirect()->route('dashboard.membership.members.index');
     }
 
     public function demit(Member $member)
     {
         $member->demit();
 
-        return redirect()->route('dashboard.members.index');
+        return redirect()->route('dashboard.membership.members.index');
     }
 
     public function simpleReport()
