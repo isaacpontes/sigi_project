@@ -3,6 +3,8 @@
         {{ __('New Expense Category') }}
     </x-slot>
 
+    <x-error-alert />
+
     <form action="{{ route('dashboard.finances.categories-expenses.store') }}" method="post">
         @csrf
 
@@ -10,7 +12,8 @@
             <label for="name" class="col-md-2 col-form-label text-md-end">Nome</label>
 
             <div class="col-md-6">
-                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" required autofocus>
+                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name"
+                    required autofocus>
 
                 @error('name')
                     <span class="invalid-feedback" role="alert">

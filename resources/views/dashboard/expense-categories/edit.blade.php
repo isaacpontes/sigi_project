@@ -1,7 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
-        {{ __('Edit Expense Category') . " - " . $expense_category->name }}
+        {{ __('Edit Expense Category') . ' - ' . $expense_category->name }}
     </x-slot>
+
+    <x-error-alert />
 
     <form action="{{ route('dashboard.finances.categories-expenses.update', $expense_category) }}" method="post">
         @csrf
@@ -11,7 +13,8 @@
             <label for="name" class="col-md-2 col-form-label text-md-end">Nome</label>
 
             <div class="col-md-6">
-                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $expense_category->name }}" required autofocus>
+                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name"
+                    value="{{ $expense_category->name }}" required autofocus>
 
                 @error('name')
                     <span class="invalid-feedback" role="alert">

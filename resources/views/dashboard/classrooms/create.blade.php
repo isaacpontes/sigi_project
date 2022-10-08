@@ -11,6 +11,7 @@
                     {{ __('Classe') }}
                 </div>
                 <div class="card-body">
+                    <x-error-alert />
                     <form action="{{ route('dashboard.membership.classrooms.store') }}" method="post">
                         @csrf
 
@@ -20,7 +21,9 @@
                             </label>
 
                             <div class="col-md-8">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" required autofocus>
+                                <input id="name" type="text"
+                                    class="form-control @error('name') is-invalid @enderror" name="name" required
+                                    autofocus>
 
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
@@ -50,10 +53,11 @@
 
                         <div class="button-group float-end">
                             <button type="submit" class="btn btn-success">
-                                {{ __('Salvar')}}
+                                {{ __('Salvar') }}
                             </button>
-                            <a href="{{ route('dashboard.membership.classrooms.index') }}" class="btn btn-outline-secondary">
-                                {{ __('Cancelar')}}
+                            <a href="{{ route('dashboard.membership.classrooms.index') }}"
+                                class="btn btn-outline-secondary">
+                                {{ __('Cancelar') }}
                             </a>
                         </div>
                     </form>
