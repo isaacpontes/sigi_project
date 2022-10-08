@@ -39,13 +39,12 @@ class ChurchController extends Controller
             return redirect()->route('dashboard.start')->with('error', 'Você não está autorizado a utilizar este recurso.');
         }
 
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email',
-            'phone' => 'required|string'
-        ]);
-
         try {
+            $request->validate([
+                'name' => 'required|string',
+                'email' => 'required|email',
+                'phone' => 'required|string'
+            ]);
             $church->update([
                 'name' => $request->name,
                 'email' => $request->email,

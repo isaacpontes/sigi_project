@@ -92,15 +92,14 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->rules);
-
-        $account = new Account();
-        $account->name = $request->name;
-        $account->balance = intval($request->balance * 100);
-        $account->add_info = $request->add_info;
-        $account->church_id = auth()->user()->church_id;
-
         try {
+            $request->validate($this->rules);
+
+            $account = new Account();
+            $account->name = $request->name;
+            $account->balance = intval($request->balance * 100);
+            $account->add_info = $request->add_info;
+            $account->church_id = auth()->user()->church_id;
             $account->save();
 
             return redirect()->route('dashboard.finances.accounts.store')->with([
@@ -162,11 +161,8 @@ class AccountController extends Controller
      */
     public function update(Request $request, Account $account)
     {
-        $request->validate([
-            'name' => 'required'
-        ]);
-
         try {
+            $request->validate(['name' => 'required']);
             $account->update([
                 'name' => $request->name,
                 'add_info' => $request->add_info

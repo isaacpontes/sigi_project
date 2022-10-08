@@ -56,13 +56,12 @@ class UsersController extends Controller
             return redirect()->route('dashboard.start')->with('error', 'Você não está autorizado a utilizar este recurso.');
         }
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|confirmed|min:8',
-        ]);
-
         try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|confirmed|min:8',
+            ]);
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -73,9 +72,9 @@ class UsersController extends Controller
                 'members_admin' => $request->members_admin ? true : false,
                 'church_id' => Auth::user()->church_id,
             ]);
-    
+
             event(new Registered($user));
-    
+
             return redirect()->route('dashboard.users.index')->with('status', 'Usuário criado com sucesso!');
 
         } catch (\Throwable $th) {
@@ -127,12 +126,11 @@ class UsersController extends Controller
             return redirect()->route('dashboard.start')->with('error', 'Você não está autorizado a utilizar este recurso.');
         }
 
-        $request->validate([
-            'name' => 'string|max:255',
-            'email' => 'string|email|max:255|unique:users,email,' . $user->id,
-        ]);
-
         try {
+            $request->validate([
+                'name' => 'string|max:255',
+                'email' => 'string|email|max:255|unique:users,email,' . $user->id,
+            ]);
             $user->update([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -142,7 +140,7 @@ class UsersController extends Controller
             ]);
 
             return redirect()->route('dashboard.users.index')->with('status', 'Informações do usuário atualizadas com sucesso!');
-            
+
         } catch (\Throwable $th) {
             return redirect()->route('dashboard.users.edit', $user)->with('status', 'Não foi possível salvar as informações. Erro interno do servidor.');
         }
@@ -162,19 +160,18 @@ class UsersController extends Controller
             return redirect()->route('dashboard.start')->with('error', 'Você não está autorizado a utilizar este recurso.');
         }
 
-        $request->validate([
-            'name' => 'string|max:255',
-            'email' => 'string|email|max:255|unique:users,email,' . $user->id,
-        ]);
-
         try {
+            $request->validate([
+                'name' => 'string|max:255',
+                'email' => 'string|email|max:255|unique:users,email,' . $user->id,
+            ]);
             $user->update([
                 'name' => $request->name,
                 'email' => $request->email,
             ]);
 
             return redirect()->route('dashboard.users.show', $user)->with('status', 'Perfil atualizado com sucesso!');
-            
+
         } catch (\Throwable $th) {
             return redirect()->route('dashboard.users.edit', $user)->with('status', 'Não foi possível salvar as informações. Erro interno do servidor.');
         }
@@ -194,18 +191,17 @@ class UsersController extends Controller
             return redirect()->route('dashboard.start')->with('error', 'Você não está autorizado a utilizar este recurso.');
         }
 
-        $request->validate([
-            'current_password' => 'required|string|password',
-            'password' => 'required|string|confirmed|min:8',
-        ]);
-
         try {
+            $request->validate([
+                'current_password' => 'required|string|password',
+                'password' => 'required|string|confirmed|min:8',
+            ]);
             $user->update([
                 'password' => Hash::make($request->password),
             ]);
 
             return redirect()->route('dashboard.users.show', $user)->with('status', 'Senha atualizada com sucesso!');
-            
+
         } catch (\Throwable $th) {
             return redirect()->route('dashboard.users.edit', $user)->with('status', 'Não foi possível atualizar a senha. Erro interno do servidor.');
         }

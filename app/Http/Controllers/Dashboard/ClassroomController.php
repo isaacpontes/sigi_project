@@ -50,14 +50,13 @@ class ClassroomController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->rules);
-
-        $classroom = new Classroom();
-        $classroom->name = $request->name;
-        $classroom->add_info = $request->add_info;
-        $classroom->church_id = auth()->user()->church_id;
-
         try {
+            $request->validate($this->rules);
+
+            $classroom = new Classroom();
+            $classroom->name = $request->name;
+            $classroom->add_info = $request->add_info;
+            $classroom->church_id = auth()->user()->church_id;
             $classroom->save();
 
             return redirect()->route('dashboard.membership.classrooms.index')->with([
@@ -109,9 +108,8 @@ class ClassroomController extends Controller
      */
     public function update(Request $request, Classroom $classroom)
     {
-        $request->validate($this->rules);
-
         try {
+            $request->validate($this->rules);
             $classroom->update([
                 'name' => $request->name,
                 'add_info' => $request->add_info

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Event;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
@@ -50,9 +49,8 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->rules);
-
         try {
+            $request->validate($this->rules);
             $event = new Event();
             $event->name = $request->name;
             $event->description = $request->description;
@@ -107,9 +105,8 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        $request->validate($this->rules);
-
         try {
+            $request->validate($this->rules);
             $event->update([
                 'name' => $request->name,
                 'description' => $request->description,

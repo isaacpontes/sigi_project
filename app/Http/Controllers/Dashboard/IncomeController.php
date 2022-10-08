@@ -4,10 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Income;
-use App\Account;
 use App\Helpers\IncomesHelper;
-use App\Member;
-use App\IncomeCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -88,9 +85,8 @@ class IncomeController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->rules);
-
         try {
+            $request->validate($this->rules);
             $this->incomes_helper->saveTransaction($request);
 
             return redirect()
@@ -154,9 +150,8 @@ class IncomeController extends Controller
      */
     public function update(Request $request, Income $income)
     {
-        $request->validate($this->rules);
-
         try {
+            $request->validate($this->rules);
             $this->incomes_helper->updateTransaction($income, $request);
 
             return redirect()

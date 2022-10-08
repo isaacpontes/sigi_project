@@ -83,21 +83,20 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->rules);
-
-        $member = new Member();
-        $member->name = $request->name;
-        $member->gender = $request->gender; // Change to Enum
-        $member->birth = $request->birth;
-        $member->email = $request->email;
-        $member->phone = $request->phone;
-        $member->address = $request->address;
-        $member->admission = $request->admission;
-        $member->classroom_id = $request->classroom_id;
-        $member->congregation_id = $request->congregation_id;
-        $member->church_id = auth()->user()->church_id;
-
         try {
+            $request->validate($this->rules);
+
+            $member = new Member();
+            $member->name = $request->name;
+            $member->gender = $request->gender; // Change to Enum
+            $member->birth = $request->birth;
+            $member->email = $request->email;
+            $member->phone = $request->phone;
+            $member->address = $request->address;
+            $member->admission = $request->admission;
+            $member->classroom_id = $request->classroom_id;
+            $member->congregation_id = $request->congregation_id;
+            $member->church_id = auth()->user()->church_id;
             $member->save();
 
             return redirect()->route('dashboard.membership.members.index')->with([
@@ -157,7 +156,6 @@ class MemberController extends Controller
     public function update(Request $request, Member $member)
     {
         try {
-            // dd($request);
             $request->validate($this->rules);
             $member->update([
                 'name' => $request->name,

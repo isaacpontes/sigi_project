@@ -79,9 +79,8 @@ class ExpenseController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->rules);
-
         try {
+            $request->validate($this->rules);
             $this->expenses_helper->saveTransaction($request);
 
             return redirect()
@@ -139,9 +138,8 @@ class ExpenseController extends Controller
      */
     public function update(Request $request, Expense $expense)
     {
-        $request->validate($this->rules);
-
         try {
+            $request->validate($this->rules);
             $this->expenses_helper->updateTransaction($expense, $request);
 
             return redirect()

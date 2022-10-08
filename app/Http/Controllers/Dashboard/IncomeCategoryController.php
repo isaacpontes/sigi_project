@@ -36,13 +36,12 @@ class IncomeCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->rules);
-
-        $income_category = new IncomeCategory();
-        $income_category->name = $request->name;
-        $income_category->church_id = auth()->user()->church_id;
-
         try {
+            $request->validate($this->rules);
+
+            $income_category = new IncomeCategory();
+            $income_category->name = $request->name;
+            $income_category->church_id = auth()->user()->church_id;
             $income_category->save();
 
             return redirect()->back()->with([
@@ -96,9 +95,8 @@ class IncomeCategoryController extends Controller
      */
     public function update(Request $request, IncomeCategory $income_category)
     {
-        $request->validate($this->rules);
-
         try {
+            $request->validate($this->rules);
             $income_category->update([
                 'name' => $request->name
             ]);
