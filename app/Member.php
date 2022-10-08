@@ -9,6 +9,24 @@ class Member extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'gender',
+        'birth',
+        'email',
+        'phone',
+        'address',
+        'admission',
+        'demission',
+        'classroom_id',
+        'congregation_id'
+    ];
+
     public function isActive()
     {
         return $this->demission === null ? true : false;

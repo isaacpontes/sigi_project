@@ -19,7 +19,6 @@ class MemberController extends Controller
         'phone' => 'string',
         'address' => 'string',
         'admission' => 'required|date',
-        'demission' => 'date',
         'classroom_id' => 'string',
         'congregation_id' => 'required|string'
     ];
@@ -157,10 +156,9 @@ class MemberController extends Controller
      */
     public function update(Request $request, Member $member)
     {
-        $request->validate($this->rules);
-
-
         try {
+            // dd($request);
+            $request->validate($this->rules);
             $member->update([
                 'name' => $request->name,
                 'gender' => $request->gender,
@@ -170,7 +168,7 @@ class MemberController extends Controller
                 'address' => $request->address,
                 'admission' => $request->admission,
                 'demission' => $request->demission,
-                'classroom_id' => $request->classroom_id,
+                'classroom_id' => $request->classroom_id === 'null' ? null : $request->classroom_id,
                 'congregation_id' => $request->congregation_id
             ]);
 
