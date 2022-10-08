@@ -17,7 +17,7 @@ class IncomeController extends Controller
         'ref_date' => 'required|date',
         'add_info' => 'string',
         'member_id' => 'string',
-        'expense_category_id' => 'required|string',
+        'income_category_id' => 'required|string',
         'account_id' => 'required|string'
     ];
 

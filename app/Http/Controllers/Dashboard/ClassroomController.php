@@ -114,7 +114,6 @@ class ClassroomController extends Controller
                 'name' => $request->name,
                 'add_info' => $request->add_info
             ]);
-
             return redirect()->route('dashboard.membership.classrooms.index')->with([
                 'status' => 'Classe atualizada com sucesso.'
             ]);

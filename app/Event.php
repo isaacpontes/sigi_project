@@ -10,6 +10,17 @@ class Event extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'description',
+        'happens_at'
+    ];
+
     public function church()
     {
         return $this->belongsTo('App\Church');
