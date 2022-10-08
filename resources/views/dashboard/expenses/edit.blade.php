@@ -10,12 +10,7 @@
                     {{ __('Editar Informações da Despesa') }}
                 </div>
                 <div class="card-body">
-                    @if (session('error'))
-                        <div class="alert alert-danger" role="alert">
-                            {{ session('error') }}
-                            {{ session('message') }}
-                        </div>
-                    @endif
+                    <x-error-alert />
                     <form action="{{ route('dashboard.finances.expenses.update', $expense) }}" method="post">
                         @csrf
                         @method('PUT')

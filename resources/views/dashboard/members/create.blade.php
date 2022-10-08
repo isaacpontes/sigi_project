@@ -11,6 +11,7 @@
                     {{ __('Membro') }}
                 </div>
                 <div class="card-body">
+                    <x-error-alert />
                     <form action="{{ route('dashboard.membership.members.store') }}" method="post">
                         @csrf
 

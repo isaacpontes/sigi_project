@@ -48,16 +48,15 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->rules);
-
-        $appointment = new Appointment();
-        $appointment->name = $request->name;
-        $appointment->happens_at = $request->happens_at;
-        $appointment->completed = false;
-        $appointment->add_info = $request->add_info;
-        $appointment->user_id = \auth()->user()->id;
-
         try {
+            $request->validate($this->rules);
+
+            $appointment = new Appointment();
+            $appointment->name = $request->name;
+            $appointment->happens_at = $request->happens_at;
+            $appointment->completed = false;
+            $appointment->add_info = $request->add_info;
+            $appointment->user_id = \auth()->user()->id;
             $appointment->save();
 
             return \redirect()->route('dashboard.appointments.index')->with([
@@ -102,11 +101,9 @@ class AppointmentController extends Controller
      */
     public function update(Request $request, Appointment $appointment)
     {
-        $request->validate($this->rules);
-
-        $completed = $request->completed === "1" ? true : false;
-
         try {
+            $request->validate($this->rules);
+            $completed = $request->completed === "1" ? true : false;
             $appointment->update([
                 'name' => $request->name,
                 'happens_at' => $request->happens_at,

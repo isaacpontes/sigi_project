@@ -36,13 +36,12 @@ class ExpenseCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->rules);
-
-        $expense_category = new ExpenseCategory();
-        $expense_category->name = $request->name;
-        $expense_category->church_id = auth()->user()->church_id;
-
         try {
+            $request->validate($this->rules);
+
+            $expense_category = new ExpenseCategory();
+            $expense_category->name = $request->name;
+            $expense_category->church_id = auth()->user()->church_id;
             $expense_category->save();
 
             return redirect()->back()->with([

@@ -85,9 +85,8 @@ class IncomeController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->rules);
-
         try {
+            $request->validate($this->rules);
             $this->incomes_helper->saveTransaction($request);
 
             return redirect()

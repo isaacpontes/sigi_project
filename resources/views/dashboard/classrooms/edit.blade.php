@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        {{ __('Edit Classroom') . " - " . $classroom->name }}
+        {{ __('Edit Classroom') . ' - ' . $classroom->name }}
     </x-slot>
 
     <div class="row">
@@ -11,12 +11,7 @@
                     {{ __('Classe') }}
                 </div>
                 <div class="card-body">
-                    @if (session('error'))
-                        <div class="alert alert-danger" role="alert">
-                            {{ session('error') }}
-                            {{ session('message') }}
-                        </div>
-                    @endif
+                    <x-error-alert />
                     <form action="{{ route('dashboard.membership.classrooms.update', $classroom) }}" method="post">
                         @csrf
                         {{ method_field('put') }}
@@ -27,7 +22,9 @@
                             </label>
 
                             <div class="col-md-8">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $classroom->name }}" required autofocus>
+                                <input id="name" type="text"
+                                    class="form-control @error('name') is-invalid @enderror" name="name"
+                                    value="{{ $classroom->name }}" required autofocus>
 
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
@@ -43,7 +40,8 @@
                             </label>
 
                             <div class="col-md-8">
-                                <textarea id="add_info" type="add_info" class="form-control @error('add_info') is-invalid @enderror" name="add_info" rows="6">{{ $classroom->add_info }}</textarea>
+                                <textarea id="add_info" type="add_info" class="form-control @error('add_info') is-invalid @enderror" name="add_info"
+                                    rows="6">{{ $classroom->add_info }}</textarea>
 
                                 @error('add_info')
                                     <span class="invalid-feedback" role="alert">
@@ -57,10 +55,11 @@
 
                         <div class="button-group float-end">
                             <button type="submit" class="btn btn-success">
-                                {{ __('Salvar')}}
+                                {{ __('Salvar') }}
                             </button>
-                            <a href="{{ route('dashboard.membership.classrooms.index') }}" class="btn btn-outline-secondary">
-                                {{ __('Cancelar')}}
+                            <a href="{{ route('dashboard.membership.classrooms.index') }}"
+                                class="btn btn-outline-secondary">
+                                {{ __('Cancelar') }}
                             </a>
                         </div>
 

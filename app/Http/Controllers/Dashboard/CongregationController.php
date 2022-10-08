@@ -52,16 +52,15 @@ class CongregationController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->rules);
-
-        $congregation = new Congregation();
-        $congregation->name = $request->name;
-        $congregation->phone = $request->phone;
-        $congregation->address = $request->address;
-        $congregation->add_info = $request->add_info;
-        $congregation->church_id = auth()->user()->church_id;
-
         try {
+            $request->validate($this->rules);
+
+            $congregation = new Congregation();
+            $congregation->name = $request->name;
+            $congregation->phone = $request->phone;
+            $congregation->address = $request->address;
+            $congregation->add_info = $request->add_info;
+            $congregation->church_id = auth()->user()->church_id;
             $congregation->save();
 
             return redirect()->route('dashboard.congregations.index')->with([

@@ -3,12 +3,6 @@
         {{ __('New Event') }}
     </x-slot>
 
-    @if (session('error'))
-        <div class="alert alert-danger" role="alert">
-            {{ session('message') }}
-        </div>
-    @endif
-
     <div class="row">
         <div class="col-md-10 col-lg-8 offset-md-1 offset-lg-2">
             <div class="card">
@@ -17,6 +11,7 @@
                     {{ __('Evento') }}
                 </div>
                 <div class="card-body">
+                    <x-error-alert />
                     <form action="{{ route('dashboard.membership.events.store') }}" method="post">
                         @csrf
 
@@ -24,7 +19,9 @@
                             <label for="name" class="col-md-4 col-form-label text-md-end">Nome</label>
 
                             <div class="col-md-8">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" required autofocus>
+                                <input id="name" type="text"
+                                    class="form-control @error('name') is-invalid @enderror" name="name" required
+                                    autofocus>
 
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
@@ -38,7 +35,8 @@
                             <label for="description" class="col-md-4 col-form-label text-md-end">Descrição</label>
 
                             <div class="col-md-8">
-                                <textarea id="description" class="form-control @error('description') is-invalid @enderror" name="description" rows="6"></textarea>
+                                <textarea id="description" class="form-control @error('description') is-invalid @enderror" name="description"
+                                    rows="6"></textarea>
 
                                 @error('description')
                                     <span class="invalid-feedback" role="alert">
@@ -52,13 +50,15 @@
                             <label for="happens_at" class="col-md-4 col-form-label text-md-end">Data e Hora</label>
 
                             <div class="col-md-6">
-                                <input id="happens_at" type="datetime-local" class="form-control @error('happens_at') is-invalid @enderror" name="happens_at" required>
+                                <input id="happens_at" type="datetime-local"
+                                    class="form-control @error('happens_at') is-invalid @enderror" name="happens_at"
+                                    required>
 
                                 @error('happens_at')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
 
@@ -66,10 +66,11 @@
 
                         <div class="button-group float-end">
                             <button type="submit" class="btn btn-success">
-                                {{ __('Salvar')}}
+                                {{ __('Salvar') }}
                             </button>
-                            <a href="{{ route('dashboard.membership.events.index') }}" class="btn btn-outline-secondary">
-                                {{ __('Cancelar')}}
+                            <a href="{{ route('dashboard.membership.events.index') }}"
+                                class="btn btn-outline-secondary">
+                                {{ __('Cancelar') }}
                             </a>
                         </div>
                     </form>

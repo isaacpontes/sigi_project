@@ -59,7 +59,7 @@ class EventController extends Controller
 
             $event->save();
 
-            return \redirect()->route('dashboard.events.index')->with([
+            return \redirect()->route('dashboard.membership.events.index')->with([
                 'status' => 'Evento criado com sucesso.'
             ]);
         } catch (\Throwable $th) {
@@ -105,9 +105,8 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        $request->validate($this->rules);
-
         try {
+            $request->validate($this->rules);
             $event->update([
                 'name' => $request->name,
                 'description' => $request->description,
@@ -136,7 +135,7 @@ class EventController extends Controller
         try {
             $event->delete();
 
-            return redirect()->route('dashboard.events.index')->with([
+            return redirect()->route('dashboard.membership.events.index')->with([
                 'status' => 'Evento excluído com sucesso.'
             ]);
         } catch (\Throwable $th) {

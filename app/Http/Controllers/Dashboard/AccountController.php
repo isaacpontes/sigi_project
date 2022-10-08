@@ -92,18 +92,17 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->rules);
-
-        $account = new Account();
-        $account->name = $request->name;
-        $account->balance = intval($request->balance * 100);
-        $account->add_info = $request->add_info;
-        $account->church_id = auth()->user()->church_id;
-
         try {
+            $request->validate($this->rules);
+
+            $account = new Account();
+            $account->name = $request->name;
+            $account->balance = intval($request->balance * 100);
+            $account->add_info = $request->add_info;
+            $account->church_id = auth()->user()->church_id;
             $account->save();
 
-            return redirect()->route('dashboard.accounts.store')->with([
+            return redirect()->route('dashboard.finances.accounts.store')->with([
                 'status' => 'Conta salva com sucesso.'
             ]);
         } catch (\Throwable $th) {
@@ -163,9 +162,7 @@ class AccountController extends Controller
     public function update(Request $request, Account $account)
     {
         try {
-            $request->validate([
-                'name' => 'required'
-            ]);
+            $request->validate(['name' => 'required']);
             $account->update([
                 'name' => $request->name,
                 'add_info' => $request->add_info
@@ -193,11 +190,11 @@ class AccountController extends Controller
         try {
             $account->delete();
 
-            return redirect()->route('dashboard.accounts.index')->with([
+            return redirect()->route('dashboard.finances.accounts.index')->with([
                 'status' => 'Conta excluída com sucesso.'
             ]);
         } catch (\Throwable $th) {
-            return redirect()->route('dashboard.accounts.index')->with([
+            return redirect()->route('dashboard.finances.accounts.index')->with([
                 'error' => 'Erro ao excluir conta.',
                 'message' => $th->getMessage()
             ]);
