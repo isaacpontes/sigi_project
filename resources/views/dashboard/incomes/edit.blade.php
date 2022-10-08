@@ -134,7 +134,7 @@
                             <button type="submit" class="btn btn-success">
                                 {{ __('Salvar') }}
                             </button>
-                            <a href="{{ url()->previous() }}" class="btn btn-outline-secondary">
+                            <a href="{{ route('dashboard.finances.incomes.index') }}" class="btn btn-outline-secondary">
                                 {{ __('Cancelar') }}
                             </a>
                         </div>
