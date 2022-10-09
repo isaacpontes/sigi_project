@@ -15,7 +15,6 @@ class ExpenseController extends Controller
         'name' => 'required|string',
         'value' => 'required|numeric',
         'ref_date' => 'required|date',
-        'add_info' => 'string',
         'expense_category_id' => 'required|string',
         'account_id' => 'required|string'
     ];
@@ -84,7 +83,7 @@ class ExpenseController extends Controller
             $this->expenses_helper->saveTransaction($request);
 
             return redirect()
-                ->route('dashboard.finances.categories-expenses.show', $request->expense_category_id)
+                ->route('dashboard.finances.expenses.index')
                 ->with([
                     'status' => 'Despesa salva com sucesso.'
                 ]);
@@ -143,7 +142,7 @@ class ExpenseController extends Controller
             $this->expenses_helper->updateTransaction($expense, $request);
 
             return redirect()
-                ->route('dashboard.finances.categories-expenses.show', $request->expense_category_id)
+                ->route('dashboard.finances.expenses.index')
                 ->with([
                     'status' => 'Despesa atualizada com sucesso.'
                 ]);
@@ -167,7 +166,7 @@ class ExpenseController extends Controller
             $this->expenses_helper->deleteTransaction($expense);
 
             return redirect()
-                ->route('dashboard.finances.categories-expenses.show', $expense->expense_category_id)
+                ->route('dashboard.finances.expenses.index')
                 ->with([
                     'status' => 'Despesa excluida com sucesso.'
                 ]);

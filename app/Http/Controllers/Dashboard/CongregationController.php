@@ -15,8 +15,7 @@ class CongregationController extends Controller
     private $rules = [
         'name' => 'required|string',
         'phone' => 'required|string',
-        'address' => 'required|string',
-        'add_info' => 'string'
+        'address' => 'required|string'
     ];
 
     /**

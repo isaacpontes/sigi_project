@@ -15,7 +15,6 @@ class IncomeController extends Controller
         'name' => 'required|string',
         'value' => 'required|numeric',
         'ref_date' => 'required|date',
-        'add_info' => 'string',
         'member_id' => 'string',
         'income_category_id' => 'required|string',
         'account_id' => 'required|string'
@@ -90,7 +89,7 @@ class IncomeController extends Controller
             $this->incomes_helper->saveTransaction($request);
 
             return redirect()
-                ->route('dashboard.finances.categories-incomes.show', $request->income_category_id)
+                ->route('dashboard.finances.incomes.index')
                 ->with([
                     'status' => 'Receita salva com sucesso.'
                 ]);
@@ -155,7 +154,7 @@ class IncomeController extends Controller
             $this->incomes_helper->updateTransaction($income, $request);
 
             return redirect()
-                ->route('dashboard.finances.categories-incomes.show', $request->income_category_id)
+                ->route('dashboard.finances.incomes.index')
                 ->with([
                     'status' => 'Receita atualizada com sucesso.'
                 ]);
@@ -179,7 +178,7 @@ class IncomeController extends Controller
             $this->incomes_helper->deleteTransaction($income);
 
             return redirect()
-                ->route('dashboard.finances.categories-incomes.show', $income->income_category_id)
+                ->route('dashboard.finances.incomes.index')
                 ->with([
                     'status' => 'Receita excluida com sucesso.'
                 ]);
