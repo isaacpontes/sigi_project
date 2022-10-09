@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Member;
 use App\Helpers\MemberHelper;
 use Barryvdh\DomPDF\Facade\Pdf as DomPdf;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use IntlDateFormatter;
 
 class MemberController extends Controller
 {
@@ -287,14 +289,21 @@ class MemberController extends Controller
             return $demission >= $initial_date;
         });
 
-        $pdf = DomPDF::loadView('dashboard.members.custom-report', compact([
-            'initial_date',
-            'final_date',
-            'active_members',
-            'new_members',
-            'inactive_members',
-            'new_inactive_members'
-        ]));
+        $date_dormatter = new IntlDateFormatter(
+            'pt-BR',
+            IntlDateFormatter::SHORT,
+            IntlDateFormatter::NONE,
+            'America/Sao_Paulo'
+        );
+
+        $pdf = DomPDF::loadView('dashboard.members.custom-report', [
+            'initial_date' => $date_dormatter->format(new DateTime($initial_date)),
+            'final_date' => $date_dormatter->format(new DateTime($final_date)),
+            'active_members' => $active_members,
+            'new_members' => $new_members,
+            'inactive_members' => $inactive_members,
+            'new_inactive_members' => $new_inactive_members
+        ]);
 
         return $pdf->download('relatorio-de-membros-' . $initial_date . '-' . $final_date . '.pdf');
     }

@@ -68,8 +68,8 @@
         <tr>
           <th>Nome</th>
           <th>Telefone</th>
-          <th>Data de Nascimento</th>
-          <th>Data de Admissão</th>
+          <th>Nascimento</th>
+          <th>Admissão</th>
           <th>Congregação</th>
         </tr>
       </thead>
@@ -92,8 +92,8 @@
         <tr>
           <th>Nome</th>
           <th>Telefone</th>
-          <th>Data de Nascimento</th>
-          <th>Data de Desligamento</th>
+          <th>Nascimento</th>
+          <th>Desligamento</th>
           <th>Congregação</th>
         </tr>
       </thead>
@@ -116,8 +116,8 @@
         <tr>
           <th>Nome</th>
           <th>Telefone</th>
-          <th>Data de Nascimento</th>
-          <th>Data de Admissão</th>
+          <th>Nascimento</th>
+          <th>Admissão</th>
           <th>Congregação</th>
         </tr>
       </thead>
@@ -140,8 +140,8 @@
         <tr>
           <th>Nome</th>
           <th>Telefone</th>
-          <th>Data de Nascimento</th>
-          <th>Data de Desligamento</th>
+          <th>Nascimento</th>
+          <th>Desligamento</th>
           <th>Congregação</th>
         </tr>
       </thead>
