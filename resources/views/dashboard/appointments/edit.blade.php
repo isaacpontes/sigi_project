@@ -49,7 +49,7 @@
                         </div>
 
                         <div class="mb-3 row">
-                            <label for="completed" class="col-md-4 col-form-label text-md-end">Gênero</label>
+                            <label for="completed" class="col-md-4 col-form-label text-md-end">Completado?</label>
                             <div class="col-md-6 mt-2 ms-2">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="completed" id="completedTrue"
