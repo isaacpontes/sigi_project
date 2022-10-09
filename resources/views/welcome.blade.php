@@ -3,7 +3,7 @@
         <a class="nav-link active" aria-current="page" href="/">
             Apresentação
         </a>
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="https://github.com/isaacpontes/sigi_project" target="_blank">
             GitHub
         </a>
         <a class="nav-link" href="/login">
