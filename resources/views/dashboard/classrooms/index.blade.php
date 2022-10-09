@@ -55,6 +55,7 @@
                 @endforeach
                 </tbody>
             </table>
+            {{ $classrooms->links() }}
             </div>
         </div>
     </div>

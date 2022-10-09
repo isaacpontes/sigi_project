@@ -57,6 +57,7 @@
                 @endforeach
                 </tbody>
             </table>
+            {{ $congregations->links() }}
             </div>
         </div>
     </div>
