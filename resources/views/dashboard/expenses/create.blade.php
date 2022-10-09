@@ -68,7 +68,7 @@
                             <div class="col-md-6">
                                 <select id="expense_category" class="ml-3 form-select" name="expense_category_id"
                                     required>
-                                    <option>Selecione uma Categoria</option>
+                                    <option disabled selected>Selecione uma Categoria</option>
                                     @foreach ($expense_categories as $key => $value)
                                         <option value="{{ $key }}">{{ $value }}</option>
                                     @endforeach
@@ -81,7 +81,7 @@
 
                             <div class="col-md-6">
                                 <select id="account" class="ml-3 form-select" name="account_id" required>
-                                    <option>Selecione uma conta</option>
+                                    <option disabled selected>Selecione uma conta</option>
                                     @foreach ($accounts as $key => $value)
                                         <option value="{{ $key }}">{{ $value }}</option>
                                     @endforeach

@@ -69,7 +69,7 @@
                             <div class="col-md-6">
                                 <select id="income_category" class="ml-3 form-select" name="income_category_id"
                                     required>
-                                    <option>Selecione uma Categoria</option>
+                                    <option disabled>Selecione uma Categoria</option>
                                     @foreach ($income_categories as $key => $value)
                                         <option value="{{ $key }}"
                                             @if ($income->income_category_id === $key) selected @endif>
@@ -85,7 +85,7 @@
 
                             <div class="col-md-6">
                                 <select id="account" class="ml-3 form-select" name="account_id" required>
-                                    <option>Selecione uma conta</option>
+                                    <option disabled>Selecione uma conta</option>
                                     @foreach ($accounts as $key => $value)
                                         <option value="{{ $key }}"
                                             @if ($income->account_id === $key) selected @endif>
