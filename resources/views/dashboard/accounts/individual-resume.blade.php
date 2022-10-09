@@ -76,7 +76,7 @@
     <br>
     <h4 class="text-center">Resumo de Conta - {{ $account->name }}</h4>
     <p class="ml-lg"><strong>Nome:</strong> {{ $account->name }}</p>
-    <p class="ml-lg"><strong>Saldo Atual:</strong> {{ number_format($account->balance/100, 2, ',', '.') }}</p>
+    <p class="ml-lg"><strong>Saldo Atual:</strong> R$ {{ number_format($account->balance/100, 2, ',', '.') }}</p>
     <p class="ml-lg"><strong>Informações Adicionais:</strong> {{ $account->add_info }}</p>
     <div class="mt-md ml-lg">
       <div class="inline-block">
