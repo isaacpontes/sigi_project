@@ -9,6 +9,8 @@
         </div>
     @endif
 
+    <x-error-alert />
+
     <a href="{{ route('dashboard.churches.create') }}"><button type="button" class="btn btn-primary mb-3">Cadastrar Igreja</button></a>
 
     <div class="table-responsive">

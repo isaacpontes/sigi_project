@@ -9,6 +9,8 @@
         </div>
     @endif
 
+    <x-error-alert />
+
     <div class="card mb-4">
         <div class="card-body">
             <div class="row align-items-center">

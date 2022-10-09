@@ -9,6 +9,8 @@
         </div>
     @endif
 
+    <x-error-alert />
+
     <div class="row">
         <div class="col-sm-6 col-lg-3 mb-4">
             <div class="card">

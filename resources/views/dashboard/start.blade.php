@@ -9,11 +9,7 @@
         </div>
     @endif
 
-    @if (session('error'))
-        <div class="alert alert-danger" role="alert">
-            {{ session('error') }}
-        </div>
-    @endif
+    <x-error-alert />
 
     <h2>Olá, {{ auth()->user()->name }}!</h2>
     You're logged in! And this is the start page.
