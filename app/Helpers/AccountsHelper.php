@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use App\Account;
 use DateTime;
-use Barryvdh\DomPDF\Facade as DomPDF;
+use Barryvdh\DomPDF\Facade\Pdf as DomPdf;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
