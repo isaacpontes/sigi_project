@@ -22,7 +22,7 @@ class CreateIncomesTable extends Migration
             $table->timestamps();
 
             $table->foreignId('member_id')->nullable()->constrained();
-            $table->foreignId('income_category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('income_category_id')->constrained()->onDelete('restrict');
             $table->foreignId('account_id')->constrained()->onDelete('cascade');
             $table->foreignId('church_id')->constrained()->onDelete('cascade');
         });
