@@ -51,9 +51,14 @@
                                 <a href="{{ route('dashboard.appointments.edit', $appointment->id) }}" class="btn btn-outline-secondary me-2 py-0">
                                     {{ __('Edit') }}
                                 </a>
-                                <form action="{{ route('dashboard.appointments.destroy', $appointment) }}" method="post">
+                                <form
+                                    action="{{ route('dashboard.appointments.destroy', $appointment) }}"
+                                    method="post"
+                                    class="delete-confirmation"
+                                >
                                     @csrf
-                                    {{ method_field('delete') }}
+                                    @method('delete')
+
                                     <button type="submit" class="btn btn-outline-danger py-0">
                                         {{ __('Delete') }}
                                     </button>
