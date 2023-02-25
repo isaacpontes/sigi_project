@@ -61,7 +61,11 @@
                                         </span>
                                         </button>
                                     </a>
-                                    <form action="{{ route('dashboard.finances.categories-incomes.destroy', $income_category) }}" method="post">
+                                    <form
+                                        action="{{ route('dashboard.finances.categories-incomes.destroy', $income_category) }}"
+                                        method="post"
+                                        class="delete-confirmation"
+                                    >
                                         @csrf
                                         {{ method_field('delete') }}
                                         <button type="submit" class="btn btn-outline-danger me-2 py-0">

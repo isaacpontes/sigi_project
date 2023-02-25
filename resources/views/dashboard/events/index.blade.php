@@ -59,6 +59,17 @@
                             </span>
                         </button>
                         </a>
+                        <form
+                            action="{{ route('dashboard.membership.events.destroy', $event->id) }}"
+                            method="post"
+                            class="delete-confirmation"
+                        >
+                            @csrf
+                            {{ method_field('delete') }}
+                            <button type="submit" class="btn btn-outline-danger me-2 py-0">
+                                {{ __('Delete') }}
+                            </button>
+                        </form>
                     </td>
                     </tr>
                 @endforeach

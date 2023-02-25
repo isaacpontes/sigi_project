@@ -37,19 +37,30 @@
                     <td>{{ $classroom->name }}</td>
                     <td class="d-flex">
                         <a href="{{ route('dashboard.membership.classrooms.show', $classroom->id) }}">
-                        <button type="button" class="btn btn-outline-info me-2 py-0">
-                            <span>
-                            {{ __('Details') }}
-                            </span>
-                        </button>
+                            <button type="button" class="btn btn-outline-info me-2 py-0">
+                                <span>
+                                {{ __('Details') }}
+                                </span>
+                            </button>
                         </a>
                         <a href="{{ route('dashboard.membership.classrooms.edit', $classroom->id) }}">
-                        <button type="button" class="btn btn-outline-secondary me-2 py-0">
-                            <span>
-                            {{ __('Edit') }}
-                            </span>
-                        </button>
+                            <button type="button" class="btn btn-outline-secondary me-2 py-0">
+                                <span>
+                                {{ __('Edit') }}
+                                </span>
+                            </button>
                         </a>
+                        <form
+                            action="{{ route('dashboard.membership.classrooms.destroy', $classroom->id) }}"
+                            method="post"
+                            class="delete-confirmation"
+                        >
+                            @csrf
+                            {{ method_field('delete') }}
+                            <button type="submit" class="btn btn-outline-danger me-2 py-0">
+                                {{ __('Delete') }}
+                            </button>
+                        </form>
                     </td>
                     </tr>
                 @endforeach

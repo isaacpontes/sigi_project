@@ -51,7 +51,11 @@
                                             </span>
                                         </button>
                                     </a>
-                                    <form action="{{ route('dashboard.finances.incomes.destroy', $income->id) }}" method="post" class="float-left">
+                                    <form
+                                        action="{{ route('dashboard.finances.incomes.destroy', $income->id) }}"
+                                        method="post"
+                                        class="delete-confirmation float-left"
+                                    >
                                         @csrf
                                         {{ method_field('delete') }}
                                         <button type="submit" class="btn btn-outline-danger me-2 py-0">

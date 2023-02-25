@@ -62,9 +62,13 @@
                                             Editar
                                         </button>
                                     </a>
-                                    <form action="{{ route('dashboard.users.destroy', $user->id) }}" method="post" class="float-left">
+                                    <form
+                                        action="{{ route('dashboard.users.destroy', $user->id) }}"
+                                        method="post"
+                                        class="delete-confirmation"
+                                    >
                                         @csrf
-                                        {{ method_field('delete') }}
+                                        @method('delete')
                                         <button type="submit" class="btn btn-outline-danger me-2 py-0">
                                             Excluir
                                         </button>

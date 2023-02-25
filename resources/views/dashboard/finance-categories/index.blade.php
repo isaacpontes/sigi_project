@@ -3,6 +3,8 @@
         {{ __('Financial Entries') }}
     </x-slot>
 
+    <x-error-alert />
+
     @if (session('status'))
         <div class="alert alert-success" role="alert">
             {{ session('status') }}
@@ -51,7 +53,11 @@
                                                 </span>
                                               </button>
                                             </a>
-                                            <form action="{{ route('dashboard.finances.categories-incomes.destroy', $income_category->id) }}" method="post">
+                                            <form
+                                                action="{{ route('dashboard.finances.categories-incomes.destroy', $income_category->id) }}"
+                                                method="post"
+                                                class="delete-confirmation"
+                                            >
                                                 @csrf
                                                 {{ method_field('delete') }}
                                                 <button type="submit" class="btn btn-outline-danger me-2 py-0">
@@ -131,7 +137,11 @@
                                                 </span>
                                               </button>
                                             </a>
-                                            <form action="{{ route('dashboard.finances.categories-expenses.destroy', $expense_category->id) }}" method="post">
+                                            <form
+                                                action="{{ route('dashboard.finances.categories-expenses.destroy', $expense_category->id) }}"
+                                                method="post"
+                                                class="delete-confirmation"
+                                            >
                                                 @csrf
                                                 {{ method_field('delete') }}
                                                 <button type="submit" class="btn btn-outline-danger me-2 py-0">

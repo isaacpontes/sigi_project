@@ -43,7 +43,6 @@
                           <tr>
                             <th>Nome</th>
                             <th>Valor</th>
-                            <th>Ações</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -51,16 +50,6 @@
                             <tr>
                               <td>{{ $income->name }}</td>
                               <td>R$ {{ number_format($income->value/100, 2, ',', '.') }}</td>
-                              <td>
-                                  <a
-                                      href="{{ route('dashboard.finances.accounts.show', $income->id) }}"
-                                      class="btn btn-outline-info me-2 py-0"
-                                  >
-                                      <span>
-                                          {{ __('Details') }}
-                                      </span>
-                                  </a>
-                              </td>
                             </tr>
                           @endforeach
                         </tbody>
@@ -75,7 +64,6 @@
                           <tr>
                             <th>Nome</th>
                             <th>Valor</th>
-                            <th>Ações</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -83,16 +71,6 @@
                             <tr>
                               <td>{{ $expense->name }}</td>
                               <td>R$ {{ number_format($expense->value/100, 2, ',', '.') }}</td>
-                              <td>
-                                  <a
-                                      href="{{ route('dashboard.finances.accounts.show', $expense->id) }}"
-                                      class="btn btn-outline-info me-2 py-0"
-                                  >
-                                      <span>
-                                          {{ __('Details') }}
-                                      </span>
-                                  </a>
-                              </td>
                             </tr>
                           @endforeach
                         </tbody>
