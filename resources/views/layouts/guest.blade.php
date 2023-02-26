@@ -36,7 +36,7 @@
 
             <footer class="mt-auto text-white-50">
                 <p>
-                    Projeto SiGI | Desenvolvido por <a href="#" class="text-white">Isaac Pontes</a>.
+                    {{ __("welcome.footer_credit") }} <a href="#" class="text-white">Isaac Pontes</a>.
                 </p>
             </footer>
         </div>
